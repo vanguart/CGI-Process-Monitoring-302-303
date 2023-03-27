@@ -1,0 +1,55 @@
+<link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+
+{% block style %}
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/authentication/login.css' %}"/>
+
+{% endblock style %}
+
+
+{% block main %}
+
+<div class="background">
+
+    <div class="loginBackground">
+
+        <div>
+            <div class="CGI Title">
+                
+                <h4><span class="spanColorCGI">CGI</span> Process Monitoring</h4>
+                
+            </div>
+
+            <h3>Login</h3>
+
+            <p class="messageInvalidLogin">
+                {% if message %}
+                    {{ message }}
+                {% endif %}
+            </p>
+
+            <form action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+
+                <p class="inputTitle">Username:</p>
+                <input type="text" name="username" placeholder="Username" class="inputBox">
+                
+                <br><br>
+
+                <p class="inputTitle">Password:</p>
+                <input type="password" name="password" placeholder="Password" class="inputBox">
+
+                <a class="recuperarPassword" href="{% url 'recuperarPassword' %}">recuperar palavra-passe</a>
+
+                <input type="submit" value="Entrar" class="btnSubmit">
+               
+            </form>
+            
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
