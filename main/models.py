@@ -128,7 +128,7 @@ class Task(models.Model):
 
 def path(id_log):
     current_time = datetime.now().strftime('%H:%M') 
-    #return 'Logs/% Y/% m/% d/'+ current_time +'_'+ id_log +'.txt'
+    return f"Logs/% Y/% m/% d/{current_time}_${id_log}.txt"
         
 
 
