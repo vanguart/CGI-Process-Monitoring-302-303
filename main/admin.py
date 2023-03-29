@@ -26,9 +26,9 @@ class TeamHorizontal(admin.ModelAdmin):
 class ProcessesHorizontal(admin.ModelAdmin):
     filter_horizontal = ("label")
 
-admin.site.register(Permition)
+#admin.site.register(Permition)
 admin.site.register(Label)
-admin.site.register(Perfil, PerfilHorizontal)
+#admin.site.register(Perfil, PerfilHorizontal)
 admin.site.register(TaskType)
 admin.site.register(SLA)
 admin.site.register(LogsType)
