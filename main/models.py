@@ -1,5 +1,5 @@
 from datetime import datetime
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db import models
 
 
@@ -53,7 +53,7 @@ class ProcessType(models.Model):
 class User(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     goal = models.IntegerField(default=0)
-    idPerfil = models.ForeignKey(Perfil, on_delete=models.CASCADE)
+    idPerfil = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.user}"
@@ -136,6 +136,7 @@ class Label(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
 
 class Static(models.Model):
     name = models.CharField(max_length=230)
