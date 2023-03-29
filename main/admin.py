@@ -1,8 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Permition
-from .models import Perfil
+#from .models import Permition
+#from .models import Perfil
 from .models import Team
 from .models import TaskType
 from .models import SLA
