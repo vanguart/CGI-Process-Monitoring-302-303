@@ -9,6 +9,7 @@ def generatesEmailCode(userEmailInput):
 
     if len(userEmail) == 0:
         print("there is nothing in the database")
+        return None
       
     length = 10
     # With combination of lower and upper case

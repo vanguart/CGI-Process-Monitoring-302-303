@@ -26,6 +26,7 @@ def numberOfProcessesInInputState(beginning, end, inputState):
 
     if process_set.count() == 0:
         print("there is nothing in the database")
+        return None
 
     for i in process_set:
         if beginning <= i.idSLA.inicialDate & end >= i.idSLA.finalDate:
@@ -43,6 +44,7 @@ def numberOfProcessesInInputError(beginning, end, erroType):
     countNumberProcessesInInputError = 0
     if logs_set.count() == 0:
         print("there is nothing in the database")
+        return None
 
     for i in logs_set:
 
