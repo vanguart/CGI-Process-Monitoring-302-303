@@ -1,5 +1,4 @@
-
-# Cone
+# Connection API Orchestrator
 import io
 import json
 import requests
