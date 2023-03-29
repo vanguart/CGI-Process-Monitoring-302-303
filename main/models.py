@@ -5,20 +5,26 @@ from django.db import models
 
 # Create your models here.
 # Back-end
-
-class Permition(models.Model):
-    functionality = models.CharField(max_length=256)
-
-    def __str__(self):
-        return f"{self.functionality}"
-
-
-class Perfil(models.Model):
-    type = models.CharField(max_length=256)
-    permitionPerfil = models.ManyToManyField(Permition, related_name='permitionPerfil')
+class Label(models.Model):
+    name = models.CharField(max_length=256)
 
     def __str__(self):
-        return f"{self.type}"
+        return f"{self.name}"
+
+
+# class Permition(models.Model):
+#     functionality = models.CharField(max_length=256)
+#
+#     def __str__(self):
+#         return f"{self.functionality}"
+#
+#
+# class Perfil(models.Model):
+#     type = models.CharField(max_length=256)
+#     permitionPerfil = models.ManyToManyField(Permition, related_name='permitionPerfil')
+#
+#     def __str__(self):
+#         return f"{self.type}"
 
 
 class TaskType(models.Model):
@@ -53,10 +59,18 @@ class ProcessType(models.Model):
 class User(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     goal = models.IntegerField(default=0)
-    idPerfil = models.ForeignKey(Group, on_delete=models.CASCADE)
+    idPerfil = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="auth.User.groups+")
 
     def __str__(self):
         return f"{self.user}"
+
+    class Meta:
+        permissions = [
+            ("access_stats", "Can access meow"),
+            ("access_meow", "Can access meowmeow"),
+            ("admin_stats", "Can access meow5"),
+
+        ]
 
 
 class ProcessConfiguration(models.Model):
@@ -76,6 +90,7 @@ class Process(models.Model):
     inicialDate = models.DateField(null=True)
     finalDate = models.DateField(null=True)
     state = models.CharField(max_length=256)
+    label = models.ManyToManyField(Label, related_name="label")
 
     def __str__(self):
         return f"{self.name}"
@@ -129,17 +144,3 @@ class Logs(models.Model):  # users also make logs
 
     def __str__(self):
         return f"{self.idLogType} -> {self.description}"
-
-
-class Label(models.Model):
-    name = models.CharField(max_length=256)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class Static(models.Model):
-    name = models.CharField(max_length=230)
-
-    def __str__(self):
-        return f"{self.name}"
