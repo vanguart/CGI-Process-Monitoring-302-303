@@ -38,9 +38,9 @@
         <a href="">Administrativo</a>      
         <a href="">Painel Estatistico</a>      
         <a href="">Lista de Processos</a>      
-        <a href="">Tratamento de Erros</a>     
+        <a href="{% url 'businessExceptions' %}">Operational Platform</a>     
         {% if user.is_authenticated %}
-        <a href="{% url 'authentication:logout' %}" class="btnLogout">Logout</a>
+        <a href="{% url 'logout' %}" class="btnLogout">Logout</a>
         {% endif %}
       </nav>
 
