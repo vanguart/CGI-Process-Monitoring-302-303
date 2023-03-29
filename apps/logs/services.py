@@ -7,7 +7,7 @@ import msoffcrypto
 import pandas as pd
 
 passwd = 'RPA-process-monitoring'
-config_file = r"C:\Users\Dell 3\Desktop\faculdade\3ano\TFC\Projeto\CGI-Process-Monitoring-302-303\process_monitor\config.xlsx"
+config_file = r".\CGI-Process-Monitoring-302-303\process_monitor\config.xlsx"
 
 decrypted_workbook = io.BytesIO()
 with open(config_file, 'rb') as file:

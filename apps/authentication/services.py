@@ -1,5 +1,6 @@
 import random
 import string
+from main.models import User
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 
@@ -9,6 +10,7 @@ def generatesEmailCode(userEmailInput):
 
     if len(userEmail) == 0:
         print("there is nothing in the database")
+        return None
       
     length = 10
     # With combination of lower and upper case
