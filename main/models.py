@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -27,11 +28,6 @@ class TaskType(models.Model):
         return f"{self.name}"
 
 
-# class SLO(models.Model):
-#    punish = models.CharField(max_length=200)
-#    reason = models.CharField(max_length=200)
-#    condition = models.CharField(max_length=200)
-
 class SLA(models.Model):
     inicialDate = models.DateField(null=True)
     finalDate = models.DateField(null=True)
@@ -55,17 +51,14 @@ class ProcessType(models.Model):
 
 
 class User(models.Model):
-    name = models.CharField(max_length=256)
-    email = models.EmailField(max_length=256)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     goal = models.IntegerField(default=0)
     idPerfil = models.ForeignKey(Perfil, on_delete=models.CASCADE)
-    password = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"{self.name}"
-    
-    
-    
+        return f"{self.user}"
+
+
 class ProcessConfiguration(models.Model):
     name = models.CharField(max_length=256)
     idProcessType = models.ForeignKey(ProcessType, on_delete=models.CASCADE)
@@ -83,7 +76,6 @@ class Process(models.Model):
     inicialDate = models.DateField(null=True)
     finalDate = models.DateField(null=True)
     state = models.CharField(max_length=256)
-
 
     def __str__(self):
         return f"{self.name}"
@@ -111,7 +103,6 @@ class Task_Configuration(models.Model):
         return f"{self.name} -> {self.description}"
 
 
-
 class Task(models.Model):
     idTaskConfiguration = models.ForeignKey(Process, on_delete=models.CASCADE, related_name="idTaskConfiguration")
     idProcess = models.ForeignKey(Process, on_delete=models.CASCADE)
@@ -127,15 +118,14 @@ class Task(models.Model):
 
 
 def path(id_log):
-    current_time = datetime.now().strftime('%H:%M') 
+    current_time = datetime.now().strftime('%H:%M')
     return f"Logs/% Y/% m/% d/{current_time}_${id_log}.txt"
-        
 
 
 class Logs(models.Model):  # users also make logs
     idLogType = models.ForeignKey(LogsType, on_delete=models.CASCADE)
     idTask = models.ForeignKey(Task, on_delete=models.CASCADE)
-    ficheiro = models.FileField(upload_to =path(idTask), max_length=254, )
+    ficheiro = models.FileField(upload_to=path(idTask), max_length=254, )
 
     def __str__(self):
         return f"{self.idLogType} -> {self.description}"
@@ -146,4 +136,3 @@ class Label(models.Model):
 
     def __str__(self):
         return f"{self.name}"
-
