@@ -24,13 +24,13 @@ def sendEmailWithGeneratedCode(userEmailInput):
 
     send_mail(
         'Reset Password',
-        'Here is the code u need to reset your password\n {code}',
+        f'Here is the code u need to reset your password\n {code}',
         'cgiprocessmonitor@gmail.com',
         ['88alexcosta88@gmail.com'],
     )
 
 
 def verifyEmailOnDataBase(userEmailInput):
-    userEmail = User.objects.filter(EMAIL_FIELD=userEmailInput).exists()
+    userEmail = User.objects.filter(email=userEmailInput).exists()
     return userEmail
     
