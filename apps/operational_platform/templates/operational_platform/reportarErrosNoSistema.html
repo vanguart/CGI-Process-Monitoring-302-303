@@ -1,1 +1,56 @@
-<p>REPORTAR ERROS</p>
+{% extends 'main/main.html' %}
+
+{% block style %}
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/operational_platform/reportarErrosNoSistema.css' %}"/>
+
+
+{% endblock style %}
+
+
+{% block main %}
+
+
+<div class="background">
+   
+    <div class="centered">
+      
+        <h2>TESTE</h2>
+        <br><br><br><br>
+        
+        <form action="{% url 'reportarErrosNoSistema' %}" method="post">
+            {% csrf_token %}
+
+            <!-- APOS TABELA FEITA & FORMS.PY FEITO, ALTERAR TODO ESTE CÓDIGO PARA `DJANGO KEYWORD PARA FORMS`-->
+            
+            <label for="processList">Processo com erro:</label>
+            <br>
+            <select name="processList" id="processList">
+                <!-- COLOCAR O FOR (DJANGO) COM TODA A LISTA DE PROCESSOS-->
+                <option value="rigatoni">Rigatoni</option>
+            </select>
+               
+            <br><br>
+
+            <p class="inputTitle">Detalhes do erro:</p>
+            <br>
+            <input type="text" name="errorDetails" placeholder="" class="inputBox">
+
+            <br><br>
+
+            <label for="inputFile">Anexos (Opcional):</label>
+            <br>
+            <input type="file" id="inputFile" name="inputFile">
+
+            <br><br>    
+            <input type="submit" value="Reportar" class="btnSubmit">
+           
+           
+        </form>
+
+    </div>
+</div>
+
+
+{% endblock %}
