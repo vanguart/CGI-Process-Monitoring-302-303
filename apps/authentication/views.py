@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-
+from .services import verifyEmailOnDataBase
 
 def login_page_view(request):
         
@@ -27,8 +27,6 @@ def login_page_view(request):
                 {'message': "Credenciais Inválidas"}
             )
 
-
-
 	return render(request, 'authentication/login.html')
 
 
@@ -42,7 +40,7 @@ def recuperarPassword_page_view(request):
 		
 		email_recover_input = request.POST.get('email')
 		validaMail = True
-
+		mnsgErro = ""
 		
 		try:
 			validate_email(email_recover_input)
@@ -54,8 +52,7 @@ def recuperarPassword_page_view(request):
 
 		# && FuncaoValidaEmail (para validar se o email existe na base de dados)
   
-		if validaMail:
-			
+		if validaMail and verifyEmailOnDataBase(email_recover_input):
 			return render(request, 'authentication/recuperarPasswordCode.html')
 		else:
 			return render(
