@@ -58,9 +58,9 @@ class ProcessType(models.Model):
 
 
 class User(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name= "User.user+")
     goal = models.IntegerField(default=0)
-    idPerfil = models.ForeignKey(Group, on_delete=models.CASCADE)
+    idPerfil = models.ForeignKey(Group, on_delete=models.CASCADE,related_name= "auth.User.groups+")
 
     def __str__(self):
         return f"{self.user}"
