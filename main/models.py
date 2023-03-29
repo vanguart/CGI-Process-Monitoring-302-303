@@ -12,6 +12,14 @@ class Permition(models.Model):
         return f"{self.functionality}"
 
 
+class Label(models.Model):
+    name = models.CharField(max_length=256)
+
+    def __str__(self):
+        return f"{self.name}"
+    
+
+
 class Perfil(models.Model):
     type = models.CharField(max_length=256)
     permitionPerfil = models.ManyToManyField(Permition, related_name='permitionPerfil')
@@ -83,6 +91,7 @@ class Process(models.Model):
     inicialDate = models.DateField(null=True)
     finalDate = models.DateField(null=True)
     state = models.CharField(max_length=256)
+    label = models.ManyToManyField(Label, related_name='label')
 
 
     def __str__(self):
@@ -139,11 +148,3 @@ class Logs(models.Model):  # users also make logs
 
     def __str__(self):
         return f"{self.idLogType} -> {self.description}"
-
-
-class Label(models.Model):
-    name = models.CharField(max_length=256)
-
-    def __str__(self):
-        return f"{self.name}"
-
