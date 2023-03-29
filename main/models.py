@@ -6,11 +6,11 @@ from django.db import models
 # Create your models here.
 # Back-end
 
-class Permition(models.Model):
-    functionality = models.CharField(max_length=256)
+class Label(models.Model):
+    name = models.CharField(max_length=256)
 
     def __str__(self):
-        return f"{self.functionality}"
+        return f"{self.name}"
 
 
 # class Permition(models.Model):
@@ -93,7 +93,7 @@ class Team(models.Model):
     teamName = models.CharField(max_length=256)
     description = models.CharField(max_length=500)
     team = models.ManyToManyField(User, related_name='team')
-    permitionTeam = models.ManyToManyField(Permition, related_name='permitionTeam')
+    permitionTeam = models.ManyToManyField(Group, related_name='permitionTeam')
 
     def __str__(self):
         return f"{self.teamName}"
