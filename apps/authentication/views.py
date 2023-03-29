@@ -20,7 +20,7 @@ def login_page_view(request):
 
 		if utilizador is not None:
 			login(request, utilizador)
-			return render(request, 'authentication/layout.html')
+			return render(request, 'main/main.html')
 		else:
 			return render(
                 request, 'authentication/login.html',
