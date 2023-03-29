@@ -1,6 +1,6 @@
-from main.models import Process
+from main.models import Process,Task
 
-#function that returns all processes in the data base
+#function that returns all processes in the data base acording to input parameters
 def getAllProcessesInDB(InicialDate, EndDate, label, state,):
     
     allLabels = False
@@ -20,6 +20,11 @@ def getAllProcessesInDB(InicialDate, EndDate, label, state,):
         
     result = []
     result = Process.objects.all()
+    
+    if result.count() == 0:
+        print("there is nothing in the database")
+        return None
+    
     if not allLabels:
         result = filterListByLabels(result, label)
    
@@ -59,3 +64,23 @@ def filterListByDate(inputList, InicialDate, EndDate):
             inputList.remove(i)
             
     return inputList
+
+#function that returns all task in a specific process
+def getAllTasksInAProcesses(processId):
+    
+    result = []
+    used = set()   
+    tasks = Task.objects.all()
+    
+    if tasks.count() == 0:
+        print("there is nothing in the database")
+        return None
+ 
+    for i in tasks:
+        if i.idTaskConfiguration.idProcessConfiguration != processId:
+            if used.contains(i.idTaskConfiguration):
+                continue
+            else:
+                used.add(i.idTaskConfiguration)
+                result.append(i)
+                
