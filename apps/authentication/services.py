@@ -2,6 +2,7 @@ import random
 import string
 from main.models import User
 from django.core.mail import send_mail
+from django.contrib.auth.models import User
 
 # function that generates an E-mail code
 def generatesEmailCode(userEmailInput):
@@ -27,3 +28,9 @@ def sendEmailWithGeneratedCode(userEmailInput):
         'cgiprocessmonitor@gmail.com',
         ['88alexcosta88@gmail.com'],
     )
+
+
+def verifyEmailOnDataBase(userEmailInput):
+    userEmail = User.objects.filter(EMAIL_FIELD=userEmailInput).exists()
+    return userEmail
+    
