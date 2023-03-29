@@ -13,74 +13,22 @@ def getAllProcessesInDB(InicialDate, EndDate, label, state,):
     if InicialDate == None and EndDate == None:
         allDates = True
         
-    
     if state == "noState":
         allStates = True
     
-        
-    result = []
-    result = Process.objects.all()
-    
-    if result.count() == 0:
-        print("there is nothing in the database")
-        return None
-    
-    if not allLabels:
-        result = filterListByLabels(result, label)
-   
-    if not allStates:
-        result = filterListByState(result, state)
-        
-    if not allDates:
-        result = filterListByDate(result,InicialDate, EndDate)
+    if (allLabels and allStates and allDates):
+       return Process.objects.all()
+    elif(allLabels and allStates):
+        return Process.objects.filter(data__ranges = [InicialDate,EndDate])
+    elif(allLabels):
+        return Process.objects.filter(data__ranges = [InicialDate,EndDate]).filter(state=state)
+    else:
+        return Process.objects.filter(data__ranges = [InicialDate,EndDate]).filter(state=state).filter(label=label)
 
-    return result
-      
-#function that filter a list by Tags
-def filterListByLabels(inputList,label):
-              
-     for i in inputList:
-         if i.label != label:
-             inputList.remove(i)
-     
-     return inputList
- 
-#function that filter a list by States
-def filterListByState(inputList,state):
-              
-    for i in inputList:
-        if i.state != state:
-            inputList.remove(i)
-     
-    return inputList
- 
- 
- #function that gilter a list by Dates
-
-def filterListByDate(inputList, InicialDate, EndDate):
-     
-    for i in inputList:
-        if InicialDate > i.inicialDate or EndDate < i.finalDate:
-            inputList.remove(i)
-            
-    return inputList
 
 #function that returns all task in a specific process
 def getAllTasksInAProcesses(processId):
+        
+    process = Process.objects.get(idProcessConfiguration=processId)
+    return process.objects.all()
     
-    result = []
-    used = set()   
-    tasks = Task.objects.all()
-    
-    if tasks.count() == 0:
-        print("there is nothing in the database")
-        return None
- 
-    for i in tasks:
-        if i.idTaskConfiguration.idProcessConfiguration != processId:
-            if used.contains(i.idTaskConfiguration):
-                continue
-            else:
-                used.add(i.idTaskConfiguration)
-                result.append(i)
-                
