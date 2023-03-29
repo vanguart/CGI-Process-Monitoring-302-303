@@ -1,6 +1,6 @@
 import random
 import string
-from models import User
+from main.models import User
 from django.core.mail import send_mail
 
 # function that generates an E-mail code

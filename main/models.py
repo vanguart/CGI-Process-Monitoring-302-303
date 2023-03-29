@@ -5,11 +5,12 @@ from django.db import models
 
 # Create your models here.
 # Back-end
-class Label(models.Model):
-    name = models.CharField(max_length=256)
+
+class Permition(models.Model):
+    functionality = models.CharField(max_length=256)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.functionality}"
 
 
 # class Permition(models.Model):
@@ -59,18 +60,10 @@ class ProcessType(models.Model):
 class User(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     goal = models.IntegerField(default=0)
-    idPerfil = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="auth.User.groups+")
+    idPerfil = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.user}"
-
-    class Meta:
-        permissions = [
-            ("access_stats", "Can access meow"),
-            ("access_meow", "Can access meowmeow"),
-            ("admin_stats", "Can access meow5"),
-
-        ]
 
 
 class ProcessConfiguration(models.Model):

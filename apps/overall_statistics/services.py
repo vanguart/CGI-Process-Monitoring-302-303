@@ -1,5 +1,4 @@
-
-from models import Process, User, Logs
+from main.models import Process, User, Logs
 
 # function that calculate Statts state in a period of time
 def calculateStattsState(beginning, end):
