@@ -26,7 +26,7 @@ def sendEmailWithGeneratedCode(userEmailInput):
 
     send_mail(
         'Reset Password',
-        'Here is the code u need to reset your password\n {code}',
+        f'Here is the code u need to reset your password\n {code}',
         'cgiprocessmonitor@gmail.com',
         ['88alexcosta88@gmail.com'],
     )

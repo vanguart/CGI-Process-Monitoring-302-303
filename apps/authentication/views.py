@@ -5,7 +5,8 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from .services import verifyEmailOnDataBase
+from .services import verifyEmailOnDataBase, sendEmailWithGeneratedCode
+
 
 def login_page_view(request):
         
@@ -48,11 +49,12 @@ def recuperarPassword_page_view(request):
 			validaMail = False
 			mnsgErro = "Email Inválido"
 
+		if(not verifyEmailOnDataBase(email_recover_input)):
+			validaMail = False
+			mnsgErro = "Email inexistente"
 
-
-		# && FuncaoValidaEmail (para validar se o email existe na base de dados)
-  
-		if validaMail and verifyEmailOnDataBase(email_recover_input):
+		if validaMail:
+			sendEmailWithGeneratedCode(email_recover_input)
 			return render(request, 'authentication/recuperarPasswordCode.html')
 		else:
 			return render(
