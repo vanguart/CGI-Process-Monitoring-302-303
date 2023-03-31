@@ -22,7 +22,7 @@ class PerfilHorizontal(admin.ModelAdmin):
 
 
 class TeamHorizontal(admin.ModelAdmin):
-    filter_horizontal = ("team", "tasks")
+    filter_horizontal = ("team", "tasks","permitionTeam")
 
 
 class ProcessesHorizontal(admin.ModelAdmin):
