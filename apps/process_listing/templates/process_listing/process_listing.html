@@ -1,2 +1,49 @@
 {% extends 'main/main.html' %}
 
+{% block style %}
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/process_listing/process_listing.css' %}"/>
+
+
+{% endblock style %}
+
+
+{% block main %}
+
+
+<div class="background">
+
+    <div class="title">
+        <h2>Processos de Negócio</h2>
+        <a href="">
+            <input type="button" value="Adicionar Processos +">
+        </a> 
+        <br>
+        <p> (FILTROS A APLICAR SOBRE A LISTA) </p>
+    </div>
+
+    <div class="processList">
+        <p>(Lista de processos)</p>
+        <br>
+        <p>ITEM X  -   Tag  -   Estado</p>
+        <p>ITEM Y  -   Tag  -   Estado</p>
+        <p>ITEM Z  -   Tag  -   Estado</p>
+    </div>
+
+    <div class="PopUPInfo">
+        <p>(POP UP)</p>
+        <br>
+        <p>Ao clicar-se num dos items da lista de processos,</p> 
+        <p>deverá abrir uma janela popUP do lado direito do ecrã,</p>  
+        <p>que contem informação do processo</p>    
+        
+
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}
