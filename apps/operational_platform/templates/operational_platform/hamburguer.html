@@ -1,0 +1,24 @@
+{% block style %}
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/operational_platform/hamburguer.css' %}"/>
+
+
+{% endblock style %}
+
+
+<div role="navigation">
+    <div id="menuToggle">
+      <input type="checkbox" />
+
+      <span></span>
+      <span></span>
+      <span></span>
+
+      <ul id="menu">
+        <a href={% url 'businessExceptions' %}><li>businessExceptions</li></a>
+        <a href={% url 'correcaoDocumentos' %}><li>correcaoDocumentos</li></a>
+        <a href={% url 'reportarErrosNoSistema' %}><li>reportarErrosNoSistema</li></a>
+      </ul>
+    </div>
+</div>
