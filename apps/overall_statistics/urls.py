@@ -3,5 +3,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('todoAdmin/', views.todoAdmin_page_view, name='todoAdmin'),
+    path('todoAdmin/', views.todoAnalyst_page_view, name='todoAnalyst'),
 ]

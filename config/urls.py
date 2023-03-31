@@ -21,4 +21,6 @@ urlpatterns = [
     path('', include('apps.authentication.urls')),
     path('', include('apps.operational_platform.urls')),
     path('', include('apps.process_listing.urls')),
+    path('', include('apps.admin_platform.urls')),
+    path('', include('apps.overall_statistics.urls')),
 ]
