@@ -21,14 +21,42 @@
         </a> 
         <br>
         <p> (FILTROS A APLICAR SOBRE A LISTA) </p>
+        <br>
     </div>
 
     <div class="processList">
-        <p>(Lista de processos)</p>
-        <br>
-        <p>ITEM X  -   Tag  -   Estado</p>
-        <p>ITEM Y  -   Tag  -   Estado</p>
-        <p>ITEM Z  -   Tag  -   Estado</p>
+
+        {% for processes in process %}
+           
+            <div>
+        
+                <p>Nome do processo: {{processes.idProcessConfiguration}}</p>
+                <p>State do processo: {{processes.state}}</p>
+                <p>Label:
+
+                    {% for labels in processes.label.all %}
+
+                        {% if processes.label.all|length == 1 %}
+
+                            {{labels}}
+                            
+                        {% else %}
+
+                            {% if not forloop.first %}
+                                {{labels}}
+                            {% else %}
+                                {{labels}},    
+                            {% endif %}
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </p>
+
+            </div>
+        {% endfor %}
+
     </div>
 
     <div class="PopUPInfo">
