@@ -13,21 +13,6 @@ class Label(models.Model):
         return f"{self.name}"
 
 
-# class Permition(models.Model):
-#     functionality = models.CharField(max_length=256)
-#
-#     def __str__(self):
-#         return f"{self.functionality}"
-#
-#
-# class Perfil(models.Model):
-#     type = models.CharField(max_length=256)
-#     permitionPerfil = models.ManyToManyField(Permition, related_name='permitionPerfil')
-#
-#     def __str__(self):
-#         return f"{self.type}"
-
-
 class TaskType(models.Model):
     name = models.CharField(max_length=256)
 
