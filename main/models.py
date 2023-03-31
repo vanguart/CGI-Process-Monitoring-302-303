@@ -49,6 +49,13 @@ class User(models.Model):
 
     def __str__(self):
         return f"{self.user}"
+    
+    class Meta:
+        permissions = [
+            ("access_admin_page", "Can access the admin page"),
+            ("access_analytic_page", "Can access the analytic page"),
+            ("access_operational_page", "Can access the operational page"),
+        ]
 
 
 class ProcessConfiguration(models.Model):

@@ -20,7 +20,14 @@ def login_page_view(request):
 
         if utilizador is not None:
             login(request, utilizador)
-            return render(request, 'main/main.html')
+            group = request.user.groups.filter(user=request.user)[0]
+            if group.name=="Admin":
+                return HttpResponseRedirect(reverse('admin_platform:admin_site'))
+            elif group.name=="Analyst":
+                return HttpResponseRedirect(reverse('overall_statistics:'))
+            elif group.name=="Operational":
+                return HttpResponseRedirect(reverse('businessExceptions'))
+            return HttpResponseRedirect(reverse('portfolio:home'))
         else:
             return render(
                 request, 'authentication/login.html',
