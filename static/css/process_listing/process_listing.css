@@ -19,6 +19,13 @@
     margin-left: 5%;
 }
 
+.processList > div{
+    background-color: white;
+    width: 20%;
+    padding: 5px;
+    margin: 5px;
+}
+
 .PopUPInfo {
     text-align: right;
 }
