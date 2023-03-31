@@ -1,8 +1,12 @@
 import random
+import smtplib
 import string
-from main.models import User
-from django.core.mail import send_mail
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 from django.contrib.auth.models import User
+
+from main.models import User
 
 
 # function that generates an E-mail code
@@ -24,12 +28,44 @@ def generatesEmailCode(userEmailInput):
 def sendEmailWithGeneratedCode(userEmailInput):
     code = generatesEmailCode(userEmailInput)
 
-    send_mail(
-        'Reset Password',
-        f'Here is the code u need to reset your password\n {code}',
-        'cgiprocessmonitor@gmail.com',
-        ['88alexcosta88@gmail.com'],
-    )
+    # send_mail(
+    #     'Reset Password',
+    #     f'Here is the code u need to reset your password\n {code}',
+    #     'cgiprocessmonitor@gmail.com',
+    #     ['88alexcosta88@gmail.com'],
+    # )
+    userEmailInput = 'jpcse1992@gmail.com'
+
+    # informações da conta
+    email_usuario = 'a22007237@alunos.ulht.pt'
+    senha = 'JPcse1992'
+
+    # informações do destinatário
+    para = userEmailInput
+
+    # informações do e-mail
+    assunto = "Password reset code"
+    mensagem = f'Here is the code u need to reset your password\n {code}'
+    # criando mensagem
+    msg = MIMEMultipart()
+    msg['From'] = email_usuario
+    msg['To'] = para
+    msg['Subject'] = assunto
+    msg.attach(MIMEText(mensagem, 'plain'))
+
+    # conectando ao servidor SMTP
+    server = smtplib.SMTP('smtp-mail.outlook.com', 587)
+    server.starttls()
+
+    # fazendo login na conta
+    server.login(email_usuario, senha)
+
+    # enviando o e-mail
+    texto = msg.as_string()
+    server.sendmail(email_usuario, para, texto)
+
+    # encerrando a conexão
+    server.quit()
 
 
 def verifyEmailOnDataBase(userEmailInput):

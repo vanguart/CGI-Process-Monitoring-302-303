@@ -1,5 +1,6 @@
 from main.models import Process, User, Logs
 
+
 # function that calculate Statts state in a period of time
 def calculateStattsState(beginning, end):
     countNumberProcessesRunning = numberOfProcessesInInputState(beginning, end, "running")
@@ -47,11 +48,9 @@ def numberOfProcessesInInputError(beginning, end, erroType):
         return None
 
     for i in logs_set:
-
         if i.idTask.idProcess in guardarIdProcessos:
             continue
         elif i.idLogType.name == erroType:
-
             if beginning <= i.idSLA.inicialDate & end >= i.idSLA.finalDate:
                 guardarIdProcessos.add(i.idTask.idProcess)
                 countNumberProcessesInInputError += 1

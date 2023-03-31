@@ -83,10 +83,10 @@ class Process(models.Model):
     inicialDate = models.DateField(null=True)
     finalDate = models.DateField(null=True)
     state = models.CharField(max_length=256)
-    label = models.ManyToManyField(Label, related_name="label")
+    label = models.ManyToManyField(Label, related_name="label", blank=True)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.idProcessConfiguration}"
 
 
 class Team(models.Model):
@@ -122,7 +122,7 @@ class Task(models.Model):
     finalDate = models.DateField(null=True)
 
     def __str__(self):
-        return f"{self.name} -> {self.description}"
+        return f"{self.idTaskConfiguration}"
 
 
 def path(id_log):
