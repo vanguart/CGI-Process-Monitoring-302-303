@@ -29,7 +29,7 @@
             <select name="filtros" onchange="this.form.submit();">
                 
                 <option value="" selected disabled>Choose filter</option>
-                <option value="noFilter">--None--</option>
+                <option value="noFilter">-- None --</option>
 
                 {% for filterOption in filtros %} 
                     <option value="{{ filterOption }}">{{ filterOption }}</option>
