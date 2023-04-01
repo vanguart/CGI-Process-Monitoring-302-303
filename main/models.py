@@ -104,7 +104,7 @@ class Task_Configuration(models.Model):
 
 
 class Task(models.Model):
-    idTaskConfiguration = models.ForeignKey(Process, on_delete=models.CASCADE, related_name="idTaskConfiguration")
+    idTaskConfiguration = models.ForeignKey(Task_Configuration, on_delete=models.CASCADE, related_name="idTaskConfiguration")
     idProcess = models.ForeignKey(Process, on_delete=models.CASCADE)
     idUser = models.ForeignKey(User, on_delete=models.CASCADE)
     priority = models.IntegerField()
