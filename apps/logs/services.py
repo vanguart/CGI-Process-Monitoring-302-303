@@ -117,7 +117,6 @@ def loadQueue(process):
 
 # ------------------- End Load ----------------------#
 
-
 def criarItemQueue():
     print('hi')
 
