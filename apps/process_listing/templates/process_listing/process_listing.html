@@ -16,17 +16,20 @@
 
     <div class="title">
         <h2>Processos de Negócio</h2>
+
         <a href="">
             <input type="button" value="Adicionar Processos +">
         </a> 
+
         <br>
 
         <form action="{% url 'process_listing' %}" method="get">
            
-            <label for="filtros">Filtros</label>
-            <select name="filtros">
-
-                <option value="noFilter">Escolha um filtro</option>
+            <label for="filtros">Filters:</label>
+            <select name="filtros" onchange="this.form.submit();">
+                
+                <option value="" selected disabled>Choose filter</option>
+                <option value="noFilter">--None--</option>
 
                 {% for filterOption in filtros %} 
                     <option value="{{ filterOption }}">{{ filterOption }}</option>
@@ -34,8 +37,6 @@
 
             </select>
 
-            <input type="submit" value="Filter" />
-            
         </form>
     </div>
 
