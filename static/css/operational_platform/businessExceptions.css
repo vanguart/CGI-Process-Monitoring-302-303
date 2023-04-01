@@ -25,3 +25,14 @@
   text-align: center;
 }
 
+.TeamTasks {
+  text-align: left;
+  margin-left: 5%;
+}
+
+.TeamTasks > div{
+  background-color: white;
+  width: auto;
+  padding: 5px;
+  margin: 5px;
+}
