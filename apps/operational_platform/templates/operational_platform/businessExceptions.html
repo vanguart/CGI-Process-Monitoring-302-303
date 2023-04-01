@@ -12,21 +12,30 @@
 
 {% block main %}
 
+{% include 'operational_platform/hamburguer.html' %}
 
 <div class="split left">
    
     <div class="centered">
       
         <h2>Lista de tarefas da equipa X (Alterar)</h2>
-        <br><br>
-        <li>  LISTA DE TAREFAS DA EQUIPA
-            <p>ITEM</p>
-            <p>ITEM</p>
-            <p>ITEM</p>
-            <p>ITEM</p>
-            <p>ITEM</p>
-        </li>
-        <br><br>
+
+
+        <div class="TeamTasks">
+
+            {% for task in tasks %}
+
+                <div>
+                            
+                    <p>Processo da Tarefa: {{task.idProcess}}</p>
+                    <p>Tipo de tarefa: {{task.idTaskConfiguration.taskType}}</p>
+                    
+                </div>
+
+            {% endfor %}
+    
+        </div>
+
         <a href="{% url 'correcaoDocumentos' %}">
             <input type="submit" value="Correção de documentos" class="btnSubmit">
         </a> 

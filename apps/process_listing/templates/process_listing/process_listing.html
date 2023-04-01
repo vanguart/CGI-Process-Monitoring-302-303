@@ -16,19 +16,62 @@
 
     <div class="title">
         <h2>Processos de Negócio</h2>
+
         <a href="">
             <input type="button" value="Adicionar Processos +">
         </a> 
+
         <br>
-        <p> (FILTROS A APLICAR SOBRE A LISTA) </p>
+
+        <form action="{% url 'process_listing' %}" method="get">
+           
+            <label for="filtros">Filters:</label>
+            <select name="filtros" onchange="this.form.submit();">
+                
+                <option value="" selected disabled>Choose filter</option>
+                <option value="noFilter">-- None --</option>
+
+                {% for filterOption in filtros %} 
+                    <option value="{{ filterOption }}">{{ filterOption }}</option>
+                {% endfor %}
+
+            </select>
+
+        </form>
     </div>
 
     <div class="processList">
-        <p>(Lista de processos)</p>
-        <br>
-        <p>ITEM X  -   Tag  -   Estado</p>
-        <p>ITEM Y  -   Tag  -   Estado</p>
-        <p>ITEM Z  -   Tag  -   Estado</p>
+        {% for processes in process %}
+           
+            <div>
+        
+                <p>Nome do processo: {{processes.idProcessConfiguration}}</p>
+                <p>State do processo: {{processes.state}}</p>
+                <p>Label:
+
+                    {% for labels in processes.label.all %}
+
+                        {% if processes.label.all|length == 1 %}
+
+                            {{labels}}
+                            
+                        {% else %}
+
+                            {% if not forloop.first %}
+                                {{labels}}
+                            {% else %}
+                                {{labels}},    
+                            {% endif %}
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </p>
+
+            </div>
+        {% endfor %}
+
     </div>
 
     <div class="PopUPInfo">

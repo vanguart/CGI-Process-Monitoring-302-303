@@ -1,6 +1,4 @@
 from datetime import datetime
-from os import path
-
 from django.contrib.auth.models import User, Group
 from django.db import models
 
@@ -47,7 +45,14 @@ class UserProfile(models.Model):
     profile_id = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="users")
 
     def __str__(self):
-        return str(self.user)
+        return self.user.name
+
+    class Meta:
+        permissions = [
+            ("access_admin_page", "Can access the admin page"),
+            ("access_analytic_page", "Can access the analytic page"),
+            ("access_operational_page", "Can access the operational page"),
+        ]
 
 
 class ProcessConfiguration(models.Model):
