@@ -20,12 +20,26 @@
             <input type="button" value="Adicionar Processos +">
         </a> 
         <br>
-        <p> (FILTROS A APLICAR SOBRE A LISTA) </p>
-        <br>
+
+        <form action="{% url 'process_listing' %}" method="get">
+           
+            <label for="filtros">Filtros</label>
+            <select name="filtros">
+
+                <option value="noFilter">Escolha um filtro</option>
+
+                {% for filterOption in filtros %} 
+                    <option value="{{ filterOption }}">{{ filterOption }}</option>
+                {% endfor %}
+
+            </select>
+
+            <input type="submit" value="Filter" />
+            
+        </form>
     </div>
 
     <div class="processList">
-
         {% for processes in process %}
            
             <div>
