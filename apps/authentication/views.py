@@ -9,7 +9,9 @@ from .services import verifyEmailOnDataBase, sendEmailWithGeneratedCode
 
 
 def login_page_view(request):
+
     if request.method == "POST":
+
         username_login_input = request.POST.get('username')
         password_login_input = request.POST.get('password')
 
@@ -19,8 +21,11 @@ def login_page_view(request):
                                   )
 
         if utilizador is not None:
+
             login(request, utilizador)
+
             group = request.user.groups.filter(user=request.user)[0]
+
             if group.name=="Admin":
                 return HttpResponseRedirect(reverse('todoAdmin'))
             elif group.name=="Analyst":
@@ -28,12 +33,15 @@ def login_page_view(request):
             elif group.name=="Operational":
                 return HttpResponseRedirect(reverse('businessExceptions'))
             return HttpResponseRedirect(reverse('businessExceptions'))  
+        
         else:
+
             return render(
                 request, 'authentication/login.html',
                 {'message': "Credenciais Inválidas"}
             )
-
+        
+        
     return render(request, 'authentication/login.html')
 
 
