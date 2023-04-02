@@ -12,7 +12,7 @@ import pandas as pd
 from main.models import UserProfile, Task, Log, LogType, Team
 
 passwd = 'RPA-process-monitoring'
-config_file = r".\CGI-Process-Monitoring-302-303\process_monitor\config.xlsx"
+config_file = r".\CGI-Process-Monitoring-302-303\docs\config.xlsx"
 
 decrypted_workbook = io.BytesIO()
 with open(config_file, 'rb') as file:
@@ -158,12 +158,12 @@ def enviamail(email, subject, body):
 
 def enviarEmailErro():
     subject = "Task with "
-    for logs in Log.all():
-        if logs.log_type == 1:  # 'Warning':
-            subject += 'warning'
-        if logs.log_type == 2:  # 'fatal error':
-            subject += 'fatal error'
-        for task in Task.all():
+    for logs in Log.objects.all():
+        if logs.logType.name == "Warning":
+            subject += "Warning"
+        if logs.logType.name== "Fatal Error":
+            subject += "Fatal Error"
+        for task in Task.objects.all():
             if task == logs.task:
                 body = "You have " + subject.lower()
                 email = task.user.user.email
