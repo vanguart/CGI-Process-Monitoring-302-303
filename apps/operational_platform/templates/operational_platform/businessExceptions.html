@@ -17,23 +17,27 @@
 <div class="split left">
    
     <div class="centered">
-      
-        <h2>Lista de tarefas da equipa X (Alterar)</h2>
 
 
+        {% if teamName == None %}
+            <h2>Não está atribuído a nenhuma equipa (Contacte um administrador)</h2>
+        {% else %}
+            <h2>Lista de tarefas da {{teamName}}</h2>
+        {% endif %}
+        
         <div class="TeamTasks">
 
-            {% for task in tasks %}
-
+            {% for taskList in teamtasks %}
                 <div>
-                            
-                    <p>Processo da Tarefa: {{task.idProcess}}</p>
-                    <p>Tipo de tarefa: {{task.idTaskConfiguration.taskType}}</p>
-                    
+
+                    <p>Processo da Tarefa: {{taskList.process}}</p>
+
+                    <p>Tipo de tarefa: {{taskList.configuration.taskType}}</p>
+
                 </div>
 
             {% endfor %}
-    
+
         </div>
 
         <a href="{% url 'correcaoDocumentos' %}">
