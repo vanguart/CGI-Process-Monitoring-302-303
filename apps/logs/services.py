@@ -12,7 +12,7 @@ import pandas as pd
 from main.models import UserProfile, Task, Log, LogType, Team
 
 passwd = 'RPA-process-monitoring'
-config_file = r".\CGI-Process-Monitoring-302-303\docs\config.xlsx"
+config_file = r"docs\config.xlsx"
 
 decrypted_workbook = io.BytesIO()
 with open(config_file, 'rb') as file:
@@ -196,6 +196,30 @@ def enviarEmailTarefasRealizarToday():
     # enviamail(email,subject,body)
 
 
-enviarEmailErro()
 
+"""
 
+def getTaskLogs(taskRef):
+    log = Log.objects.filter(task__id=taskRef).all()
+    textLog = ""
+    for logging in log:
+        with logging.ficheiro.open('r') as file:
+            conteudo = file.read()
+            textLog += conteudo + '\n'
+            print(conteudo)
+    return textLog
+
+"""
+
+def getTaskLogs(taskRef):
+    log = Log.objects.filter(task__id=taskRef).all()
+    textLog = ""
+    for logging in log:
+        try:
+            with logging.ficheiro.open('r') as file:
+                conteudo = file.read()
+                textLog += conteudo + '\n'
+                print(conteudo)
+        except Exception as e:
+            print(f"Erro ao ler o arquivo {logging.ficheiro}: {e}")
+    return textLog
