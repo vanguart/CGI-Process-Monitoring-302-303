@@ -45,13 +45,13 @@
            
             <div>
         
-                <p>Nome do processo: {{processes.idProcessConfiguration}}</p>
+                <p>Nome do processo: {{processes.configuration.name}}</p>
                 <p>State do processo: {{processes.state}}</p>
                 <p>Label:
 
-                    {% for labels in processes.label.all %}
+                    {% for labels in processes.labels.all %}
 
-                        {% if processes.label.all|length == 1 %}
+                        {% if processes.labels.all|length == 1 %}
 
                             {{labels}}
                             
