@@ -188,3 +188,8 @@ def enviarEmailTarefasRealizarToday():
     body = "To-do today:\n"
 
     # enviamail(email,subject,body)
+
+
+enviarEmailErro()
+
+
