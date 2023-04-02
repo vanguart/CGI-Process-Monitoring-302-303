@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from main.models import Task, Task_Configuration, TaskType
+from main.models import Task, TaskConfiguration, TaskType
 
 # Create your views here.
 
@@ -8,7 +8,7 @@ def businessExceptions_page_view(request):
 
 	context = {
 		'tasks': Task.objects.all(),
-		'tasks_config':Task_Configuration.objects.all(),
+		'tasks_config':TaskConfiguration.objects.all(),
 		'tasks_type': TaskType.objects.all()
 	}
 
