@@ -157,13 +157,19 @@ def enviamail(email, subject, body):
 # Fazer timer de enviar email diariamente
 
 def enviarEmailErro():
+    
     subject = "Task with "
+
     for logs in Log.objects.all():
+
         if logs.logType.name == "Warning":
             subject += "Warning"
+
         if logs.logType.name== "Fatal Error":
             subject += "Fatal Error"
+
         for task in Task.objects.all():
+
             if task == logs.task:
                 body = "You have " + subject.lower()
                 email = task.user.user.email
