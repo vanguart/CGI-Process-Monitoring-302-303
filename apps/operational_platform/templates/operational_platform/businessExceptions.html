@@ -53,9 +53,18 @@
 
         <h2>Estatisticas para Operacional</h2>
         <br><br>
+
+        <div class="NumeroTarefasDisplay">
+            <p>Número de tarefas:</p>
+            <p>{{userTasksCount}}</p>
+        </div>
+
+        <br><br>
+
         <li>  Estatistica X
             <p>ITEM</p>
         </li>
+
         <br><br>
 
         <li>  LISTA TAREFAS DO OPERACIONAL
@@ -63,10 +72,13 @@
             <p>ITEM</p>
 
         </li>
+
         <br><br>
+
         <a href="{% url 'reportarErrosNoSistema' %}">
             <input type="submit" value="Reportar erros no sistema" class="btnSubmit">
         </a> 
+        
     </div>
 </div>
 

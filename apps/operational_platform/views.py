@@ -6,7 +6,10 @@ from apps.logs.services import getTaskLogs
 
 
 def businessExceptions_page_view(request):
-	tasks_list = []
+	team_tasks_list = []
+	user_tasks_list = []
+
+	
 	# User logado
 	username = request.user.username
 
@@ -19,12 +22,17 @@ def businessExceptions_page_view(request):
 		teamTasks = teamOfUser.tasks.all()
 
 		for task in teamTasks:
-			tasks_list.append(task)
+			team_tasks_list.append(task)
+
+
+
+	userTaskCount = len(user_tasks_list)
 
 	#a = getTaskLogs(1)
 	context = {
 		'teamName': teamOfUser,
-		'teamtasks': tasks_list,
+		'teamtasks': team_tasks_list,
+		'userTasksCount': userTaskCount
 		#'a': a,
 	}
 
