@@ -5,7 +5,7 @@ from email.mime.text import MIMEText
 from main.models import Log, Task, UserProfile
 import schedule
 import time
-import datetime
+
 
 
 def enviamail(email, subject, body):

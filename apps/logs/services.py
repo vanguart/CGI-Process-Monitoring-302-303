@@ -1,6 +1,8 @@
 # Connection API Orchestrator
 import io
 import json
+import os
+
 import requests
 import msoffcrypto
 import pandas as pd
@@ -47,19 +49,9 @@ header['X-UIPATH-TenantName'] = creds['tenancyName']
 def ChangeStateRPA():
     print("Hi")
 
-
-def addTaskQueue():
-    print("Hi")
-
-
-def removeTaskQueue():
-    print("Hi")
-
-
 # ------------------- Start Extract -----------------#
 def getRPA():
     print("Hi")
-
 
 def getLogs():
     logs = requests.get(
@@ -113,13 +105,6 @@ def loadQueue(process):
 
 # ------------------- End Load ----------------------#
 
-def criarItemQueue():
-    print('hi')
-
-
-def removerItemQueue():
-    print('hi')
-
 
 def getTaskLogs(taskRef):
     log = Log.objects.filter(task__id=taskRef).all()
@@ -133,3 +118,4 @@ def getTaskLogs(taskRef):
         except Exception as e:
             print(f"Erro ao ler o arquivo {logging.ficheiro}: {e}")
     return textLog
+
