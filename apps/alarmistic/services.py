@@ -7,7 +7,6 @@ import schedule
 import time
 
 
-
 def enviamail(email, subject, body):
     # informações da conta
     email_usuario = 'a22007237@alunos.ulht.pt'

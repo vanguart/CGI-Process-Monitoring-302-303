@@ -7,7 +7,9 @@ import requests
 import msoffcrypto
 import pandas as pd
 
-from main.models import UserProfile, Task, Log, LogType, Team
+from main.models import UserProfile, Task, Log, LogType, Team, Process
+
+# ------------------- Start connection ------------- #
 
 passwd = 'RPA-process-monitoring'
 config_file = r"docs\config.xlsx"
@@ -44,14 +46,13 @@ token = json.loads(r.post(
 header['authorization'] = 'Bearer ' + token
 
 header['X-UIPATH-TenantName'] = creds['tenancyName']
+# ------------------- End connection --------------- #
 
 
-def ChangeStateRPA():
-    print("Hi")
-
-# ------------------- Start Extract -----------------#
+# ------------------- Start Extract ---------------- #
 def getRPA():
     print("Hi")
+
 
 def getLogs():
     logs = requests.get(
@@ -81,32 +82,85 @@ def getQueue():
     transformQueue(items)
 
 
-# ------------------- End Extract -------------------#
+# ------------------- End Extract ------------------ #
 
-# ------------------- Start Transform ---------------#
+# ------------------- Start Transform -------------- #
 def transformQueue(items):
-    processos = []
+    itemsQueue = []
     for item in items:
-        processo = {
+        itemsQueue = {
             'priority': item['Priority'],
             'state': item['Status'],
         }
-        loadQueue(processos.append(processo))
 
 
-# ------------------- End Transform -----------------#
+def transformLog(logs):
+    itemLog = []
+    for log in logs:
+        itemLog = {
+            # ver dados dos logs
+        }
+        loadLog(itemLog)
 
-# ------------------- Start Load --------------------#
 
-def loadQueue(process):
-    task = Task()  # adicionar parametros
+def transformTask(tasks):
+    itemTask = []
+    for task in tasks:
+        itemTask = {
+            # ver dados dos logs
+        }
+        loadTask(itemTask)
+
+
+def transformProcess(processes):
+    itemProcess = []
+    for process in processes:
+        itemProcess = {
+            # ver dados dos logs
+        }
+        loadProcess(itemProcess)
+
+
+def transformRPA(rpas):
+    itemRPA = []
+    for rpa in rpas:
+        itemRPA = {
+            # ver dados dos logs
+        }
+        loadRPA(itemRPA)
+
+
+# ------------------- End Transform ---------------- #
+
+# ------------------- Start Load ------------------- #
+def loadLog(itemLog):
+    log = Log()
+    log.save()
+
+
+def loadTask(itemTask):
+    task = Task()
     task.save()
 
 
-# ------------------- End Load ----------------------#
+def loadProcess(itemProcess):
+    process = Process()
+    process.save()
 
 
-def getTaskLogs(taskRef):
+def loadRPA(itemRPA):
+    rpa = UserProfile()
+    rpa.save()
+# ------------------- End Load --------------------- #
+
+# -------------- Start Other functions ------------- #
+
+
+def ChangeStateRPA():
+    print("Hi")
+
+
+def getTaskLog(taskRef):
     log = Log.objects.filter(task__id=taskRef).all()
     textLog = ""
     for logging in log:
@@ -119,3 +173,4 @@ def getTaskLogs(taskRef):
             print(f"Erro ao ler o arquivo {logging.ficheiro}: {e}")
     return textLog
 
+# -------------- End Other functions --------------- #
