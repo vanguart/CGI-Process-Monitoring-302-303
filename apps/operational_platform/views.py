@@ -2,7 +2,6 @@ from django.shortcuts import render
 from main.models import Task, TaskConfiguration, TaskType, Team, UserProfile
 
 # DEBUGGING
-from apps.logs.services import getTaskLogs
 
 
 def businessExceptions_page_view(request):
