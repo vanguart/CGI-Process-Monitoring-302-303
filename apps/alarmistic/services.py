@@ -2,7 +2,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from main.models import Log, Task, UserProfile
+from main.models import Log, Task, UserProfile, Team
 import schedule
 import time
 
@@ -72,15 +72,19 @@ def enviarEmailObjetivo(threshold):
 
 def enviarEmailTarefasRealizarToday():
     subject = "Tasks to-do Today"
-    body = "To-do today:\n"
-
-    # enviamail(email,subject,body)
+    email = 'a22007237@alunos.ulht.pt'
+    
+    for team in Team.all():
+        tarefas = len(team.tasks)
+        body = "To-do today:\n "+ tarefas
+        enviamail(email,subject,body)
 
 
 # todos os dias envia os emails
 schedule.every(24).hours.do(enviarEmailErro)
 schedule.every(24).hours.do(enviarEmailTarefasRealizarToday)
 schedule.every(24).hours.do(enviarEmailObjetivo(70))
+
 
 while True:
     schedule.run_pending()
