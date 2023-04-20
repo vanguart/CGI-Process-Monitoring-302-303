@@ -21,18 +21,21 @@ def businessExceptions_page_view(request):
 		teamTasks = teamOfUser.tasks.all()
 
 		for task in teamTasks:
-			team_tasks_list.append(task)
+			if task.user == None:
+				team_tasks_list.append(task)
+			if str(task.user) == str(username):
+				user_tasks_list.append(task)
 
-
-
+	# ORDENA AS TASKS PELA PRIORIDADE (Maior para o mais pequeno em termos de priority)
+	team_tasks_list.sort(key=lambda x: x.priority, reverse=True)
+ 
 	userTaskCount = len(user_tasks_list)
 
 	#a = getTaskLogs(1)
 	context = {
 		'teamName': teamOfUser,
 		'teamtasks': team_tasks_list,
-		'userTasksCount': userTaskCount
-		#'a': a,
+		'userTasksCount': userTaskCount,	
 	}
 
 	return render(request, 'operational_platform/businessExceptions.html', context)
