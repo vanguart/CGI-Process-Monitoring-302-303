@@ -2,7 +2,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from main.models import Log, Task, UserProfile
+from main.models import Log, Task, UserProfile, Team
 import schedule
 import time
 
@@ -53,17 +53,18 @@ def enviarEmailErro():
 
             if task == logs.task:
                 body = "You have " + subject.lower()
-                email = task.user.user.email
-                enviamail(email, subject, body)
+                if (task.user != None):
+                    email = task.user.user.email
+                    enviamail(email, subject, body)
 
 
-def enviarEmailObjetivo(threshold):
+def enviarEmailObjetivo(threshold = 70):
     subject = "Goal Low"
-    for users in UserProfile.all():
+    for users in UserProfile.objects.all():
         email = users.user.email
         if users.goal < threshold:
-            if users.idPerfil == 'RPA':
-                body = "The RPA " + users.user.name + " goal is low!"
+            if users.groupUser.name == 'RPA':
+                body = "The RPA " + users.user.username + " goal is low!"
                 enviamail(email, subject, body)
             else:
                 body = "Your goal is low!"
@@ -72,15 +73,19 @@ def enviarEmailObjetivo(threshold):
 
 def enviarEmailTarefasRealizarToday():
     subject = "Tasks to-do Today"
-    body = "To-do today:\n"
-
-    # enviamail(email,subject,body)
+    
+    for team in Team.objects.all():
+        email = team.teamLider.user.email
+        tarefas = len(team.tasks)
+        body = "To-do today:\n "+ str(tarefas)
+        enviamail(email,subject,body)
 
 
 # todos os dias envia os emails
 schedule.every(24).hours.do(enviarEmailErro)
 schedule.every(24).hours.do(enviarEmailTarefasRealizarToday)
-schedule.every(24).hours.do(enviarEmailObjetivo(70))
+schedule.every(24).hours.do(enviarEmailObjetivo)
+
 
 while True:
     schedule.run_pending()

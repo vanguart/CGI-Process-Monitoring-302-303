@@ -11,11 +11,7 @@ from main.models import User
 
 # function that generates an E-mail code
 def generatesEmailCode(userEmailInput):
-    userEmail = User.objects.filter(email=userEmailInput)
 
-    if len(userEmail) == 0:
-        print("there is nothing in the database")
-        return None
 
     length = 10
     # With combination of lower and upper case
@@ -27,6 +23,11 @@ def generatesEmailCode(userEmailInput):
 # function that sends an email with a code in order to reset password
 def sendEmailWithGeneratedCode(userEmailInput):
     code = generatesEmailCode(userEmailInput)
+    
+
+    if not (verifyEmailOnDataBase(userEmailInput)):
+        print("That email does not exist in the your database")
+        return None
 
     # send_mail(
     #     'Reset Password',
@@ -34,7 +35,7 @@ def sendEmailWithGeneratedCode(userEmailInput):
     #     'cgiprocessmonitor@gmail.com',
     #     ['88alexcosta88@gmail.com'],
     # )
-    userEmailInput = 'jpcse1992@gmail.com'
+    # userEmailInput = 'jpcse1992@gmail.com'
 
     # informações da conta
     email_usuario = 'a22007237@alunos.ulht.pt'

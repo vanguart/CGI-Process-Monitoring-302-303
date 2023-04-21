@@ -13,6 +13,7 @@ from .models import Log
 from .models import Label
 from .models import ProcessConfiguration
 from .models import TaskConfiguration
+from .models import Reporting
 
 
 class TeamHorizontal(admin.ModelAdmin):
@@ -21,6 +22,9 @@ class TeamHorizontal(admin.ModelAdmin):
 
 class ProcessesHorizontal(admin.ModelAdmin):
     filter_horizontal = ("labels",)
+    
+class ReportingHorizontal(admin.ModelAdmin):
+    filter_horizontal = ("tasks",)
 
 
 # admin.site.register(Permition)
@@ -37,3 +41,4 @@ admin.site.register(Team, TeamHorizontal)
 admin.site.register(Log)
 admin.site.register(ProcessConfiguration)
 admin.site.register(TaskConfiguration)
+admin.site.register(Reporting, ReportingHorizontal)

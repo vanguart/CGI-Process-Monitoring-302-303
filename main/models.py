@@ -34,6 +34,7 @@ class ProcessType(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user")
+    codigoRecuperacao = models.CharField(max_length=10)
     goal = models.IntegerField(default=100)
     groupUser = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="groupUser")
 
@@ -87,7 +88,7 @@ class TaskConfiguration(models.Model):
 class Task(models.Model):
     configuration = models.ForeignKey(TaskConfiguration, on_delete=models.CASCADE, related_name="taskConfiguration")
     process = models.ForeignKey(Process, on_delete=models.CASCADE, related_name="process")
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='taskUser')
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='taskUser',null=True,blank=True)
     priority = models.IntegerField()
     state = models.CharField(max_length=256)
     startDate = models.DateField(null=True)
@@ -103,6 +104,8 @@ class Team(models.Model):
     members = models.ManyToManyField(UserProfile, related_name='members')
     permissions = models.ManyToManyField(Group, related_name='teamPermissions')
     tasks = models.ManyToManyField(Task, related_name="tasks")
+    teamLider = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name="teamLider")
+
 
     def __str__(self):
         return self.name
@@ -127,3 +130,11 @@ class Log(models.Model):
 
     def __str__(self):
         return f"{self.logType}"
+    
+    
+class Reporting(models.Model):
+    tasks = models.ManyToManyField(Task, related_name="reportingTasks")
+    description = models.CharField(max_length=2000)
+    
+    def __str__(self):
+        return self.description
