@@ -64,11 +64,10 @@ def verifyEmailOnDataBase(userEmailInput):
     userEmail = User.objects.filter(email=userEmailInput).exists()
     return userEmail
 
-# def change_password(id_user, newpassword):
-# preciso receber o id/email do utilizador
-# procurar o utilizador  user = User.objects.fileter(id=id_user)
-# alterar palavra-passe
 
+
+
+# alterar palavra-passe
 def chagePassword(userInput, newPassword):
     user = User.objects.get(username = userInput)
     user.set_password(newPassword)
