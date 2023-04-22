@@ -1,7 +1,6 @@
 # Connection API Orchestrator
 import io
 import json
-import os
 
 import requests
 import msoffcrypto
@@ -46,53 +45,53 @@ token = json.loads(r.post(
 header['authorization'] = 'Bearer ' + token
 
 header['X-UIPATH-TenantName'] = creds['tenancyName']
+
+
 # ------------------- End connection --------------- #
 
 
 # ------------------- Start Extract ---------------- #
 def getRPA():
-    print("Hi")
+    users = json.loads(
+        requests.get(creds['url'] + f"odata/Users",
+                     headers=header).content.decode('utf-8'))['value']
+    user_info = []
+    for user in users:
+        if user['UnattendedRobot'] is not None:
+            user_info.append(user)
+    transformRPA(user_info)
 
 
 def getLogs():
-    logs = requests.get(
-        creds['url'] + "odata/RobotLogs",
-        headers=header)
-    if logs.status_code == 200:
-        # Extrai a lista de processos do corpo da resposta
-        logs = logs.json()['value']
-        for log in logs:
-            print(log['Message'])
-    else:
-        print('Erro ao obter os logs dos robôs: %s', logs.text)
+    logs = requests.get(creds['url'] + "odata/RobotLogs", headers=header)
+    logs = logs.json()['value']
+    transformLog(logs)
 
 
-def getTask():
-    print("Hi")
+def getTask(process_name):
+    jobs_endpoint = creds['url'] + "odata/Jobs"
+    response = requests.get(jobs_endpoint, headers=header)
+    if response.status_code != 200:
+        raise Exception("Erro ao buscar jobs do Orchestrator")
+
+    jobs = json.loads(response.content.decode('utf-8'))['value']
+    process_jobs = [job for job in jobs if job['ReleaseName'] == process_name]
+    transformTask(process_jobs)
 
 
 def getProcess():
-    print("Hi")
+    response = requests.get(creds['url'] + 'odata/Processes', headers=header, )
+    if response.status_code != 200:
+        raise Exception("Erro ao buscar processos do Orchestrator")
 
-
-def getQueue():
-    items = requests.get(creds['url'] +
-                         f'odata/QueueItems?$filter=QueueDefinitionId eq 761676',
-                         headers=header)
-    transformQueue(items)
+    # Processa a resposta como um objeto JSON
+    processos = json.loads(response.content.decode("utf-8"))["value"]
+    transformProcess(processos)
 
 
 # ------------------- End Extract ------------------ #
 
 # ------------------- Start Transform -------------- #
-def transformQueue(items):
-    itemsQueue = []
-    for item in items:
-        itemsQueue = {
-            'priority': item['Priority'],
-            'state': item['Status'],
-        }
-
 
 def transformLog(logs):
     itemLog = []
@@ -113,12 +112,17 @@ def transformTask(tasks):
 
 
 def transformProcess(processes):
-    itemProcess = []
-    for process in processes:
-        itemProcess = {
-            # ver dados dos logs
+    processos_info = []
+    for processo in processes:
+        processo_info = {
+            "IsAttended": processo["IsAttended"],
+            "Title": processo["Title"],
+            "Description": processo["Description"],
+            "Published": processo["Published"],
+            "Arguments": processo["Arguments"]
         }
-        loadProcess(itemProcess)
+        processos_info.append(processo_info)
+    loadProcess(processos_info)
 
 
 def transformRPA(rpas):
@@ -151,13 +155,15 @@ def loadProcess(itemProcess):
 def loadRPA(itemRPA):
     rpa = UserProfile()
     rpa.save()
+
+
 # ------------------- End Load --------------------- #
 
 # -------------- Start Other functions ------------- #
 
 
 def ChangeStateRPA():
-    print("Hi")
+    print("Mudar estado RPA")
 
 
 def getTaskLog(taskRef):
