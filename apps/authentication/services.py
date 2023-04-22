@@ -30,7 +30,7 @@ def sendEmailWithGeneratedCode(userEmailInput):
 
     # informações da conta
     email_usuario = 'a22007237@alunos.ulht.pt'
-    senha = '**********'
+    senha = 'JPcse1992'
 
     # informações do destinatário
     para = userEmailInput
@@ -63,7 +63,6 @@ def sendEmailWithGeneratedCode(userEmailInput):
 def verifyEmailOnDataBase(userEmailInput):
     userEmail = User.objects.filter(email=userEmailInput).exists()
     return userEmail
-
 
 
 
