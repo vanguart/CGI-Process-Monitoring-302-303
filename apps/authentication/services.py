@@ -11,8 +11,6 @@ from main.models import User
 
 # function that generates an E-mail code
 def generatesEmailCode(userEmailInput):
-
-
     length = 10
     # With combination of lower and upper case
     result_str = ''.join(random.choice(string.ascii_letters) for i in range(length))
@@ -23,7 +21,6 @@ def generatesEmailCode(userEmailInput):
 # function that sends an email with a code in order to reset password
 def sendEmailWithGeneratedCode(userEmailInput):
     code = generatesEmailCode(userEmailInput)
-    
 
     if not (verifyEmailOnDataBase(userEmailInput)):
         print("That email does not exist in the your database")

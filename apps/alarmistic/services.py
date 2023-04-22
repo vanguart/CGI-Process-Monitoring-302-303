@@ -36,13 +36,9 @@ def enviamail(email, subject, body):
     server.quit()
 
 
-# Fazer timer de enviar email diariamente
-
 def enviarEmailErro():
-    subject = "Task with "
-
     for logs in Log.objects.all():
-
+        subject = "Task with "
         if logs.logType.name == "Warning":
             subject += "Warning"
 
@@ -53,12 +49,12 @@ def enviarEmailErro():
 
             if task == logs.task:
                 body = "You have " + subject.lower()
-                if (task.user != None):
+                if task.user is not None:
                     email = task.user.user.email
                     enviamail(email, subject, body)
 
 
-def enviarEmailObjetivo(threshold = 70):
+def enviarEmailObjetivo(threshold=70):
     subject = "Goal Low"
     for users in UserProfile.objects.all():
         email = users.user.email
@@ -73,19 +69,18 @@ def enviarEmailObjetivo(threshold = 70):
 
 def enviarEmailTarefasRealizarToday():
     subject = "Tasks to-do Today"
-    
+
     for team in Team.objects.all():
         email = team.teamLider.user.email
         tarefas = len(team.tasks)
-        body = "To-do today:\n "+ str(tarefas)
-        enviamail(email,subject,body)
+        body = "To-do today:\n " + str(tarefas)
+        enviamail(email, subject, body)
 
 
 # todos os dias envia os emails
 schedule.every(24).hours.do(enviarEmailErro)
 schedule.every(24).hours.do(enviarEmailTarefasRealizarToday)
 schedule.every(24).hours.do(enviarEmailObjetivo)
-
 
 while True:
     schedule.run_pending()
