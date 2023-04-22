@@ -6,7 +6,8 @@ from email.mime.text import MIMEText
 
 from django.contrib.auth.models import User
 
-from main.models import User
+
+from main.models import UserProfile
 
 
 # function that generates an E-mail code
@@ -29,17 +30,10 @@ def sendEmailWithGeneratedCode(userEmailInput):
         print("That email does not exist in the your database")
         return None
 
-    # send_mail(
-    #     'Reset Password',
-    #     f'Here is the code u need to reset your password\n {code}',
-    #     'cgiprocessmonitor@gmail.com',
-    #     ['88alexcosta88@gmail.com'],
-    # )
-    # userEmailInput = 'jpcse1992@gmail.com'
 
     # informações da conta
     email_usuario = 'a22007237@alunos.ulht.pt'
-    senha = 'JPcse1992'
+    senha = '**********'
 
     # informações do destinatário
     para = userEmailInput
@@ -77,3 +71,7 @@ def verifyEmailOnDataBase(userEmailInput):
 # preciso receber o id/email do utilizador
 # procurar o utilizador  user = User.objects.fileter(id=id_user)
 # alterar palavra-passe
+
+def chagePassword(userInput, newPassword):
+    user = User.objects.get(username = userInput)
+    user.set_password(newPassword)
