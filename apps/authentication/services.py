@@ -53,6 +53,8 @@ def sendEmailWithGeneratedCode(userEmailInput):
 
     # encerrando a conexão
     server.quit()
+
+    # guardar na base de dados
     user_profile = UserProfile.objects.filter(user__email=userEmailInput).first()
     user_profile.recoveryCode = code
     user_profile.save()
