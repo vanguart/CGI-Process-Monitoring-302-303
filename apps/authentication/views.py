@@ -3,7 +3,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.validators import validate_email
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+
+from main.models import UserProfile
 from .services import verifyEmailOnDataBase, sendEmailWithGeneratedCode, validateCode, changePassword
+from datetime import timedelta
+from django.utils import timezone
 
 
 def login_page_view(request):
@@ -78,10 +82,19 @@ def recuperarPassword_page_view(request):
 
 
 def recuperarPasswordCode_page_view(request):
+    email_recover_input = "jpcse1992@gmail.com"
     if request.method == "POST":
+        #timer do código
+        user_profile = UserProfile.objects.filter(user__email=email_recover_input).first()
+        if user_profile.lastCodeSentTime is not None:
+            elapsed_time = timezone.now() - user_profile.lastCodeSentTime
+            if elapsed_time > timedelta(minutes=5):
+                user_profile.recoveryCode = ""
+                user_profile.lastCodeSentTime = None
+                user_profile.save()
 
         codigo_recover_input = request.POST.get('codigo')
-        email_recover_input = "jpcse1992@gmail.com"
+
         validaCodigo = False
 
         # COLOCAR AQUI FORMA DE VALIDAR O CODIGO PROVENIENTE DO EMAIL

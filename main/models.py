@@ -37,6 +37,7 @@ class UserProfile(models.Model):
     recoveryCode = models.CharField(max_length=10, blank=True)
     goal = models.IntegerField(default=100)
     groupUser = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="groupUser")
+    lastCodeSentTime = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.user.username
