@@ -34,7 +34,7 @@ class ProcessType(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user")
-    codigoRecuperacao = models.CharField(max_length=10)
+    recoveryCode = models.CharField(max_length=10, blank=True)
     goal = models.IntegerField(default=100)
     groupUser = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="groupUser")
 

@@ -1,15 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from .services import verifyEmailOnDataBase, sendEmailWithGeneratedCode
+from .services import verifyEmailOnDataBase, sendEmailWithGeneratedCode, validateCode, changePassword
 
 
 def login_page_view(request):
-
     if request.method == "POST":
 
         username_login_input = request.POST.get('username')
@@ -26,22 +23,21 @@ def login_page_view(request):
 
             group = request.user.groups.filter(user=request.user)[0]
 
-            if group.name=="Admin":
+            if group.name == "Admin":
                 return HttpResponseRedirect(reverse('todoAdmin'))
-            elif group.name=="Analyst":
+            elif group.name == "Analyst":
                 return HttpResponseRedirect(reverse('todoAnalyst'))
-            elif group.name=="Operational":
+            elif group.name == "Operational":
                 return HttpResponseRedirect(reverse('businessExceptions'))
-            return HttpResponseRedirect(reverse('businessExceptions'))  
-        
+            return HttpResponseRedirect(reverse('businessExceptions'))
+
         else:
 
             return render(
                 request, 'authentication/login.html',
                 {'message': "Credenciais Inválidas"}
             )
-        
-        
+
     return render(request, 'authentication/login.html')
 
 
@@ -68,7 +64,9 @@ def recuperarPassword_page_view(request):
             mnsgErro = "Email inexistente"
 
         if validaMail:
+
             sendEmailWithGeneratedCode(email_recover_input)
+
             return render(request, 'authentication/recuperarPasswordCode.html')
         else:
             return render(
@@ -83,19 +81,19 @@ def recuperarPasswordCode_page_view(request):
     if request.method == "POST":
 
         codigo_recover_input = request.POST.get('codigo')
+        email_recover_input = "jpcse1992@gmail.com"
         validaCodigo = False
 
         # COLOCAR AQUI FORMA DE VALIDAR O CODIGO PROVENIENTE DO EMAIL
-        if codigo_recover_input == "1234":
+        if validateCode(codigo_recover_input, email_recover_input):
             validaCodigo = True
 
         if validaCodigo:
             return render(request, 'authentication/recuperarPasswordPwUpdate.html')
         else:
+
             return render(
-                request, 'authentication/recuperarPasswordCode.html',
-                {'message': "Código Inválido"}
-            )
+                request, 'authentication/recuperarPasswordCode.html', {'message': "Código Inválido"})
 
     return render(request, 'authentication/recuperarPasswordCode.html')
 
@@ -105,11 +103,13 @@ def recuperarPasswordPwUpdate_page_view(request):
 
         new_password1_input = request.POST.get('password1')
         new_password2_input = request.POST.get('password2')
+        email_recover_input = "jpcse1992@gmail.com"
         validaPassword = False
 
         # COLOCAR AQUI FORMA DE VALIDAR AS PASSWORDS
         if new_password2_input == new_password1_input:
             validaPassword = True
+            changePassword(new_password1_input, email_recover_input)
 
         if validaPassword:
             return render(request, 'authentication/login.html')

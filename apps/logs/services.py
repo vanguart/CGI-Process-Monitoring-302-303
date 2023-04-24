@@ -69,7 +69,8 @@ def getLogs():
 
 
 def getTask(process_name):
-    jobs_endpoint = creds['url'] + "odata/Jobs"
+    #fazer filtro com o nome
+    jobs_endpoint = creds['url'] + "odata/Tasks"
     response = requests.get(jobs_endpoint, headers=header)
     if response.status_code != 200:
         raise Exception("Erro ao buscar jobs do Orchestrator")
