@@ -15,23 +15,13 @@ def generatesEmailCode():
 
     return result_str
 
-
-code = generatesEmailCode()
-
-
 # function that sends an email with a code in order to reset password
 def sendEmailWithGeneratedCode(userEmailInput):
+    code = generatesEmailCode()
     if not (verifyEmailOnDataBase(userEmailInput)):
         print("That email does not exist in the your database")
         return None
 
-    # send_mail(
-    #     'Reset Password',
-    #     f'Here is the code u need to reset your password\n {code}',
-    #     'cgiprocessmonitor@gmail.com',
-    #     ['88alexcosta88@gmail.com'],
-    # )
-    # userEmailInput = 'jpcse1992@gmail.com'
 
     # informações da conta
     email_utilizador = 'a22007237@alunos.ulht.pt'
