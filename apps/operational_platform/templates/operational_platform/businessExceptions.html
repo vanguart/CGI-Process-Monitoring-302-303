@@ -29,15 +29,11 @@
 
             {% for taskList in teamtasks %}
                 <div>
+                    <p>Processo da Tarefa: {{taskList.idProcess.configuration.name}}</p>
 
-                    <p>Processo da Tarefa: {{taskList.process}}</p>
-
-                    <p>Tipo de tarefa: {{taskList.configuration.taskType}}</p>
+                    <p>Tipo de tarefa: {{taskList.idConfiguration.taskType}}</p>
 
                     <p>Prioridade: {{taskList.priority}}</p>
-
-                    
-
                 </div>
 
             {% endfor %}
@@ -66,9 +62,9 @@
             {% for usertasks in userTaskList %}
                 <div>
 
-                    <p>Processo da Tarefa: {{usertasks.process}}</p>
+                    <p>Processo da Tarefa: {{usertasks.idProcess.configuration.name}}</p>
 
-                    <p>Tipo de tarefa: {{usertasks.configuration.taskType}}</p>
+                    <p>Tipo de tarefa: {{usertasks.idConfiguration.taskType}}</p>
 
                     <p>Prioridade: {{usertasks.priority}}</p>
 
