@@ -18,8 +18,12 @@ class TaskType(models.Model):
 
 
 class SLA(models.Model):
+    time = models.TimeField()
     startDate = models.DateField(null=True)
     endDate = models.DateField(null=True)
+    name = models.CharField(max_length=256)
+    description = models.CharField(max_length=600)
+    threshold = models.IntegerField()
 
     def __str__(self):
         return f"{self.startDate} - {self.endDate}"
@@ -30,24 +34,6 @@ class ProcessType(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user")
-    recoveryCode = models.CharField(max_length=10, blank=True)
-    goal = models.IntegerField(default=100)
-    groupUser = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="groupUser")
-    lastCodeSentTime = models.DateTimeField(null=True, blank=True)
-
-    def __str__(self):
-        return self.user.username
-
-    class Meta:
-        permissions = [
-            ("access_admin_page", "Can access the admin page"),
-            ("access_analytic_page", "Can access the analytic page"),
-            ("access_operational_page", "Can access the operational page"),
-        ]
 
 
 class ProcessConfiguration(models.Model):
@@ -61,13 +47,32 @@ class ProcessConfiguration(models.Model):
         return self.name
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user")
+    recoveryCode = models.CharField(max_length=10, blank=True)
+    goal = models.IntegerField(default=100)
+    groupUser = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="groupUser")
+    lastCodeSentTime = models.DateTimeField(null=True, blank=True)
+    idTeam = models.ForeignKey('Team', on_delete=models.CASCADE, related_name="equipaMembros", blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+
+    class Meta:
+        permissions = [
+            ("access_admin_page", "Can access the admin page"),
+            ("access_analytic_page", "Can access the analytic page"),
+            ("access_operational_page", "Can access the operational page"),
+        ]
+
+
 class Process(models.Model):
     configuration = models.ForeignKey(ProcessConfiguration, on_delete=models.CASCADE, related_name='configuration')
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='processUser')
     startDate = models.DateField(null=True)
     endDate = models.DateField(null=True)
     state = models.CharField(max_length=256)
     labels = models.ManyToManyField(Label, related_name="labels", blank=True)
+    idTeam = models.ForeignKey('Team', on_delete=models.CASCADE, related_name='Team')
 
     def __str__(self):
         return str(self.configuration)
@@ -87,32 +92,29 @@ class TaskConfiguration(models.Model):
 
 
 class Task(models.Model):
-    configuration = models.ForeignKey(TaskConfiguration, on_delete=models.CASCADE, related_name="taskConfiguration")
-    process = models.ForeignKey(Process, on_delete=models.CASCADE, related_name="process")
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='taskUser',null=True,blank=True)
+    idConfiguration = models.ForeignKey(TaskConfiguration, on_delete=models.CASCADE, related_name="taskConfiguration")
+    idProcess = models.ForeignKey(Process, on_delete=models.CASCADE, related_name="process")
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='taskUser', null=True, blank=True)
     priority = models.IntegerField()
     state = models.CharField(max_length=256)
     startDate = models.DateField(null=True)
     endDate = models.DateField(null=True)
 
     def __str__(self):
-        return str(self.configuration)
+        return str(self.idConfiguration)
 
 
 class Team(models.Model):
     name = models.CharField(max_length=256)
     description = models.CharField(max_length=500)
-    members = models.ManyToManyField(UserProfile, related_name='members')
     permissions = models.ManyToManyField(Group, related_name='teamPermissions')
-    tasks = models.ManyToManyField(Task, related_name="tasks")
-    teamLider = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name="teamLider")
-
+    teamLider = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name="teamLider", null=True)
 
     def __str__(self):
         return self.name
 
 
-def log_path(instance,filename):
+def log_path(instance, filename):
     now = datetime.now()
     return f"Logs/{now.year}/{now.month}/{now.day}/{now.strftime('%H-%M')}_{instance.task.id}.txt"
 
@@ -128,14 +130,15 @@ class Log(models.Model):
     logType = models.ForeignKey(LogType, on_delete=models.CASCADE, related_name='logType')
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='task')
     ficheiro = models.FileField(upload_to=log_path, max_length=254)
+    date = models.DateField(null=True)
 
     def __str__(self):
         return f"{self.logType}"
-    
-    
+
+
 class Reporting(models.Model):
-    tasks = models.ManyToManyField(Task, related_name="reportingTasks")
+    tasks = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="reportingTasks")
     description = models.CharField(max_length=2000)
-    
+
     def __str__(self):
         return self.description
