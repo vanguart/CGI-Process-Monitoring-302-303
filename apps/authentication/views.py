@@ -16,14 +16,14 @@ def login_page_view(request):
         username_login_input = request.POST.get('username')
         password_login_input = request.POST.get('password')
 
-        utilizador = authenticate(request,
-                                  username=username_login_input,
-                                  password=password_login_input
-                                  )
+        utilizador = authenticate(request, username=username_login_input, password=password_login_input)
 
         if utilizador is not None:
 
             login(request, utilizador)
+
+            if not request.user.groups.all():
+                return render(request, 'authentication/contactAdmin.html')
 
             group = request.user.groups.filter(user=request.user)[0]
 
@@ -33,17 +33,28 @@ def login_page_view(request):
                 return HttpResponseRedirect(reverse('todoAnalyst'))
             elif group.name == "Operational":
                 return HttpResponseRedirect(reverse('businessExceptions'))
-
-            # FALTA CRIAR PÁGINA QUE INDICA QUE O USER NÃO TEM GROUPNAME
-            return HttpResponseRedirect(reverse('businessExceptions'))
+            
+            return render(request, 'authentication/contactAdmin.html')
 
         else:
-
             return render(
                 request, 'authentication/login.html',
                 {'message': "Credenciais Inválidas"}
             )
+        
+    if request.user.is_authenticated:
+        if not request.user.groups.all():
+            return render(request, 'authentication/contactAdmin.html')
 
+        group = request.user.groups.filter(user=request.user)[0]
+
+        if group.name == "Admin":
+            return HttpResponseRedirect(reverse('todoAdmin'))
+        elif group.name == "Analyst":
+            return HttpResponseRedirect(reverse('todoAnalyst'))
+        elif group.name == "Operational":
+           return HttpResponseRedirect(reverse('businessExceptions'))
+        
     return render(request, 'authentication/login.html')
 
 
