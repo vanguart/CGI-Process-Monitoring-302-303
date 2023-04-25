@@ -20,15 +20,12 @@ def businessExceptions_page_view(request):
 		
 		teamTasks = teamOfUser.tasks.all()
 
-		#taskGet = Task.objects.get(id=teamtasks_id)
-		#team_tasks_list.remove(taskGet)
-		#user_tasks_list.append(taskGet)
-
 		for task in teamTasks:
 			if task.user == None:
 				team_tasks_list.append(task)
 			if str(task.user) == str(username):
 				user_tasks_list.append(task)
+
 
 	# ORDENA AS TASKS PELA PRIORIDADE (Maior para o mais pequeno em termos de priority)
 	team_tasks_list.sort(key=lambda x: x.priority, reverse=True)

@@ -36,7 +36,7 @@
 
                     <p>Prioridade: {{taskList.priority}}</p>
 
-                    <a href="{% url 'correcaoDocumentos' taskList.id %}">PICK Tarefa</a>
+                    
 
                 </div>
 
@@ -71,6 +71,8 @@
                     <p>Tipo de tarefa: {{usertasks.configuration.taskType}}</p>
 
                     <p>Prioridade: {{usertasks.priority}}</p>
+
+                    <a href="{% url 'correcaoDocumentos' usertasks.id %}">Corrigir Tarefa</a>
 
                 </div>
 
