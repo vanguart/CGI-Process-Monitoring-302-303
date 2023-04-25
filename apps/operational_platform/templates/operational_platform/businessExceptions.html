@@ -9,7 +9,6 @@
 {% endblock style %}
 
 
-
 {% block main %}
 
 {% include 'operational_platform/hamburguer.html' %}
@@ -18,13 +17,13 @@
    
     <div class="centered">
 
-
         {% if teamName == None %}
             <h2>Não está atribuído a nenhuma equipa (Contacte um administrador)</h2>
         {% else %}
             <h2>Lista de tarefas da {{teamName}}</h2>
         {% endif %}
         
+
         <div class="TeamTasks">
 
             {% for taskList in teamtasks %}
@@ -34,11 +33,18 @@
                     <p>Tipo de tarefa: {{taskList.idConfiguration.taskType}}</p>
 
                     <p>Prioridade: {{taskList.priority}}</p>
+
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <button type="submit" name="addTask" value="{{ taskList.id }}">Clique aqui</button>
+                    </form>
+
                 </div>
 
             {% endfor %}
 
         </div>
+        
         
     </div>
 </div>
@@ -67,6 +73,11 @@
                     <p>Tipo de tarefa: {{usertasks.idConfiguration.taskType}}</p>
 
                     <p>Prioridade: {{usertasks.priority}}</p>
+
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <button type="submit" name="removeTask" value="{{ usertasks.id }}">Clique aqui</button>
+                    </form>
 
                     <a href="{% url 'correcaoDocumentos' usertasks.id %}">Corrigir Tarefa</a>
 
