@@ -11,6 +11,7 @@ from django.utils import timezone
 
 
 def login_page_view(request):
+    
     if request.method == "POST":
 
         username_login_input = request.POST.get('username')
@@ -33,6 +34,8 @@ def login_page_view(request):
                 return HttpResponseRedirect(reverse('todoAnalyst'))
             elif group.name == "Operational":
                 return HttpResponseRedirect(reverse('businessExceptions'))
+            
+            #FALTA CRIAR PÁGINA QUE INDICA QUE O USER NÃO TEM GROUPNAME
             return HttpResponseRedirect(reverse('businessExceptions'))
 
         else:
@@ -71,6 +74,9 @@ def recuperarPassword_page_view(request):
 
             sendEmailWithGeneratedCode(email_recover_input)
 
+            #REALIZA UM REQUEST DA SESSION (PEDINDO O EMAIL)
+            request.session['email_recover_input'] = email_recover_input
+           
             return render(request, 'authentication/recuperarPasswordCode.html')
         else:
             return render(
@@ -82,7 +88,9 @@ def recuperarPassword_page_view(request):
 
 
 def recuperarPasswordCode_page_view(request):
-    email_recover_input = "jpcse1992@gmail.com"
+    #OBTEMOS O RESULTADO DO PEDIDO DA SESSION (EMAIL)
+    email_recover_input = request.session.get('email_recover_input')
+
     if request.method == "POST":
         #timer do código
         user_profile = UserProfile.objects.filter(user__email=email_recover_input).first()
@@ -102,6 +110,10 @@ def recuperarPasswordCode_page_view(request):
             validaCodigo = True
 
         if validaCodigo:
+
+            #REALIZA UM REQUEST DA SESSION (PEDINDO O EMAIL)
+            request.session['email_recover_input'] = email_recover_input
+
             return render(request, 'authentication/recuperarPasswordPwUpdate.html')
         else:
 
@@ -112,11 +124,14 @@ def recuperarPasswordCode_page_view(request):
 
 
 def recuperarPasswordPwUpdate_page_view(request):
+
+    #OBTEMOS O RESULTADO DO PEDIDO DA SESSION (EMAIL)
+    email_recover_input = request.session.get('email_recover_input')
+
     if request.method == "POST":
 
         new_password1_input = request.POST.get('password1')
         new_password2_input = request.POST.get('password2')
-        email_recover_input = "jpcse1992@gmail.com"
         validaPassword = False
 
         # COLOCAR AQUI FORMA DE VALIDAR AS PASSWORDS
