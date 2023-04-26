@@ -6,7 +6,7 @@ import requests
 import msoffcrypto
 import pandas as pd
 
-from main.models import UserProfile, Task, Log, LogType, Team, Process, ProcessConfiguration
+from main.models import UserProfile, QueueTask, Log, LogType, Team, QueueProcess, ProcessConfiguration
 
 # ------------------- Start connection ------------- #
 
