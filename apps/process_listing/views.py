@@ -1,20 +1,20 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from main.models import Process, Label
+from main.models import QueueProcess, Label
 # Create your views here.
 
 def process_listing_page_view(request):
 
     if request.GET.get('filtros') == None:
-        query = Process.objects.all()
+        query = QueueProcess.objects.all()
     else:
         if request.GET.get('filtros') == "noFilter" :
-            query = Process.objects.all()
+            query = QueueProcess.objects.all()
 
         if request.GET.get('filtros') != "noFilter":
             featured_filter = request.GET.get('filtros')
-            query = Process.objects.filter(labels__name=featured_filter)
+            query = QueueProcess.objects.filter(labels__name=featured_filter)
 
 
 
