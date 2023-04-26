@@ -3,20 +3,12 @@ import smtplib
 import string
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
-from django.contrib.auth.models import User
-
-from main.models import User
+from django.utils import timezone
+from main.models import UserProfile
 
 
 # function that generates an E-mail code
-def generatesEmailCode(userEmailInput):
-    userEmail = User.objects.filter(email=userEmailInput)
-
-    if len(userEmail) == 0:
-        print("there is nothing in the database")
-        return None
-
+def generatesEmailCode():
     length = 10
     # With combination of lower and upper case
     result_str = ''.join(random.choice(string.ascii_letters) for i in range(length))
@@ -26,18 +18,13 @@ def generatesEmailCode(userEmailInput):
 
 # function that sends an email with a code in order to reset password
 def sendEmailWithGeneratedCode(userEmailInput):
-    code = generatesEmailCode(userEmailInput)
-
-    # send_mail(
-    #     'Reset Password',
-    #     f'Here is the code u need to reset your password\n {code}',
-    #     'cgiprocessmonitor@gmail.com',
-    #     ['88alexcosta88@gmail.com'],
-    # )
-    userEmailInput = 'jpcse1992@gmail.com'
+    code = generatesEmailCode()
+    if not (verifyEmailOnDataBase(userEmailInput)):
+        print("That email does not exist in the your database")
+        return None
 
     # informações da conta
-    email_usuario = 'a22007237@alunos.ulht.pt'
+    email_utilizador = 'a22007237@alunos.ulht.pt'
     senha = 'JPcse1992'
 
     # informações do destinatário
@@ -45,10 +32,10 @@ def sendEmailWithGeneratedCode(userEmailInput):
 
     # informações do e-mail
     assunto = "Password reset code"
-    mensagem = f'Here is the code u need to reset your password\n {code}'
+    mensagem = f'Here is the code u need to reset your password\n{code}'
     # criando mensagem
     msg = MIMEMultipart()
-    msg['From'] = email_usuario
+    msg['From'] = email_utilizador
     msg['To'] = para
     msg['Subject'] = assunto
     msg.attach(MIMEText(mensagem, 'plain'))
@@ -58,21 +45,36 @@ def sendEmailWithGeneratedCode(userEmailInput):
     server.starttls()
 
     # fazendo login na conta
-    server.login(email_usuario, senha)
+    server.login(email_utilizador, senha)
 
     # enviando o e-mail
     texto = msg.as_string()
-    server.sendmail(email_usuario, para, texto)
+    server.sendmail(email_utilizador, para, texto)
 
     # encerrando a conexão
     server.quit()
 
+    # guardar na base de dados
+    user_profile = UserProfile.objects.filter(user__email=userEmailInput).first()
+    user_profile.recoveryCode = code
+    user_profile.lastCodeSentTime = timezone.now()
+    user_profile.save()
+
 
 def verifyEmailOnDataBase(userEmailInput):
-    userEmail = User.objects.filter(email=userEmailInput).exists()
-    return userEmail
+    return UserProfile.objects.filter(user__email=userEmailInput).exists()
 
-# def change_password(id_user, newpassword):
-# preciso receber o id/email do utilizador
-# procurar o utilizador  user = User.objects.fileter(id=id_user)
-# alterar palavra-passe
+
+def validateCode(codeInput, userEmailInput):
+    users = UserProfile.objects.filter(user__email=userEmailInput)
+    if users.exists():
+        user_profile = users.first()
+        return user_profile.recoveryCode == codeInput
+    else:
+        return False
+
+
+def changePassword(newPassword, userEmailInput):
+    user_profile = UserProfile.objects.get(user__email=userEmailInput)
+    user_profile.user.set_password(newPassword)
+    user_profile.user.save()
