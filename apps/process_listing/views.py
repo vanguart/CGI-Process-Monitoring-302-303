@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from main.models import Process, Label
+from main.models import QueueProcess, Label
 # Create your views here.
 
 def process_listing_page_view(request):

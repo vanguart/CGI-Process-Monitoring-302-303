@@ -3,6 +3,13 @@ from django.contrib.auth.models import User, Group
 from django.db import models
 
 
+class Skill(models.Model):
+    nameSkill = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.nameSkill
+
+
 class Label(models.Model):
     name = models.CharField(max_length=256)
 
@@ -18,12 +25,11 @@ class TaskType(models.Model):
 
 
 class SLA(models.Model):
-    time = models.TimeField()
     startDate = models.DateField(null=True)
     endDate = models.DateField(null=True)
     name = models.CharField(max_length=256)
     description = models.CharField(max_length=600)
-    threshold = models.IntegerField()
+    idTask = models.ForeignKey('QueueTask', on_delete=models.CASCADE, related_name='SlaTask')
 
     def __str__(self):
         return f"{self.startDate} - {self.endDate}"
@@ -38,25 +44,27 @@ class ProcessType(models.Model):
 
 class ProcessConfiguration(models.Model):
     name = models.CharField(max_length=256)
-    processType = models.ForeignKey(ProcessType, on_delete=models.CASCADE, related_name='processType')
-    sla = models.ForeignKey(SLA, on_delete=models.CASCADE, related_name='ProcessConfigurationSla')
+    idProcessType = models.ForeignKey(ProcessType, on_delete=models.CASCADE, related_name='processType')
     description = models.CharField(max_length=500)
     maxTimeSla = models.TimeField(null=True)
+    idTeam = models.ForeignKey('Team', on_delete=models.CASCADE, related_name='ProcessConfigurationTeam')
+    idSkills = models.ManyToManyField(Skill, related_name='ProcessConfigurationSkill')
 
     def __str__(self):
         return self.name
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user")
+    idUser = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user")
     recoveryCode = models.CharField(max_length=10, blank=True)
     goal = models.IntegerField(default=100)
-    groupUser = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="groupUser")
+    idGroupUser = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="groupUser")
     lastCodeSentTime = models.DateTimeField(null=True, blank=True)
     idTeam = models.ForeignKey('Team', on_delete=models.CASCADE, related_name="equipaMembros", blank=True, null=True)
+    idSkills = models.ManyToManyField(Skill, related_name="skillUser")
 
     def __str__(self):
-        return self.user.username
+        return self.idUser.username
 
     class Meta:
         permissions = [
@@ -66,49 +74,47 @@ class UserProfile(models.Model):
         ]
 
 
-class Process(models.Model):
-    configuration = models.ForeignKey(ProcessConfiguration, on_delete=models.CASCADE, related_name='configuration')
+class QueueProcess(models.Model):
+    idConfiguration = models.ForeignKey(ProcessConfiguration, on_delete=models.CASCADE, related_name='configuration')
     startDate = models.DateField(null=True)
     endDate = models.DateField(null=True)
     state = models.CharField(max_length=256)
-    labels = models.ManyToManyField(Label, related_name="labels", blank=True)
-    idTeam = models.ForeignKey('Team', on_delete=models.CASCADE, related_name='Team')
+    idLabels = models.ManyToManyField(Label, related_name="labels", blank=True)
+    idUser = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='userProfile')
 
     def __str__(self):
-        return str(self.configuration)
+        return str(self.idConfiguration)
 
 
 class TaskConfiguration(models.Model):
-    processConfiguration = models.ForeignKey(ProcessConfiguration, on_delete=models.CASCADE,
-                                             related_name='processConfiguration')
-    sla = models.ForeignKey(SLA, on_delete=models.CASCADE, related_name='TaskConfigurationSla')
+    idProcessConfiguration = models.ForeignKey(ProcessConfiguration, on_delete=models.CASCADE,
+                                               related_name='processConfiguration')
     name = models.CharField(max_length=256)
     description = models.CharField(max_length=500)
-    taskType = models.ForeignKey(TaskType, on_delete=models.CASCADE, related_name='taskType')
+    idtaskType = models.ForeignKey(TaskType, on_delete=models.CASCADE, related_name='taskType')
     maxTimeSla = models.TimeField(null=True)
 
     def __str__(self):
         return f"{self.name} - {self.description}"
 
 
-class Task(models.Model):
-    idConfiguration = models.ForeignKey(TaskConfiguration, on_delete=models.CASCADE, related_name="taskConfiguration")
-    idProcess = models.ForeignKey(Process, on_delete=models.CASCADE, related_name="process")
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='taskUser', null=True, blank=True)
+class QueueTask(models.Model):
+    idTaskConfiguration = models.ForeignKey(TaskConfiguration, on_delete=models.CASCADE,
+                                            related_name="taskConfiguration")
+    idProcess = models.ForeignKey('QueueProcess', on_delete=models.CASCADE, related_name="process")
     priority = models.IntegerField()
     state = models.CharField(max_length=256)
-    startDate = models.DateField(null=True)
-    endDate = models.DateField(null=True)
 
     def __str__(self):
-        return str(self.idConfiguration)
+        return str(self.idTaskConfiguration)
 
 
 class Team(models.Model):
     name = models.CharField(max_length=256)
     description = models.CharField(max_length=500)
-    permissions = models.ManyToManyField(Group, related_name='teamPermissions')
-    teamLider = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name="teamLider", null=True)
+    idPermissions = models.ManyToManyField(Group, related_name='teamPermissions')
+    idTeamLider = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name="teamLider", null=True)
+    idSkils = models.ManyToManyField(Skill, related_name="skills")
 
     def __str__(self):
         return self.name
@@ -128,7 +134,7 @@ class LogType(models.Model):
 
 class Log(models.Model):
     logType = models.ForeignKey(LogType, on_delete=models.CASCADE, related_name='logType')
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='task')
+    task = models.ForeignKey(QueueTask, on_delete=models.CASCADE, related_name='task')
     ficheiro = models.FileField(upload_to=log_path, max_length=254)
     date = models.DateField(null=True)
 
@@ -137,7 +143,7 @@ class Log(models.Model):
 
 
 class Reporting(models.Model):
-    tasks = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="reportingTasks")
+    tasks = models.ForeignKey(QueueTask, on_delete=models.CASCADE, related_name="reportingTasks")
     description = models.CharField(max_length=2000)
 
     def __str__(self):
