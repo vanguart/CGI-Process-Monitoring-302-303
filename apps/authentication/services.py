@@ -55,18 +55,18 @@ def sendEmailWithGeneratedCode(userEmailInput):
     server.quit()
 
     # guardar na base de dados
-    user_profile = UserProfile.objects.filter(user__email=userEmailInput).first()
+    user_profile = UserProfile.objects.filter(idUser__email=userEmailInput).first()
     user_profile.recoveryCode = code
     user_profile.lastCodeSentTime = timezone.now()
     user_profile.save()
 
 
 def verifyEmailOnDataBase(userEmailInput):
-    return UserProfile.objects.filter(user__email=userEmailInput).exists()
+    return UserProfile.objects.filter(idUser__email=userEmailInput).exists()
 
 
 def validateCode(codeInput, userEmailInput):
-    users = UserProfile.objects.filter(user__email=userEmailInput)
+    users = UserProfile.objects.filter(idUser__email=userEmailInput)
     if users.exists():
         user_profile = users.first()
         return user_profile.recoveryCode == codeInput
@@ -75,6 +75,6 @@ def validateCode(codeInput, userEmailInput):
 
 
 def changePassword(newPassword, userEmailInput):
-    user_profile = UserProfile.objects.get(user__email=userEmailInput)
-    user_profile.user.set_password(newPassword)
-    user_profile.user.save()
+    user_profile = UserProfile.objects.get(idUser__email=userEmailInput)
+    user_profile.idUser.set_password(newPassword)
+    user_profile.idUser.save()

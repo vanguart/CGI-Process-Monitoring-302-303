@@ -6,7 +6,7 @@ import requests
 import msoffcrypto
 import pandas as pd
 
-from main.models import UserProfile, Task, Log, LogType, Team, Process
+from main.models import UserProfile, Task, Log, LogType, Team, Process, ProcessConfiguration
 
 # ------------------- Start connection ------------- #
 
@@ -69,7 +69,7 @@ def getLogs():
 
 
 def getTask(process_name):
-    #fazer filtro com o nome
+
     jobs_endpoint = creds['url'] + "odata/Tasks"
     response = requests.get(jobs_endpoint, headers=header)
     if response.status_code != 200:
@@ -130,7 +130,8 @@ def transformRPA(rpas):
     itemRPA = []
     for rpa in rpas:
         itemRPA = {
-            # ver dados dos logs
+            "Name": rpa["FullName"],
+            "Password": rpa["Password"]
         }
         loadRPA(itemRPA)
 
@@ -149,12 +150,16 @@ def loadTask(itemTask):
 
 
 def loadProcess(itemProcess):
-    process = Process()
+    process = ProcessConfiguration()
+    process.name = itemProcess["Title"]
     process.save()
 
 
 def loadRPA(itemRPA):
     rpa = UserProfile()
+    rpa.idUser.name = itemRPA["Name"]
+    rpa.idUser.set_password = itemRPA["Password"]
+    rpa.idGroupUser.name = "RPA"
     rpa.save()
 
 
