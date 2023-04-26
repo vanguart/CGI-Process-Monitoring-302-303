@@ -14,7 +14,7 @@ def process_listing_page_view(request):
 
         if request.GET.get('filtros') != "noFilter":
             featured_filter = request.GET.get('filtros')
-            query = QueueProcess.objects.filter(labels__name=featured_filter)
+            query = QueueProcess.objects.filter(idLabels__name=featured_filter)
 
 
 
