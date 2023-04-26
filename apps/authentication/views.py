@@ -103,7 +103,7 @@ def recuperarPasswordCode_page_view(request):
 
     if request.method == "POST":
         # timer do código
-        user_profile = UserProfile.objects.filter(user__email=email_recover_input).first()
+        user_profile = UserProfile.objects.filter(idUser__email=email_recover_input).first()
         if user_profile.lastCodeSentTime is not None:
             elapsed_time = timezone.now() - user_profile.lastCodeSentTime
             if elapsed_time > timedelta(minutes=5):

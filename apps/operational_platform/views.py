@@ -25,7 +25,7 @@ def businessExceptions_page_view(request):
 
 
     # Nome da equipa do User logado
-    user_profile = UserProfile.objects.filter(user__username=username).first()
+    user_profile = UserProfile.objects.filter(idUser__username=username).first()
     teamOfUser = user_profile.idTeam
 
     # Tarefas da equipa do User logado
