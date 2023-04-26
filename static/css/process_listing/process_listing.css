@@ -1,41 +1,48 @@
-.background {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    overflow-x: hidden;
-    background-color: orange;
+body {
     margin-top: 10vh;
+    background-color: #EBEBEB;
 }
 
-.title {
-    margin-top: 10%;
+table {
+    width: 100%;
+    border-spacing: 0 5px;
+}
+
+th {
     text-align: left;
-    margin-left: 5%;
+    padding-left: 10px;
 }
 
-.processList {
-    text-align: left;
-    margin-left: 5%;
+td {
+    padding: 15px;
 }
 
-.processList > div{
+td:first-child {
+    padding-left: 25px;
+    border-top-left-radius: 10px; 
+    border-bottom-left-radius: 10px;
+}
+
+td:last-child {
+    border-bottom-right-radius: 10px; 
+    border-top-right-radius: 10px; 
+}
+
+.process_table {
+    border-radius: 15px;
+    box-shadow: 10px 10px 30px -15px rgba(0,0,0,0.75);
     background-color: white;
-    width: 20%;
-    padding: 5px;
-    margin: 5px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    padding: 15px;
 }
 
-.PopUPInfo {
-    text-align: right;
-}
-.PopUPInfo > p{
-    text-align: right;
-    margin-right: 5%;
+.row:hover {
+    background-color: #EBEBEB;
 }
 
-.title > a{
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 5%;
+.hidden_row {
+    display: none;
 }
