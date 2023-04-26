@@ -4,7 +4,7 @@
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/operational_platform/businessExceptions.css' %}"/>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 {% endblock style %}
 
@@ -13,83 +13,139 @@
 
 {% include 'operational_platform/hamburguer.html' %}
 
-<div class="split left">
-   
-    <div class="centered">
 
-        {% if teamName == None %}
-            <h2>Não está atribuído a nenhuma equipa (Contacte um administrador)</h2>
-        {% else %}
-            <h2>Lista de tarefas da {{teamName}}</h2>
-        {% endif %}
-        
+{% if chefeDeEquipa == username %}
 
-        <div class="TeamTasks">
 
-            {% for taskList in teamtasks %}
-                <div>
-                    <p>Processo da Tarefa: {{taskList.idProcess.configuration.name}}</p>
+    <div class="split left">
+    
+        <div class="centered">
 
-                    <p>Tipo de tarefa: {{taskList.idConfiguration.taskType}}</p>
+            {% if teamName == None %}
+                <h2>Não está atribuído a nenhuma equipa (Contacte um administrador)</h2>
+            {% else %}
+                <h2>Lista de tarefas da {{teamName}}</h2>
+            {% endif %}
+            
 
-                    <p>Prioridade: {{taskList.priority}}</p>
+            <div class="TeamTasks">
 
-                    <form method="POST" action="">
-                        {% csrf_token %}
-                        <button type="submit" name="addTask" value="{{ taskList.id }}">Clique aqui</button>
-                    </form>
+                {% for process in teamProcesses %}
+                    <div>
+                        <p>Nome do processo: {{process.idConfiguration.name}}</p>
 
-                </div>
+                        <p>Tipo de processo: {{process.idConfiguration.idProcessType.name}}</p>
 
-            {% endfor %}
+                        <p>Media prioridade das tarefas: {{process.priority}}</p>
 
+                        <p>{{process.id}}</p>
+
+
+                        <details>
+
+                            <summary>Tarefas do Processo:</summary>
+
+                            {% for key, value in ProcessDictionary.items %} 
+
+                                {% if key == process.id%}
+
+                                    {% for task in value %} 
+
+                                        <p>Nome da tarefa:{{task.idTaskConfiguration.name}}</p>
+
+                                        <details>
+                                            <summary>Descrição da Tarefa:</summary>
+
+                                            <p>{{task.idTaskConfiguration.description}}</p>
+                                        </details>
+
+                                    {% endfor %}
+
+                                {% endif %}
+                            
+                            {% endfor %}
+                            
+                        </details>
+                        
+                        
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+            
+            
         </div>
-        
-        
     </div>
-</div>
 
-<div class="split right">
+    <div class="split right">
 
-    <div class="centered">
+        <div class="centered">
 
-        <h2>Estatisticas para Operacional</h2>
-        <br><br>
+            <h2>Estatisticas para Operacional</h2>
+            <br><br>
+            <div class="TeamTasks">
+                {% for user in nomeUsers %}
+                    <div>
+                        <p>Nome do utilizador: {{ user.idUser.username }}</p>
 
-        <div class="NumeroTarefasDisplay">
-            <p>Número de tarefas:</p>
-            <p>{{userTasksCount}}</p>
+                        <p>Skills:
+                            {% for skill in user.idSkills.all %}
+
+                            {% if user.idSkills.all|length == 1 %}
+
+                                {{skill}}
+                            
+                            {% else %}
+
+                                {% if not forloop.first %}
+                                    {{skill}}
+                                {% else %}
+                                    {{skill}},    
+                                {% endif %}
+
+                            {% endif %}
+
+                        {% endfor %}
+                        </p>
+
+                        <a href="{% url 'changeSkills' user.id %}">Alterar Skills</a>
+                        
+                    </div>
+                {% endfor %}
+            </div>
+
+            <br><br>
+
+            <div class="TeamTasks">
+
+                {% for usertasks in userTaskList %}
+                    <div>
+
+                        <p>Processo da Tarefa: {{usertasks.idProcess.configuration.name}}</p>
+
+                        <p>Tipo de tarefa: {{usertasks.idConfiguration.taskType}}</p>
+
+                        <p>Prioridade: {{usertasks.priority}}</p>
+
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <button type="submit" name="removeTask" value="{{ usertasks.id }}">Clique aqui</button>
+                        </form>
+
+                        <a href="{% url 'correcaoDocumentos' usertasks.id %}">Corrigir Tarefa</a>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+            <br><br>
+
         </div>
-
-        <br><br>
-
-        <div class="TeamTasks">
-
-            {% for usertasks in userTaskList %}
-                <div>
-
-                    <p>Processo da Tarefa: {{usertasks.idProcess.configuration.name}}</p>
-
-                    <p>Tipo de tarefa: {{usertasks.idConfiguration.taskType}}</p>
-
-                    <p>Prioridade: {{usertasks.priority}}</p>
-
-                    <form method="POST" action="">
-                        {% csrf_token %}
-                        <button type="submit" name="removeTask" value="{{ usertasks.id }}">Clique aqui</button>
-                    </form>
-
-                    <a href="{% url 'correcaoDocumentos' usertasks.id %}">Corrigir Tarefa</a>
-
-                </div>
-
-            {% endfor %}
-
-        </div>
-
-        <br><br>
-
     </div>
-</div>
+{% endif%}
 
 {% endblock %}
