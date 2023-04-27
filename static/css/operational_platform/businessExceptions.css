@@ -45,3 +45,13 @@
   height: auto;
   width: auto;
 }
+
+.Nosplit {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+  background-color: gray;
+}

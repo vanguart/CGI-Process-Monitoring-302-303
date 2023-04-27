@@ -27,6 +27,8 @@
         <h2>Lista de tarefas da {{teamName}}</h2>
         {% endif %}
 
+        <br><br>
+
 
         <div class="TeamTasks">
 
@@ -36,9 +38,7 @@
 
                 <p>Tipo de processo: {{process.idConfiguration.idProcessType.name}}</p>
 
-                <p>Media prioridade das tarefas: {{process.priority}}</p>
-
-                <p>{{process.id}}</p>
+                <p>Estado do processo: {{process.state}}</p>
 
 
                 <details>
@@ -47,21 +47,21 @@
 
                     {% for key, value in ProcessDictionary.items %}
 
-                    {% if key == process.id%}
+                        {% if key == process.id%}
 
-                    {% for task in value %}
+                            {% for task in value %}
 
-                    <p>Nome da tarefa:{{task.idTaskConfiguration.name}}</p>
+                                <p>Nome da tarefa:{{task.idTaskConfiguration.name}}</p>
 
-                    <details>
-                        <summary>Descrição da Tarefa:</summary>
+                                <details>
+                                    <summary>Descrição da Tarefa:</summary>
 
-                        <p>{{task.idTaskConfiguration.description}}</p>
-                    </details>
+                                    <p>{{task.idTaskConfiguration.description}}</p>
+                                </details>
 
-                    {% endfor %}
+                            {% endfor %}
 
-                    {% endif %}
+                        {% endif %}
 
                     {% endfor %}
 
@@ -82,7 +82,7 @@
 
     <div class="centered">
 
-        <h2>Estatisticas para Operacional</h2>
+        <h2>Alterar SKILLS dos membros da equipa!</h2>
         <br><br>
         <div class="TeamTasks">
             {% for user in nomeUsers %}
@@ -91,20 +91,24 @@
 
                 <p>Skills:
                     {% for skill in user.idSkills.all %}
+                    
+                        {% if user.idSkills.all|length == 1 %}
 
-                    {% if user.idSkills.all|length == 1 %}
+                            {{skill}}
 
-                    {{skill}}
+                        {% else %}    
 
-                    {% else %}
+                            {% if forloop.last %}
 
-                    {% if not forloop.first %}
-                    {{skill}}
-                    {% else %}
-                    {{skill}},
-                    {% endif %}
+                                {{skill}}
 
-                    {% endif %}
+                            {% else %}
+
+                                {{skill}},
+
+                            {% endif %}
+
+                        {% endif %}
 
                     {% endfor %}
                 </p>
@@ -145,66 +149,70 @@
 
     </div>
 </div>
+
 {%else%}
 
-<div class="">
-    {%if teamName == None%}
+<div class="Nosplit">
+
     <div class="centered">
 
-        <p>Fale com o Administrdor não tem nenhuma equipa!</p>
+        {% if teamName == None %}
+            <h2>Não está atribuído a nenhuma equipa (Contacte um administrador)</h2>
+        {% else %}
+            <h2>Lista de tarefas da {{teamName}}</h2>
+            <br>
+            <p>Tem {{userProcessCount}} tarefas para realizar</p>
+        {% endif %}
 
-
+        <br><br>
+        
         <div class="TeamTasks">
 
-            <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+            {% for process in teamProcesses %}
+                <div>
+                    <p>Nome do processo: {{process.idConfiguration.name}}</p>
 
-        </div>
-    </div>
-    {%else%}
-    <div class="centered">
+                    <p>Tipo de processo: {{process.idConfiguration.idProcessType.name}}</p>
 
-        <p>{{teamName}}</p>
+                    <p>Estado do processo: {{process.state}}</p>
 
+                    <details>
 
-        <div class="TeamTasks">
+                        <summary>Tarefas do Processo:</summary>
 
-            <div class="centered">
+                        {% for key, value in ProcessDictionary.items %}
 
-                {% if teamName == None %}
-                <h2>Não está atribuído a nenhuma equipa (Contacte um administrador)</h2>
-                {% else %}
-                <h2>Lista de tarefas da {{teamName}}</h2>
-                {% endif %}
-                <div style="display: inline-block;" class="TeamTasks">
-                    {% for process in teamProcesses %}
-                    <div>
-                        <p>Nome do processo: {{process.idConfiguration.name}}</p>
-                        <p>Tipo de processo: {{process.idConfiguration.idProcessType.name}}</p>
-                        <p>Media prioridade das tarefas: {{process.priority}}</p>
-                        <p>{{process.id}}</p>
-                        <details>
-                            <summary>Tarefas do Processo:</summary>
-                            {% for key, value in ProcessDictionary.items %}
                             {% if key == process.id%}
-                            {% for task in value %}
-                            <p>Nome da tarefa:{{task.idTaskConfiguration.name}}</p>
-                            <details>
-                                <summary>Descrição da Tarefa:</summary>
-                                <p>{{task.idTaskConfiguration.description}}</p>
-                            </details>
-                            {% endfor %}
+
+                                {% for task in value %}
+
+                                    <p>Nome da tarefa:{{task.idTaskConfiguration.name}}</p>
+                                    <p>Prioridade da tarefa:{{task.priority}}</p>
+                                    <a href="{% url 'correcaoDocumentos' task.id %}">Corrigir Tarefa</a>
+
+                                    <details>
+                                        <summary>Descrição da Tarefa:</summary>
+
+                                        <p>{{task.idTaskConfiguration.description}}</p>
+                                    </details>
+
+                                {% endfor %}
+
                             {% endif %}
-                            {% endfor %}
-                        </details>
-                    </div>
-                    {% endfor %}
+
+                        {% endfor %}
+
+                    </details>
+
+
                 </div>
-            </div>
+
+            {% endfor %}
+
         </div>
 
     </div>
-    <p style="padding:300px;display:block;">Tem {{userProcessCount}} tarefas para realizar</p>
-    {%endif%}
+
 </div>
 {%endif%}
 

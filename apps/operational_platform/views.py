@@ -60,8 +60,8 @@ def businessExceptions_page_view(request):
     return render(request, 'operational_platform/businessExceptions.html', context)
 
 
-def correcaoDocumentos_page_view(request, teamtasks_id):
-    taskGet = QueueTask.objects.get(id=teamtasks_id)
+def correcaoDocumentos_page_view(request, task_id):
+    taskGet = QueueTask.objects.get(id=task_id)
 
     context = {
         'teamtasks': taskGet
