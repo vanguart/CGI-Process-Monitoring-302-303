@@ -16,159 +16,22 @@
 
 {% if chefeDeEquipa == username %}
 
+    <div class="split left">
 
-<div class="split left">
+        <div class="centered">
 
-    <div class="centered">
-
-        {% if teamName == None %}
-        <h2>Não está atribuído a nenhuma equipa (Contacte um administrador)</h2>
-        {% else %}
-        <h2>Lista de tarefas da {{teamName}}</h2>
-        {% endif %}
-
-        <br><br>
-
-
-        <div class="TeamTasks">
-
-            {% for process in teamProcesses %}
-            <div>
-                <p>Nome do processo: {{process.idConfiguration.name}}</p>
-
-                <p>Tipo de processo: {{process.idConfiguration.idProcessType.name}}</p>
-
-                <p>Estado do processo: {{process.state}}</p>
-
-
-                <details>
-
-                    <summary>Tarefas do Processo:</summary>
-
-                    {% for key, value in ProcessDictionary.items %}
-
-                        {% if key == process.id%}
-
-                            {% for task in value %}
-
-                                <p>Nome da tarefa:{{task.idTaskConfiguration.name}}</p>
-
-                                <details>
-                                    <summary>Descrição da Tarefa:</summary>
-
-                                    <p>{{task.idTaskConfiguration.description}}</p>
-                                </details>
-
-                            {% endfor %}
-
-                        {% endif %}
-
-                    {% endfor %}
-
-                </details>
-
-
-            </div>
-
-            {% endfor %}
-
-        </div>
-
-
-    </div>
-</div>
-
-<div class="split right">
-
-    <div class="centered">
-
-        <h2>Alterar SKILLS dos membros da equipa!</h2>
-        <br><br>
-        <div class="TeamTasks">
-            {% for user in nomeUsers %}
-            <div>
-                <p>Nome do utilizador: {{ user.idUser.username }}</p>
-
-                <p>Skills:
-                    {% for skill in user.idSkills.all %}
-                    
-                        {% if user.idSkills.all|length == 1 %}
-
-                            {{skill}}
-
-                        {% else %}    
-
-                            {% if forloop.last %}
-
-                                {{skill}}
-
-                            {% else %}
-
-                                {{skill}},
-
-                            {% endif %}
-
-                        {% endif %}
-
-                    {% endfor %}
-                </p>
-
-                <a href="{% url 'changeSkills' user.id %}">Alterar Skills</a>
-
-            </div>
-            {% endfor %}
-        </div>
-
-        <br><br>
-
-        <div class="TeamTasks">
-
-            {% for usertasks in userTaskList %}
-            <div>
-
-                <p>Processo da Tarefa: {{usertasks.idProcess.configuration.name}}</p>
-
-                <p>Tipo de tarefa: {{usertasks.idConfiguration.taskType}}</p>
-
-                <p>Prioridade: {{usertasks.priority}}</p>
-
-                <form method="POST" action="">
-                    {% csrf_token %}
-                    <button type="submit" name="removeTask" value="{{ usertasks.id }}">Clique aqui</button>
-                </form>
-
-                <a href="{% url 'correcaoDocumentos' usertasks.id %}">Corrigir Tarefa</a>
-
-            </div>
-
-            {% endfor %}
-
-        </div>
-
-        <br><br>
-
-    </div>
-</div>
-
-{%else%}
-
-<div class="Nosplit">
-
-    <div class="centered">
-
-        {% if teamName == None %}
+            {% if teamName == None %}
             <h2>Não está atribuído a nenhuma equipa (Contacte um administrador)</h2>
-        {% else %}
+            {% else %}
             <h2>Lista de tarefas da {{teamName}}</h2>
-            <br>
-            <p>Tem {{userProcessCount}} tarefas para realizar</p>
-        {% endif %}
+            {% endif %}
 
-        <br><br>
-        
-        <div class="TeamTasks">
+            <br><br>
 
-            {% for process in teamProcesses %}
+
+            <div class="TeamTasks">
+
+                {% for process in teamProcesses %}
                 <div>
                     <p>Nome do processo: {{process.idConfiguration.name}}</p>
 
@@ -176,44 +39,201 @@
 
                     <p>Estado do processo: {{process.state}}</p>
 
-                    <details>
+                </div>
 
-                        <summary>Tarefas do Processo:</summary>
+                {% endfor %}
 
-                        {% for key, value in ProcessDictionary.items %}
+            </div>
 
-                            {% if key == process.id%}
 
-                                {% for task in value %}
+        </div>
+    </div>
 
-                                    <p>Nome da tarefa:{{task.idTaskConfiguration.name}}</p>
-                                    <p>Prioridade da tarefa:{{task.priority}}</p>
-                                    <a href="{% url 'correcaoDocumentos' task.id %}">Corrigir Tarefa</a>
+    <div class="split right">
 
-                                    <details>
-                                        <summary>Descrição da Tarefa:</summary>
+        <div class="centered">
 
-                                        <p>{{task.idTaskConfiguration.description}}</p>
-                                    </details>
+            <h2>Alterar SKILLS dos membros da equipa!</h2>
+            <br><br>
+            <div class="TeamTasks">
+                {% for user in nomeUsers %}
+                <div>
+                    <p>Nome do utilizador: {{ user.idUser.username }}</p>
 
-                                {% endfor %}
+                    <p>Skills:
+                        {% for skill in user.idSkills.all %}
+                        
+                            {% if user.idSkills.all|length == 1 %}
+
+                                {{skill}}
+
+                            {% else %}    
+
+                                {% if forloop.last %}
+
+                                    {{skill}}
+
+                                {% else %}
+
+                                    {{skill}},
+
+                                {% endif %}
 
                             {% endif %}
 
                         {% endfor %}
+                    </p>
 
-                    </details>
+                    <a href="{% url 'changeSkills' user.id %}">Alterar Skills</a>
 
+                </div>
+                {% endfor %}
+            </div>
+
+            <br><br>
+
+            <div class="TeamTasks">
+
+                {% for usertasks in userTaskList %}
+                <div>
+
+                    <p>Processo da Tarefa: {{usertasks.idProcess.configuration.name}}</p>
+
+                    <p>Tipo de tarefa: {{usertasks.idConfiguration.taskType}}</p>
+
+                    <p>Prioridade: {{usertasks.priority}}</p>
+
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <button type="submit" name="removeTask" value="{{ usertasks.id }}">Clique aqui</button>
+                    </form>
+
+                    <a href="{% url 'correcaoDocumentos' usertasks.id %}">Corrigir Tarefa</a>
 
                 </div>
 
-            {% endfor %}
+                {% endfor %}
+
+            </div>
+
+            <br><br>
+
+        </div>
+    </div>
+
+{%else%}
+
+    <div class="split left">
+
+        <div class="centered">
+
+            {% if teamName == None %}
+                <h2>Não está atribuído a nenhuma equipa (Contacte um administrador)</h2>
+            {% else %}
+                <h2>Lista de tarefas da {{teamName}}</h2>
+                <br>
+                <p>Processos não corrigidos ➜ {{TeamProcessCount}}</p>
+            {% endif %}
+
+            <br><br>
+            
+            <div class="TeamTasks">
+
+                {% for process in teamProcesses %}
+                    <div>
+                        <p>Nome do processo: {{process.idConfiguration.name}}</p>
+
+                        <p>Tipo de processo: {{process.idConfiguration.idProcessType.name}}</p>
+
+                        <p>Estado do processo: {{process.state}}</p>
+
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <button type="submit" name="addTask" value="{{ process.id }}">PICK PROCESS</button>
+                        </form>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
+    <div class="split right">
+
+        <div class="centered">
+
+            <div class="TeamTasks">
+
+                <p>Processos selecionados ➜ {{UserProcessCount}}</p>
+                <p>Tarefas a corrigir pelo Utilizador ➜ {{UserTaskCount}}</p>
+
+                <br>
+
+                {% for userProcess in userProcesses %}
+                
+                    <div>
+
+                        <p>Nome do processo: {{userProcess.idConfiguration.name}}</p>
+
+                        <br>
+
+                        <p>Tipo de processo: {{userProcess.idConfiguration.idProcessType.name}}</p>
+
+                        <br>
+
+                        <p>Estado do processo: {{userProcess.state}}</p>
+
+                        <br>
+
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <button type="submit" name="removeTask" value="{{ userProcess.id }}">REMOVER PROCESSO</button>
+                        </form>
+                        <p>----------------------------------------------------</p>
+                        <br>
+
+                        <details>
+
+                            <summary>Tarefas do Processo:</summary>
+                            
+                            <br>
+
+                            {% for task in userTasks %}
+
+                                <p>Nome da tarefa: {{task.idTaskConfiguration.name}}</p>
+                                
+                                <a href="{% url 'correcaoDocumentos' task.id %}">Corrigir Tarefa</a>
+
+                                <br>
+
+                                <details>
+                                    <summary>Descrição da Tarefa:</summary>
+
+                                    <p>Descrição da tarefa: {{task.idTaskConfiguration.description}}</p>
+
+                                </details>
+                                <p>----------------------------------------------------</p>
+
+                            {% endfor %}
+
+                        </details>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+            <br><br>
+
+        </div>
+
+    </div>
+
 {%endif%}
 
 {% endblock %}
