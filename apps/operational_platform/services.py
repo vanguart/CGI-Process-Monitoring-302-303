@@ -1,12 +1,12 @@
-from main.models import UserProfile, QueueTask, Team
+from main.models import UserProfile, QueueProcess
 
 
-def addTask(task_id, username_user):
-    user_profile = UserProfile.objects.filter(user__username=username_user)
-    task = QueueTask.objects.filter(id=task_id)
-    task.update(user=user_profile.first())
+def addProcess(process_id, username_user):
+    user_profile = UserProfile.objects.filter(idUser__username=username_user)
+    process = QueueProcess.objects.filter(id=process_id)
+    process.update(idUser=user_profile.first())
 
 
-def removeTask(task_id):
-    task = QueueTask.objects.filter(id=task_id)
-    task.update(user=None)
+def removeProcess(process_id):
+    process = QueueProcess.objects.filter(id=process_id)
+    process.update(idUser=None)
