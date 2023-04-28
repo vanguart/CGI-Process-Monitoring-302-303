@@ -82,7 +82,7 @@ class QueueProcess(models.Model):
     endDate = models.DateField(null=True)
     state = models.CharField(max_length=256)
     idLabels = models.ManyToManyField(Label, related_name="labels", blank=True)
-    idUser = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='userProfile')
+    idUser = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='userProfile', blank=True, null=True)
 
     def __str__(self):
         return str(self.idConfiguration)
