@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from .models import Team, Skill
 from .models import TaskType
-from .models import SLA
+from .models import KPI
 from .models import LogType
 from .models import ProcessType
 from .models import UserProfile
@@ -35,7 +35,7 @@ class UserProfileHorizontal(admin.ModelAdmin):
 admin.site.register(Label)
 admin.site.register(Skill)
 admin.site.register(TaskType)
-admin.site.register(SLA)
+admin.site.register(KPI)
 admin.site.register(LogType)
 admin.site.register(ProcessType)
 admin.site.register(UserProfile, UserProfileHorizontal)

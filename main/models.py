@@ -25,7 +25,7 @@ class TaskType(models.Model):
         return self.name
 
 
-class SLA(models.Model):
+class KPI(models.Model):
     startDate = models.DateField(null=True)
     endDate = models.DateField(null=True)
     name = models.CharField(max_length=256)
