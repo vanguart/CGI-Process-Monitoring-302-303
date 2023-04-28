@@ -24,13 +24,13 @@ def businessExceptions_page_view(request):
     chefeEquipa = None
 
     # PICK PROCESS IN OPERATIONAL PLATFORM
-    if request.method == 'POST' and 'addTask' in request.POST:
-        objectIDToTransfer = request.POST.get('addTask')
+    if request.method == 'POST' and 'addProcess' in request.POST:
+        objectIDToTransfer = request.POST.get('addProcess')
         addProcess(objectIDToTransfer, username)
 
     # REMOVE PICKED PROCESS IN OPERATIONAL PLATFORM
-    if request.method == 'POST' and 'removeTask' in request.POST:
-        objectIDToTransfer = request.POST.get('removeTask')
+    if request.method == 'POST' and 'removeProcess' in request.POST:
+        objectIDToTransfer = request.POST.get('removeProcess')
         removeProcess(objectIDToTransfer)
 
 

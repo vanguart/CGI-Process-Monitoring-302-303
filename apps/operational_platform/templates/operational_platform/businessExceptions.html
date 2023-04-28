@@ -149,7 +149,7 @@
 
                         <form method="POST" action="">
                             {% csrf_token %}
-                            <button type="submit" name="addTask" value="{{ process.id }}">PICK PROCESS</button>
+                            <button type="submit" name="addProcess" value="{{ process.id }}">PICK PROCESS</button>
                         </form>
 
                     </div>
@@ -191,7 +191,7 @@
 
                         <form method="POST" action="">
                             {% csrf_token %}
-                            <button type="submit" name="removeTask" value="{{ userProcess.id }}">REMOVER PROCESSO</button>
+                            <button type="submit" name="removeProcess" value="{{ userProcess.id }}">REMOVER PROCESSO</button>
                         </form>
                         <p>----------------------------------------------------</p>
                         <br>
