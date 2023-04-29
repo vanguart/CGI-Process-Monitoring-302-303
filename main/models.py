@@ -105,6 +105,7 @@ class QueueTask(models.Model):
                                             related_name="taskConfiguration")
     idProcess = models.ForeignKey('QueueProcess', on_delete=models.CASCADE, related_name="process")
     inputData = models.CharField(blank= True, max_length=10000)
+    outputData = models.CharField(blank= True, max_length=10000)
     priority = models.IntegerField()
     state = models.CharField(max_length=256)
 
