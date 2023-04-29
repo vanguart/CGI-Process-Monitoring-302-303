@@ -2,8 +2,8 @@ from gc import get_objects
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from apps.operational_platform.forms import skillForm
-from apps.operational_platform.services import addProcess, removeProcess
+from apps.operational_platform.forms import *
+from apps.operational_platform.services import *
 from main.models import QueueTask, UserProfile, QueueProcess, Team
 
 
@@ -148,10 +148,25 @@ def businessExceptions_page_view(request):
 
 def correcaoDocumentos_page_view(request, task_id):
 
-    taskGet = QueueTask.objects.get(id=task_id)
+    task = QueueTask.objects.get(id=task_id)
 
+    if request.method == 'POST':
+        form = taskForm(request.POST, fields=getInputData(task_id))
+        if form.is_valid():
+            # Create a new QueueTask object and populate its fields with the form data
+            task.outputData = form.cleaned_data
+            task.state = 'Completed'
+            task.save()
+            cleanOutputData(task_id)
+            return HttpResponseRedirect(reverse('businessExceptions'))
+
+    else:
+        form = taskForm(fields=getInputData(task_id))
+            
+    
     context = {
-        'teamtasks': taskGet
+        'teamtasks': task,
+        'form': form
     }
 
     return render(request, 'operational_platform/correcaoDocumentos.html', context)

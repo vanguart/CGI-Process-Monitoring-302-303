@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'apps.operational_platform',
     'apps.overall_statistics',
     'apps.process_listing',
+    'dynamic_forms',
 ]
 
 MIDDLEWARE = [

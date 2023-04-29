@@ -34,6 +34,14 @@
 
         <p>Nome do objeto a passar para esta pagina: {{teamtasks}}</p>
 
+        <form method = "POST" enctype="multipart/form-data">
+            <div>
+                {% csrf_token %}
+                {{ form.as_p }}
+            </div>
+            <input type="submit" value="Gravar" class="btn btn-success">
+        </form>
+
     </div>
 </div>
 
