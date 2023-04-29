@@ -16,14 +16,8 @@ def getInputFields(queue_task_id):
     task = QueueTask.objects.get(id=queue_task_id)
     data = str(task.inputData)
     result =  []
-    
-    for i in range (0,len(data)):
-        groupData =  []
-        groupData = data.split(";")
-        for j in range(0,len(groupData)):
-            # result.append(groupData[j])
-            individualData = groupData[j].split(":")
-            result.append(individualData[0])
-    return result   
-
-    
+    groupData = data.split(";")
+    for j in range(0,len(groupData)):
+        individualData = groupData[j].split(":")
+        result.append(individualData[0])
+    print(result) 
