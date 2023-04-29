@@ -1,4 +1,4 @@
-from main.models import UserProfile, QueueProcess
+from main.models import UserProfile, QueueProcess, QueueTask
 
 
 def addProcess(process_id, username_user):
@@ -10,3 +10,20 @@ def addProcess(process_id, username_user):
 def removeProcess(process_id):
     process = QueueProcess.objects.filter(id=process_id)
     process.update(idUser=None)
+    
+    
+def getInputFields(queue_task_id):
+    task = QueueTask.objects.get(id=queue_task_id)
+    data = str(task.inputData)
+    result =  []
+    
+    for i in range (0,len(data)):
+        groupData =  []
+        groupData = data.split(";")
+        for j in range(0,len(groupData)):
+            # result.append(groupData[j])
+            individualData = groupData[j].split(":")
+            result.append(individualData[0])
+    return result   
+
+    
