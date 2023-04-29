@@ -27,6 +27,7 @@ pip install msoffcrypto-tool
 pip install pandas
 pip install openpyxl
 pip install schedule
+pip install django-forms-dynamic
 ```
 
 4. Configurar o manage.py do projeto atravéz dos seguintes comandos:
