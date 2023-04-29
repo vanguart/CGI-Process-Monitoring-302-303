@@ -12,12 +12,18 @@ def removeProcess(process_id):
     process.update(idUser=None)
     
     
-def getInputFields(queue_task_id):
+def getInputFields(queue_task_id,dados = False):
     task = QueueTask.objects.get(id=queue_task_id)
     data = str(task.inputData)
-    result =  []
+    fields =  []
+    dataAfterProcessing = []
     groupData = data.split(";")
     for j in range(0,len(groupData)):
         individualData = groupData[j].split(":")
-        result.append(individualData[0])
-    print(result) 
+        fields.append(individualData[0])
+        dataAfterProcessing.append(individualData[1])
+        
+    if (dados):
+        return dataAfterProcessing
+    else:
+        return fields 
