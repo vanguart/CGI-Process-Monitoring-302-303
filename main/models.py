@@ -30,7 +30,7 @@ class KPI(models.Model):
     endDate = models.DateField(null=True)
     name = models.CharField(max_length=256)
     description = models.CharField(max_length=600)
-    idTask = models.ForeignKey('QueueTask', on_delete=models.CASCADE, related_name='SlaTask')
+    idTask = models.ForeignKey('QueueTask', on_delete=models.CASCADE, related_name='KPITask')
 
     def __str__(self):
         return f"{self.startDate} - {self.endDate}"
