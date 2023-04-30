@@ -5,6 +5,7 @@ from django.urls import reverse
 from apps.operational_platform.forms import *
 from apps.operational_platform.services import *
 from main.models import QueueTask, UserProfile, QueueProcess, Team
+from django.db.models import Q as Query
 
 
 # DEBUGGING
@@ -13,8 +14,9 @@ from main.models import QueueTask, UserProfile, QueueProcess, Team
 def businessExceptions_page_view(request):
     team_process_list = []
     user_process_list = []
-    user_task_list = []
+    process_task_dictionary = {}
     objectIDToTransfer = -1
+
 
     # User logado
     username = request.user.username
@@ -25,8 +27,12 @@ def businessExceptions_page_view(request):
 
     # PICK PROCESS IN OPERATIONAL PLATFORM
     if request.method == 'POST' and 'addProcess' in request.POST:
-        objectIDToTransfer = request.POST.get('addProcess')
-        addProcess(objectIDToTransfer, username)
+        
+        maxTaskNumber = QueueProcess.objects.filter(idUser=user_profile.id).count()
+       
+        if maxTaskNumber < 2:
+            objectIDToTransfer = request.POST.get('addProcess')
+            addProcess(objectIDToTransfer, username)
 
     # REMOVE PICKED PROCESS IN OPERATIONAL PLATFORM
     if request.method == 'POST' and 'removeProcess' in request.POST:
@@ -46,15 +52,21 @@ def businessExceptions_page_view(request):
     if (teamOfUser is not None) and (QueueProcess.objects.filter(idConfiguration__idTeam=teamOfUser).exists()):
 
         # ADDS THE PROCESSES TO x TEAM
-        for processo in QueueProcess.objects.filter(idConfiguration__idTeam=user_profile.idTeam):
+        for processo in QueueProcess.objects.filter(idConfiguration__idTeam=user_profile.idTeam).exclude(state='Completed'):
             if processo.idUser == None:
                 team_process_list.append(processo)
                 
         # ADDS SPECIFIED PROCESS AND IT'S TASKS TO AN USER (THAT PICKED THE PROCESS)   
-        for processo in QueueProcess.objects.filter(idUser=user_profile.id):
+        for processo in QueueProcess.objects.filter(idUser=user_profile.id).exclude(state='Completed'): 
             user_process_list.append(processo)
-            for task in QueueTask.objects.filter(idProcess=processo.id):
-                user_task_list.append(task)
+            for task in QueueTask.objects.filter(idProcess=processo.id).exclude( Query(state='Completed') | Query(state='Pending')):
+                if process_task_dictionary.get(processo.id) is None:
+                    process_task_list = [task]
+                else:
+                    process_task_list = process_task_dictionary.get(processo.id)
+                    process_task_list.append(task)
+                process_task_dictionary.update({processo.id: process_task_list})
+            
 
 
     # GET ALL USER FROM DATABASE
@@ -67,20 +79,20 @@ def businessExceptions_page_view(request):
     UserProcessCount = len(user_process_list)
     
     # GET THE NUMBER OF USER TASKS TO-DO
-    UserTaskCount = len(user_task_list)
+    UserTaskCount = sum(len(listTasks) for listTasks in process_task_dictionary.values())
 
 
     context = {
         'teamName': teamOfUser,
         'teamProcesses': team_process_list,
         'userProcesses': user_process_list,
-        'userTasks':user_task_list,
         'chefeDeEquipa': str(chefeEquipa),
         'username': str(username),
         'nomeUsers': allUsersDataBase,
         'TeamProcessCount': TeamProcessCount,
         'UserProcessCount': UserProcessCount,
-        'UserTaskCount':UserTaskCount
+        'UserTaskCount':UserTaskCount,
+        'userTasks':process_task_dictionary
     }
 
     """
