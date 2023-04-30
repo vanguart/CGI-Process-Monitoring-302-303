@@ -175,56 +175,63 @@
 
                 {% for userProcess in userProcesses %}
                 
-                    <div>
+                <div>
 
-                        <p>Nome do processo: {{userProcess.idConfiguration.name}}</p>
+                    <p>Nome do processo: {{userProcess.idConfiguration.name}}</p>
 
+                    <br>
+
+                    <p>Tipo de processo: {{userProcess.idConfiguration.idProcessType.name}}</p>
+
+                    <br>
+
+                    <p>Estado do processo: {{userProcess.state}}</p>
+                    {{ userProcess.id }}
+                    <br>
+
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <button type="submit" name="removeProcess" value="{{ userProcess.id }}">REMOVER PROCESSO</button>
+                    </form>
+                    <p>----------------------------------------------------</p>
+                    <br>
+
+                    <details>
+
+                        <summary>Tarefas do Processo:</summary>
+                        
                         <br>
 
-                        <p>Tipo de processo: {{userProcess.idConfiguration.idProcessType.name}}</p>
+                        
 
-                        <br>
-
-                        <p>Estado do processo: {{userProcess.state}}</p>
-
-                        <br>
-
-                        <form method="POST" action="">
-                            {% csrf_token %}
-                            <button type="submit" name="removeProcess" value="{{ userProcess.id }}">REMOVER PROCESSO</button>
-                        </form>
-                        <p>----------------------------------------------------</p>
-                        <br>
-
-                        <details>
-
-                            <summary>Tarefas do Processo:</summary>
+                        {% for key, value in userTasks.items %}
                             
-                            <br>
-
-                            {% for task in userTasks %}
-
-                                <p>Nome da tarefa: {{task.idTaskConfiguration.name}}</p>
+                            {% if key == userProcess.id %}
                                 
-                                <a href="{% url 'correcaoDocumentos' task.id %}">Corrigir Tarefa</a>
+                                {% for task in value %} 
 
-                                <br>
+                                    <p>Nome da tarefa: {{task.idTaskConfiguration.name}}</p>
+                                    
+                                    <a href="{% url 'correcaoDocumentos' task.id %}">Corrigir Tarefa</a>
 
-                                <details>
-                                    <summary>Descrição da Tarefa:</summary>
+                                    <br>
 
-                                    <p>Descrição da tarefa: {{task.idTaskConfiguration.description}}</p>
+                                    <details>
+                                        <summary>Descrição da Tarefa:</summary>
 
-                                </details>
-                                <p>----------------------------------------------------</p>
+                                        <p>Descrição da tarefa: {{task.idTaskConfiguration.description}}</p>
 
-                            {% endfor %}
+                                    </details>
+                                    <p>----------------------------------------------------</p>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
 
-                        </details>
+                    </details>
 
-                    </div>
+                </div>
 
-                {% endfor %}
+            {% endfor %}
 
             </div>
 
