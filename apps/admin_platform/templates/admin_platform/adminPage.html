@@ -36,10 +36,26 @@
 
                     <p>Nome do utilizador: {{ user.idUser.username }} ({{ user.idGroupUser.name }})</p>
 
-                    <p>Tarefas a realizar: {{ user.idUser.username }}</p>
-    
-                    <p>Tarefas realizadas: {{ user.idUser.username }}</p>
-    
+                    {% for key, value in tasksTodo.items %}
+
+                        {% if key == user.id %}
+
+                            <p>Tarefas a realizar: {{ value }}</p>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                    {% for key, value in tasksDone.items %}
+
+                        {% if key == user.id %}
+
+                            <p>Tarefas realizadas: {{ value }}</p>
+
+                        {% endif %}
+
+                    {% endfor %}
+
                     <p>Equipa: {{ user.idTeam }}</p>
 
                 </div>
