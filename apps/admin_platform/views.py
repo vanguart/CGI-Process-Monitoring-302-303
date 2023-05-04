@@ -9,15 +9,20 @@ def adminPage_view(request):
     tasksDone = {}
     tasksTodo = {}
 
+    tasksDoneCount = 0
+    tasksTodoCount = 0
+
     for user in allUsersDataBase:
+        tasksDone.update({user.id: tasksDoneCount})
+        tasksTodo.update({user.id: tasksTodoCount})
         for processo in QueueProcess.objects.filter(idUser=user.id):
             for task in QueueTask.objects.filter(idProcess=processo.id):
                 if task.state == "Completed":  # tarefas a realizar
-                    tasksCount = QueueTask.objects.filter(idUser=user.id, state="Completed").count()
-                    tasksDone.update({user.id: tasksCount})
+                    tasksDoneCount += 1
+                    tasksDone.update({user.id: tasksDoneCount})
                 elif task.state == "Stopped":  # tarefas realizadas
-                    tasksCount = QueueTask.objects.filter(idUser=user.id, state="Stopped").count()
-                    tasksTodo.update({user.id: tasksCount})
+                    tasksTodoCount += 1
+                    tasksTodo.update({user.id: tasksTodoCount})
 
     context = {
         'allUsersNames': allUsersDataBase,
