@@ -1,0 +1,43 @@
+{% extends 'main/main.html' %}
+
+{% block style %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/admin_platform/adminPage.css' %}"/>
+
+{% endblock style %}
+
+
+{% block main %}
+
+<div class="Nosplit">
+
+    <div class="centered">  
+
+        <div class="TeamTasks">
+
+            {% for user in allUsersNames %}
+
+                <div>
+
+                    <p>Nome do funcionario: {{ user.idUser.username }}</p>
+
+                    <p>Equipa: {{ user.idTeam }}</p>
+
+                    <p>Cargo: {{ user.idGroupUser.name }}</p>
+    
+                    <p>Tarefas realizadas: {{ user.idUser.username }}</p>
+    
+
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
