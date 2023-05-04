@@ -1,5 +1,18 @@
 from django.shortcuts import render
-
+from main.models import *
 # Create your views here.
-def todoAdmin_page_view(request):
-	return render(request, 'admin_platform/todoAdmin.html')
+
+def adminPage_view(request):
+	
+	allUsersDataBase = UserProfile.objects.all()
+	
+
+
+
+
+
+	context = {
+        'allUsersNames': allUsersDataBase,
+    }
+
+	return render(request, 'admin_platform/adminPage.html', context)
