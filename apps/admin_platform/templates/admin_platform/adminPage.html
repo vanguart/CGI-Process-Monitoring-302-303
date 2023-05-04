@@ -37,7 +37,7 @@
                     <p>Nome do utilizador: {{ user.idUser.username }} ({{ user.idGroupUser.name }})</p>
 
                     {% for key, value in tasksTodo.items %}
-
+                        
                         {% if key == user.id %}
 
                             <p>Tarefas a realizar: {{ value }}</p>
@@ -47,7 +47,7 @@
                     {% endfor %}
 
                     {% for key, value in tasksDone.items %}
-
+                        
                         {% if key == user.id %}
 
                             <p>Tarefas realizadas: {{ value }}</p>
