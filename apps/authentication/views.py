@@ -28,7 +28,7 @@ def login_page_view(request):
             group = request.user.groups.filter(user=request.user)[0]
 
             if group.name == "Admin":
-                return HttpResponseRedirect(reverse('todoAdmin'))
+                return HttpResponseRedirect(reverse('adminPage'))
             elif group.name == "Analyst":
                 return HttpResponseRedirect(reverse('todoAnalyst'))
             elif group.name == "Operational":
@@ -49,7 +49,7 @@ def login_page_view(request):
         group = request.user.groups.filter(user=request.user)[0]
 
         if group.name == "Admin":
-            return HttpResponseRedirect(reverse('todoAdmin'))
+            return HttpResponseRedirect(reverse('adminPage'))
         elif group.name == "Analyst":
             return HttpResponseRedirect(reverse('todoAnalyst'))
         elif group.name == "Operational":
