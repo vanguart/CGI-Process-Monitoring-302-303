@@ -3,5 +3,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('todoAdmin/', views.todoAdmin_page_view, name='todoAdmin'),
+    path('adminPage', views.adminPage_view, name='adminPage'),
+    path('gerirCargos', views.adminGerirCargos_view, name='gerirCargos')
 ]
