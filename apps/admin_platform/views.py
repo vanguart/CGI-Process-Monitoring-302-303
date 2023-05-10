@@ -53,16 +53,26 @@ def adminGerirCargos_view(request):
 
     allUsersDataBase = UserProfile.objects.all()
     allTeamsDataBase = Team.objects.all()
+    allGroupsDataBase = Group.objects.all()
+
+
 
     if request.method == 'POST':
-        team_id, user_id = request.POST.get('equipa').split('-')
-        changeTeam(team_id,user_id)
 
+        # FORMULARIO DE ALTERACAO DE EQUIPA
+        if request.POST.get('equipa'):
+            team_id, user_id_team = request.POST.get('equipa').split('-')
+            changeTeam(team_id,user_id_team)
+
+        # FORMULARIO DE ALTERACAO DE GRUPO 
+        if request.POST.get('grupo'):
+            group_id, user_id_group = request.POST.get('grupo').split('-')
 
 
     context = {
         'allUsersNames': allUsersDataBase,
         'allTeamNames': allTeamsDataBase,
+        'allGroupNames':allGroupsDataBase,
     }
 
     return render(request, 'admin_platform/gerirCargos.html', context)

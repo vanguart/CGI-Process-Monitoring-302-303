@@ -17,22 +17,28 @@
         <div class="TeamTasks">
 
             {% for user in allUsersNames %}
-
                 <div>
                     <p>Nome do funcionario: {{ user.idUser.username }}</p>
 
                     <form action="{% url 'gerirCargos' %}" method="POST">
-
                         {% csrf_token %}
 
                         <label for="equipa">Equipa:</label>
                         <select name="equipa" onchange="this.form.submit();">
 
-                            <option value="" selected disabled>{{ team.name }}</option>
+                            {% if user.idTeam %}
+
+                                <option value="{{ user.idTeam.id }}" selected>{{ user.idTeam.name }}</option>
+
+                            {% else %}
+
+                                <option value="" selected disabled>{{ team.name }}</option>
+
+                            {% endif %}
 
                             {% for team in allTeamNames %}
 
-                                {% if team.id != user.idTeam.id %}
+                                {% if not user.idTeam or team.id != user.idTeam.id %}
 
                                     <option value="{{ team.id }}-{{ user.id }}">{{ team.name }}</option>
 
@@ -41,16 +47,44 @@
                             {% endfor %}
 
                         </select>
-                        
+
                     </form>
 
-                
                     <p>Equipa: {{ user.idTeam }}</p>
 
-                    <p>Cargo: {{ user.idGroupUser.name }}</p>
-    
-                </div>
 
+                    <form action="{% url 'gerirCargos' %}" method="POST">
+                        {% csrf_token %}
+
+                        <label for="grupo">Grupo:</label>
+                        <select name="grupo" onchange="this.form.submit();">
+
+                            {% if user.idGroupUser %}
+
+                                <option value="{{ user.idGroupUser.id }}" selected>{{ user.idGroupUser.name }}</option>
+
+                            {% else %}
+
+                                <option value="" selected disabled>Selecione um grupo</option>
+                            {% endif %}
+
+                            {% for group in allGroupNames %}
+
+                                {% if not user.idGroupUser or group.id != user.idGroupUser.id %}
+
+                                    <option value="{{ group.id }}-{{ user.id }}">{{ group.name }}</option>
+
+                                {% endif %}
+                                
+                            {% endfor %}
+
+                        </select>
+
+                    </form>
+
+                    <p>Cargo: {{ user.idGroupUser.name }}</p>
+
+                </div>
             {% endfor %}
 
         </div>
