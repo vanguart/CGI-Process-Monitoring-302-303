@@ -49,13 +49,11 @@ def adminPage_view(request):
 
 
 
-def adminGerirCargos_view(request):
+def adminGerirCargosUsers_view(request):
 
     allUsersDataBase = UserProfile.objects.all()
     allTeamsDataBase = Team.objects.all()
     allGroupsDataBase = Group.objects.all()
-
-
 
     if request.method == 'POST':
 
@@ -76,4 +74,25 @@ def adminGerirCargos_view(request):
         'allGroupNames':allGroupsDataBase,
     }
 
-    return render(request, 'admin_platform/gerirCargos.html', context)
+    return render(request, 'admin_platform/gerirCargosUsers.html', context)
+
+
+def adminGerirCargosTeams_view(request):
+
+    allTeamsDataBase = Team.objects.all()
+    allUsersDataBase = UserProfile.objects.all()
+
+    if request.method == 'POST':
+
+        # FORMULARIO DE ALTERACAO DE EQUIPA
+        if request.POST.get('teamLider'):
+            team_id, user_id = request.POST.get('teamLider').split('-')
+            print(f"--------------->>>>>{team_id} -- {user_id}")
+            changeTeamLider(team_id,user_id)
+
+    context = {
+        'allUsersNames': allUsersDataBase,
+        'allTeamNames': allTeamsDataBase,
+    }
+        
+    return render(request, 'admin_platform/gerirCargosTeams.html', context)
