@@ -147,7 +147,7 @@ class Log(models.Model):
 
 
 class Reporting(models.Model):
-    tasks = models.ForeignKey(QueueTask, on_delete=models.CASCADE, related_name="reportingTasks")
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, related_name="reportingUser")
     description = models.CharField(max_length=2000)
 
     def __str__(self):
