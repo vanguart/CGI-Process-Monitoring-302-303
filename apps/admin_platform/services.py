@@ -25,3 +25,8 @@ def changeTeam(team_id, user_id):
     lider_de_outra_equipe = Team.objects.filter(idTeamLider=user_profile.first().id).exclude(id=team_id).exists()
     if not lider_de_outra_equipe:
         user_profile.update(idTeam=team_id)
+
+
+def changeGroup(group_id, user_id):
+    user_profile = UserProfile.objects.filter(id=user_id)
+    user_profile.update(idGroupUser=group_id)
