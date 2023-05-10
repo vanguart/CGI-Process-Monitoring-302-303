@@ -30,3 +30,8 @@ def changeTeam(team_id, user_id):
 def changeGroup(group_id, user_id):
     user_profile = UserProfile.objects.filter(id=user_id)
     user_profile.update(idGroupUser=group_id)
+
+
+def changeTeamLider(team_id, user_id):
+    team = Team.objects.filter(id=team_id)
+    team.update(idTeamLider=user_id)
