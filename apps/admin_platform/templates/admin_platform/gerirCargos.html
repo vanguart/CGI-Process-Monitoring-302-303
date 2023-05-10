@@ -50,13 +50,11 @@
 
                     </form>
 
-                    <p>Equipa: {{ user.idTeam }}</p>
-
-
+                    
                     <form action="{% url 'gerirCargos' %}" method="POST">
                         {% csrf_token %}
 
-                        <label for="grupo">Grupo:</label>
+                        <label for="grupo">Cargo:</label>
                         <select name="grupo" onchange="this.form.submit();">
 
                             {% if user.idGroupUser %}
@@ -75,14 +73,12 @@
                                     <option value="{{ group.id }}-{{ user.id }}">{{ group.name }}</option>
 
                                 {% endif %}
-                                
+
                             {% endfor %}
 
                         </select>
 
                     </form>
-
-                    <p>Cargo: {{ user.idGroupUser.name }}</p>
 
                 </div>
             {% endfor %}

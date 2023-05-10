@@ -67,8 +67,9 @@ def adminGerirCargos_view(request):
         # FORMULARIO DE ALTERACAO DE GRUPO 
         if request.POST.get('grupo'):
             group_id, user_id_group = request.POST.get('grupo').split('-')
+            #changeGrupo(group_id, user_id_group)
 
-
+    
     context = {
         'allUsersNames': allUsersDataBase,
         'allTeamNames': allTeamsDataBase,
