@@ -6,93 +6,52 @@ from main.models import *
 # Create your views here.
 
 def adminPage_view(request):
-
     allUsersDataBase = UserProfile.objects.all()
-
-    tasksDone = {}
-    tasksTodo = {}
-
-    tasksDoneCount = 0
-    tasksTodoCount = 0
-
-
-    for user in allUsersDataBase:
-
-        tasksDone.update({user.id: tasksDoneCount})
-        tasksTodo.update({user.id: tasksTodoCount})
-
-        for processo in QueueProcess.objects.filter(idUser=user.id):
-
-            for task in QueueTask.objects.filter(idProcess=processo.id):
-
-                if task.state == "Completed": # tarefas realizadas 
-
-                    tasksDoneCount += 1
-                    tasksDone.update({user.id: tasksDoneCount})
-
-                elif task.state == "Stopped": # tarefas a realizar 
-
-                    tasksTodoCount += 1
-                    tasksTodo.update({user.id: tasksTodoCount})
-
-        tasksDoneCount = 0
-        tasksTodoCount = 0
-
-
+    countTask = countTasks(allUsersDataBase)
     context = {
         'allUsersNames': allUsersDataBase,
-        'tasksDone': tasksDone,
-        'tasksTodo': tasksTodo
+        'tasksDone': countTask[0],
+        'tasksTodo': countTask[1]
     }
 
     return render(request, 'admin_platform/adminPage.html', context)
 
 
-
 def adminGerirCargosUsers_view(request):
-
     allUsersDataBase = UserProfile.objects.all()
     allTeamsDataBase = Team.objects.all()
     allGroupsDataBase = Group.objects.all()
 
     if request.method == 'POST':
-
         # FORMULARIO DE ALTERACAO DE EQUIPA
         if request.POST.get('equipa'):
-            team_id, user_id_team = request.POST.get('equipa').split('-')
-            changeTeam(team_id,user_id_team)
+            changeTeam(request)
 
         # FORMULARIO DE ALTERACAO DE GRUPO 
         if request.POST.get('grupo'):
-            group_id, user_id_group = request.POST.get('grupo').split('-')
-            changeGroup(group_id, user_id_group)
+            changeGroup(request)
 
-    
     context = {
         'allUsersNames': allUsersDataBase,
         'allTeamNames': allTeamsDataBase,
-        'allGroupNames':allGroupsDataBase,
+        'allGroupNames': allGroupsDataBase,
     }
 
     return render(request, 'admin_platform/gerirCargosUsers.html', context)
 
 
 def adminGerirCargosTeams_view(request):
-
     allTeamsDataBase = Team.objects.all()
     allUsersDataBase = UserProfile.objects.all()
 
     if request.method == 'POST':
-
         # FORMULARIO DE ALTERACAO DE EQUIPA
         if request.POST.get('teamLider'):
-            team_id, user_id = request.POST.get('teamLider').split('-')
-            print(f"--------------->>>>>{team_id} -- {user_id}")
-            changeTeamLider(team_id,user_id)
+            changeTeamLider(request)
 
     context = {
         'allUsersNames': allUsersDataBase,
         'allTeamNames': allTeamsDataBase,
     }
-        
+
     return render(request, 'admin_platform/gerirCargosTeams.html', context)

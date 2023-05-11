@@ -17,9 +17,9 @@ from django.core.validators import validate_email
 def generatesEmailCode():
     length = 10
     # With combination of lower and upper case
-    result_str = ''.join(random.choice(string.ascii_letters) for i in range(length))
+    resultStr = ''.join(random.choice(string.ascii_letters) for i in range(length))
 
-    return result_str
+    return resultStr
 
 
 # function that sends an email with a code in order to reset password
@@ -30,7 +30,7 @@ def sendEmailWithGeneratedCode(userEmailInput):
         return None
 
     # informações da conta
-    email_utilizador = 'a22007237@alunos.ulht.pt'
+    emailUtilizador = 'a22007237@alunos.ulht.pt'
     senha = 'JPcse1992'
 
     # informações do destinatário
@@ -41,7 +41,7 @@ def sendEmailWithGeneratedCode(userEmailInput):
     mensagem = f'Here is the code u need to reset your password\n{code}'
     # criando mensagem
     msg = MIMEMultipart()
-    msg['From'] = email_utilizador
+    msg['From'] = emailUtilizador
     msg['To'] = para
     msg['Subject'] = assunto
     msg.attach(MIMEText(mensagem, 'plain'))
@@ -51,20 +51,20 @@ def sendEmailWithGeneratedCode(userEmailInput):
     server.starttls()
 
     # fazendo login na conta
-    server.login(email_utilizador, senha)
+    server.login(emailUtilizador, senha)
 
     # enviando o e-mail
     texto = msg.as_string()
-    server.sendmail(email_utilizador, para, texto)
+    server.sendmail(emailUtilizador, para, texto)
 
     # encerrando a conexão
     server.quit()
 
     # guardar na base de dados
-    user_profile = UserProfile.objects.filter(idUser__email=userEmailInput).first()
-    user_profile.recoveryCode = code
-    user_profile.lastCodeSentTime = timezone.now()
-    user_profile.save()
+    userProfile = UserProfile.objects.filter(idUser__email=userEmailInput).first()
+    userProfile.recoveryCode = code
+    userProfile.lastCodeSentTime = timezone.now()
+    userProfile.save()
 
 
 def verifyEmailOnDataBase(userEmailInput):
@@ -74,29 +74,29 @@ def verifyEmailOnDataBase(userEmailInput):
 def validateCode(codeInput, userEmailInput):
     users = UserProfile.objects.filter(idUser__email=userEmailInput)
     if users.exists():
-        user_profile = users.first()
-        return user_profile.recoveryCode == codeInput and codeInput != ""
+        userProfile = users.first()
+        return userProfile.recoveryCode == codeInput and codeInput != ""
     else:
         return False
 
 
 def changePassword(newPassword, userEmailInput):
-    user_profile = UserProfile.objects.get(idUser__email=userEmailInput)
-    user_profile.idUser.set_password(newPassword)
-    user_profile.idUser.save()
+    userProfile = UserProfile.objects.get(idUser__email=userEmailInput)
+    userProfile.idUser.set_password(newPassword)
+    userProfile.idUser.save()
 
 
 def userAuthenticated(request):
-    username_login_input = request.POST.get('username')
-    password_login_input = request.POST.get('password')
+    usernameLoginInput = request.POST.get('username')
+    passwordLoginInput = request.POST.get('password')
 
-    return authenticate(request, username=username_login_input, password=password_login_input)
+    return authenticate(request, username=usernameLoginInput, password=passwordLoginInput)
 
 
-def changePage(request, user_autheticated):
+def changePage(request, userAutheticated):
     url = ""
-    if user_autheticated is not None:
-        login(request, user_autheticated)
+    if userAutheticated is not None:
+        login(request, userAutheticated)
         if not request.user.groups.all():
             return render(request, 'authentication/contactAdmin.html')
 
@@ -116,41 +116,41 @@ def changePage(request, user_autheticated):
         )
 
 
-def validateEmail(email_recover_input):
+def validateEmail(emailRecoverInput):
     validaMail = True
     mnsgErro = ""
 
     try:
-        validate_email(email_recover_input)
+        validate_email(emailRecoverInput)
     except Exception:
         validaMail = False
         mnsgErro = "Email Inválido"
 
-    if not verifyEmailOnDataBase(email_recover_input):
+    if not verifyEmailOnDataBase(emailRecoverInput):
         validaMail = False
         mnsgErro = "Email inexistente"
 
     return [validaMail, mnsgErro]
 
 
-def timerCode(email_recover_input):
-    user_profile = UserProfile.objects.filter(idUser__email=email_recover_input).first()
-    if user_profile.lastCodeSentTime is not None:
-        elapsed_time = timezone.now() - user_profile.lastCodeSentTime
-        if elapsed_time > timedelta(minutes=1):
-            user_profile.recoveryCode = ""
-            user_profile.lastCodeSentTime = None
-            user_profile.save()
+def timerCode(emailRecoverInput):
+    userProfile = UserProfile.objects.filter(idUser__email=emailRecoverInput).first()
+    if userProfile.lastCodeSentTime is not None:
+        elapsedTime = timezone.now() - userProfile.lastCodeSentTime
+        if elapsedTime > timedelta(minutes=1):
+            userProfile.recoveryCode = ""
+            userProfile.lastCodeSentTime = None
+            userProfile.save()
 
 
-def validateChangePassword(request, email_recover_input):
-    new_password1_input = request.POST.get('password1')
-    new_password2_input = request.POST.get('password2')
+def validateChangePassword(request, emailRecoverInput):
+    newPassword1Input = request.POST.get('password1')
+    newPassword2Input = request.POST.get('password2')
     validaPassword = False
 
     # COLOCAR AQUI FORMA DE VALIDAR AS PASSWORDS
-    if new_password2_input == new_password1_input:
+    if newPassword2Input == newPassword1Input:
         validaPassword = True
-        changePassword(new_password1_input, email_recover_input)
+        changePassword(newPassword1Input, emailRecoverInput)
 
     return validaPassword

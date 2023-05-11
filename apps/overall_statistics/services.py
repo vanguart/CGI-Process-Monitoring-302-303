@@ -23,13 +23,13 @@ def calculateStattsError(beginning, end):
 # function that returns the number of processes in inputState
 def numberOfProcessesInInputState(beginning, end, inputState):
     countNumberProcessesInInputState = 0
-    process_set = Process.objects.filter(state=inputState)
+    processSet = Process.objects.filter(state=inputState)
 
-    if process_set.count() == 0:
+    if processSet.count() == 0:
         print("there is nothing in the database")
         return None
 
-    for i in process_set:
+    for i in processSet:
         if beginning <= i.idSLA.inicialDate & end >= i.idSLA.finalDate:
             countNumberProcessesInInputState += 1
 
@@ -40,14 +40,14 @@ def numberOfProcessesInInputState(beginning, end, inputState):
 def numberOfProcessesInInputError(beginning, end, erroType):
     # Here we have to go to the Logs to see which tasks have
     # a warning and only count those that belong to different processes
-    logs_set = Logs.objects.all()
+    logsSet = Logs.objects.all()
     guardarIdProcessos = set()
     countNumberProcessesInInputError = 0
-    if logs_set.count() == 0:
+    if logsSet.count() == 0:
         print("there is nothing in the database")
         return None
 
-    for i in logs_set:
+    for i in logsSet:
         if i.idTask.idProcess in guardarIdProcessos:
             continue
         elif i.idLogType.name == erroType:

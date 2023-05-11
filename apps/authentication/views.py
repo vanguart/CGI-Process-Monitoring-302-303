@@ -9,8 +9,8 @@ from .services import sendEmailWithGeneratedCode, validateCode, changePage, \
 
 def login_page_view(request):
     if request.method == "POST":
-        user_autheticated = userAuthenticated(request)
-        return changePage(request, user_autheticated)
+        userAutheticated = userAuthenticated(request)
+        return changePage(request, userAutheticated)
 
     return render(request, 'authentication/login.html')
 
@@ -22,13 +22,13 @@ def logout_page_view(request):
 
 def recuperarPassword_page_view(request):
     if request.method == "POST":
-        email_recover_input = request.POST.get('email')
-        validate = validateEmail(email_recover_input)  # [0] Boolean, [1] Error message
+        emailRecoverInput = request.POST.get('email')
+        validate = validateEmail(emailRecoverInput)  # [0] Boolean, [1] Error message
 
         if validate[0]:
-            sendEmailWithGeneratedCode(email_recover_input)
+            sendEmailWithGeneratedCode(emailRecoverInput)
             # REALIZA UM REQUEST DA SESSION (PEDINDO O EMAIL)
-            request.session['email_recover_input'] = email_recover_input
+            request.session['email_recover_input'] = emailRecoverInput
 
             return render(request, 'authentication/recuperarPasswordCode.html')
         else:
@@ -42,23 +42,22 @@ def recuperarPassword_page_view(request):
 
 def recuperarPasswordCode_page_view(request):
     # OBTEMOS O RESULTADO DO PEDIDO DA SESSION (EMAIL)
-    email_recover_input = request.session.get('email_recover_input')
+    emailRecoverInput = request.session.get('email_recover_input')
 
     if request.method == "POST":
         # timer code
-        timerCode(email_recover_input)
+        timerCode(emailRecoverInput)
 
-        codigo_recover_input = request.POST.get('codigo')
-
+        codigoRecoverInput = request.POST.get('codigo')
         validaCodigo = False
 
         # COLOCAR AQUI FORMA DE VALIDAR O CODIGO PROVENIENTE DO EMAIL
-        if validateCode(codigo_recover_input, email_recover_input):
+        if validateCode(codigoRecoverInput, emailRecoverInput):
             validaCodigo = True
 
         if validaCodigo:
             # REALIZA UM REQUEST DA SESSION (PEDINDO O EMAIL)
-            request.session['email_recover_input'] = email_recover_input
+            request.session['email_recover_input'] = emailRecoverInput
 
             return render(request, 'authentication/recuperarPasswordPwUpdate.html')
         else:
@@ -71,11 +70,10 @@ def recuperarPasswordCode_page_view(request):
 
 def recuperarPasswordPwUpdate_page_view(request):
     # OBTEMOS O RESULTADO DO PEDIDO DA SESSION (EMAIL)
-    email_recover_input = request.session.get('email_recover_input')
+    emailRecoverInput = request.session.get('email_recover_input')
 
     if request.method == "POST":
-
-        validaPassword = validateChangePassword(request, email_recover_input)
+        validaPassword = validateChangePassword(request, emailRecoverInput)
 
         if validaPassword:
             return render(request, 'authentication/login.html')
