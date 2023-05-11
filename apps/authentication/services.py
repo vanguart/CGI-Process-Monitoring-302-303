@@ -1,10 +1,16 @@
 import random
 import smtplib
 import string
+from datetime import timedelta
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from django.urls import reverse
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.utils import timezone
 from main.models import UserProfile
+from django.core.validators import validate_email
 
 
 # function that generates an E-mail code
@@ -69,7 +75,7 @@ def validateCode(codeInput, userEmailInput):
     users = UserProfile.objects.filter(idUser__email=userEmailInput)
     if users.exists():
         user_profile = users.first()
-        return user_profile.recoveryCode == codeInput
+        return user_profile.recoveryCode == codeInput and codeInput != ""
     else:
         return False
 
@@ -78,3 +84,73 @@ def changePassword(newPassword, userEmailInput):
     user_profile = UserProfile.objects.get(idUser__email=userEmailInput)
     user_profile.idUser.set_password(newPassword)
     user_profile.idUser.save()
+
+
+def userAuthenticated(request):
+    username_login_input = request.POST.get('username')
+    password_login_input = request.POST.get('password')
+
+    return authenticate(request, username=username_login_input, password=password_login_input)
+
+
+def changePage(request,user_autheticated):
+    url = ""
+    if user_autheticated is not None:
+        login(request, user_autheticated)
+        if not request.user.groups.all():
+            return render(request, 'authentication/contactAdmin.html')
+
+        group = request.user.groups.filter(user=request.user)[0]
+        if group.name == "Admin":
+            url = 'adminPage'
+        elif group.name == "Analyst":
+            url = 'todoAnalyst'
+        elif group.name == "Operational":
+            url = 'businessExceptions'
+
+        return HttpResponseRedirect(reverse(url))
+    else:
+        return render(
+            request, 'authentication/login.html',
+            {'message': "Credenciais Inválidas"}
+        )
+
+
+def validateEmail(email_recover_input):
+    validaMail = True
+    mnsgErro = ""
+
+    try:
+        validate_email(email_recover_input)
+    except Exception:
+        validaMail = False
+        mnsgErro = "Email Inválido"
+
+    if not verifyEmailOnDataBase(email_recover_input):
+        validaMail = False
+        mnsgErro = "Email inexistente"
+
+    return [validaMail, mnsgErro]
+
+
+def timerCode(email_recover_input):
+    user_profile = UserProfile.objects.filter(idUser__email=email_recover_input).first()
+    if user_profile.lastCodeSentTime is not None:
+        elapsed_time = timezone.now() - user_profile.lastCodeSentTime
+        if elapsed_time > timedelta(minutes=1):
+            user_profile.recoveryCode = ""
+            user_profile.lastCodeSentTime = None
+            user_profile.save()
+
+
+def validateChangePassword(request, email_recover_input):
+    new_password1_input = request.POST.get('password1')
+    new_password2_input = request.POST.get('password2')
+    validaPassword = False
+
+    # COLOCAR AQUI FORMA DE VALIDAR AS PASSWORDS
+    if new_password2_input == new_password1_input:
+        validaPassword = True
+        changePassword(new_password1_input, email_recover_input)
+
+    return validaPassword

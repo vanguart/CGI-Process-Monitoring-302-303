@@ -3,7 +3,6 @@ from django.contrib.auth.models import User, Group
 from django.db import models
 
 
-
 class Skill(models.Model):
     nameSkill = models.CharField(max_length=256)
 
@@ -75,7 +74,6 @@ class UserProfile(models.Model):
         ]
 
 
-
 class QueueProcess(models.Model):
     idConfiguration = models.ForeignKey(ProcessConfiguration, on_delete=models.CASCADE, related_name='configuration')
     startDate = models.DateField(null=True)
@@ -104,8 +102,8 @@ class QueueTask(models.Model):
     idTaskConfiguration = models.ForeignKey(TaskConfiguration, on_delete=models.CASCADE,
                                             related_name="taskConfiguration")
     idProcess = models.ForeignKey('QueueProcess', on_delete=models.CASCADE, related_name="process")
-    inputData = models.CharField(blank= True, max_length=10000)
-    outputData = models.CharField(blank= True, max_length=10000)
+    inputData = models.CharField(blank=True, max_length=10000)
+    outputData = models.CharField(blank=True, max_length=10000)
     priority = models.IntegerField()
     state = models.CharField(max_length=256)
 
