@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 
 from main.models import UserProfile
-from .services import verifyEmailOnDataBase, sendEmailWithGeneratedCode, validateCode, changePassword
+from .services import *
 from datetime import timedelta
 from django.utils import timezone
 
