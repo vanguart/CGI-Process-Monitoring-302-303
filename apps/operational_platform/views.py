@@ -9,7 +9,9 @@ from main.models import QueueTask, UserProfile, QueueProcess, Team
 def businessExceptions_page_view(request):
     # User logado
     username = request.user.username
-
+    processTaskDictionary = {}
+    teamProcessList = []
+    userProcessList = []
     userProfile = UserProfile.objects.filter(idUser__username=username).first()
     teamOfUser = None
     chefeEquipa = None
@@ -39,15 +41,14 @@ def businessExceptions_page_view(request):
     allUsersDataBase = UserProfile.objects.all()
 
     # GET THE NUMBER OF TEAM PROCESSES
-    teamProcessCount = len(teamProcessList) if 'team_process_list' in locals() else 0
+    teamProcessCount = len(teamProcessList)
     # QueueProcess.objects.filter(idConfiguration__idTeam=user_profile.idTeam).count()
 
     # GET THE NUMBER OF USER PROCESSES
-    userProcessCount = len(userProcessList) if 'user_process_list' in locals() else 0
+    userProcessCount = len(userProcessList)
 
     # GET THE NUMBER OF USER TASKS TO-DO
-    userTaskCount = sum(
-        len(listTasks) for listTasks in processTaskDictionary.values()) if processTaskDictionary is not None else 0
+    userTaskCount = sum(len(listTasks) for listTasks in processTaskDictionary.values())
 
     context = {
         'teamName': teamOfUser,

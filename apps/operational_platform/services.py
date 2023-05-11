@@ -8,7 +8,7 @@ def addProcess(request, userProfile):
     if maxTaskNumber < 2:
         objectIDToTransfer = request.POST.get('addProcess')
         process = QueueProcess.objects.filter(id=objectIDToTransfer)
-        process.update(idUser=userProfile.first())
+        process.update(idUser=userProfile)
 
 
 def removeProcess(request):
