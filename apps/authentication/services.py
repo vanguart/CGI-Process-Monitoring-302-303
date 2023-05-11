@@ -93,7 +93,7 @@ def userAuthenticated(request):
     return authenticate(request, username=username_login_input, password=password_login_input)
 
 
-def changePage(request,user_autheticated):
+def changePage(request, user_autheticated):
     url = ""
     if user_autheticated is not None:
         login(request, user_autheticated)
