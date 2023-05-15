@@ -3,7 +3,6 @@ from django.contrib.auth.models import User, Group
 from django.db import models
 
 
-
 class Skill(models.Model):
     nameSkill = models.CharField(max_length=256)
 
@@ -63,7 +62,6 @@ class UserProfile(models.Model):
             ("access_analytic_page", "Can access the analytic page"),
             ("access_operational_page", "Can access the operational page"),
         ]
-
 
 
 class QueueProcess(models.Model):

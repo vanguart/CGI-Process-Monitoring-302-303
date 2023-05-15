@@ -9,14 +9,14 @@ import time
 
 def enviamail(email, subject, body):
     # informações da conta
-    email_usuario = 'a22007237@alunos.ulht.pt'
+    emailUtilizador = 'a22007237@alunos.ulht.pt'
     senha = 'JPcse1992'
 
     # informações do destinatário
     para = email
     # criando mensagem
     msg = MIMEMultipart()
-    msg['From'] = email_usuario
+    msg['From'] = emailUtilizador
     msg['To'] = para
     msg['Subject'] = subject
     msg.attach(MIMEText(body, 'plain'))
@@ -26,11 +26,11 @@ def enviamail(email, subject, body):
     server.starttls()
 
     # fazendo login na conta
-    server.login(email_usuario, senha)
+    server.login(emailUtilizador, senha)
 
     # enviando o e-mail
     texto = msg.as_string()
-    server.sendmail(email_usuario, para, texto)
+    server.sendmail(emailUtilizador, para, texto)
 
     # encerrando a conexão
     server.quit()

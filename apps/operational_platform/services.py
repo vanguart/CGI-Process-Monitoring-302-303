@@ -1,43 +1,76 @@
 from main.models import UserProfile, QueueProcess, QueueTask
+from django.db.models import Q as Query
 
 
-def addProcess(process_id, username_user):
-    user_profile = UserProfile.objects.filter(idUser__username=username_user)
-    process = QueueProcess.objects.filter(id=process_id)
-    process.update(idUser=user_profile.first())
+def addProcess(request, userProfile):
+    maxTaskNumber = QueueProcess.objects.filter(idUser=userProfile.id).count()
+
+    if maxTaskNumber < 2:
+        objectIDToTransfer = request.POST.get('addProcess')
+        process = QueueProcess.objects.filter(id=objectIDToTransfer)
+        process.update(idUser=userProfile)
 
 
-def removeProcess(process_id):
-    process = QueueProcess.objects.filter(id=process_id)
+def removeProcess(request):
+    objectIDToTransfer = request.POST.get('removeProcess')
+    process = QueueProcess.objects.filter(id=objectIDToTransfer)
     process.update(idUser=None)
-    
-    
-def getInputData(queue_task_id):
-    task = QueueTask.objects.get(id=queue_task_id)
+
+
+def getInputData(queueTaskId):
+    task = QueueTask.objects.get(id=queueTaskId)
     data = str(task.inputData)
-    fields =  []
+    fields = []
     dataAfterProcessing = []
     groupData = data.split(";")
-    for j in range(0,len(groupData)):
+    for j in range(0, len(groupData)):
         individualData = groupData[j].split(":")
         fields.append(individualData[0])
         dataAfterProcessing.append(individualData[1])
     result = list(zip(fields, dataAfterProcessing))
     return result
 
-def cleanOutputData(task_id):
-    task = QueueTask.objects.get(id=task_id)
+
+def cleanOutputData(taskId):
+    task = QueueTask.objects.get(id=taskId)
     data = str(task.outputData)
 
-    data = data.replace("{","").replace("}","").replace("\'","")
+    data = data.replace("{", "").replace("}", "").replace("\'", "")
     groupData = data.split(",")
     result = ""
-    for j in range(0,len(groupData)):
+    for j in range(0, len(groupData)):
         individualData = groupData[j].split(":")
         if j == 0:
-            result = result + individualData[0].strip() +":" + individualData[1].strip()
+            result = result + individualData[0].strip() + ":" + individualData[1].strip()
         else:
-            result = result + ";"  + individualData[0].strip() +":" + individualData[1].strip()
+            result = result + ";" + individualData[0].strip() + ":" + individualData[1].strip()
 
     task.outputData = result
     task.save()
+
+
+def addProcessToTeam(userProfile):
+    teamProcessList = []
+    for processo in QueueProcess.objects.filter(idConfiguration__idTeam=userProfile.idTeam).exclude(
+            state='Completed'):
+        if processo.idUser is None:
+            teamProcessList.append(processo)
+
+    return teamProcessList
+
+
+def addProcessToUser(userProfile):
+    userProcessList = []
+    processTaskDictionary = {}
+    for processo in QueueProcess.objects.filter(idUser=userProfile.id).exclude(state='Completed'):
+        userProcessList.append(processo)
+        for task in QueueTask.objects.filter(idProcess=processo.id).exclude(
+                Query(state='Completed') | Query(state='Pending')):
+            if processTaskDictionary.get(processo.id) is None:
+                processTaskList = [task]
+            else:
+                processTaskList = processTaskDictionary.get(processo.id)
+                processTaskList.append(task)
+            processTaskDictionary.update({processo.id: processTaskList})
+
+    return userProcessList, processTaskDictionary

@@ -10,7 +10,7 @@ def getAllProcessesInDB(InicialDate, EndDate, label, state, ):
     if label == "noTag":
         allLabels = True
 
-    if InicialDate == None and EndDate == None:
+    if InicialDate is None and EndDate is None:
         allDates = True
 
     if state == "noState":

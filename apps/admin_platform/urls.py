@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('adminPage', views.adminPage_view, name='adminPage'),
-    path('gerirCargos', views.adminGerirCargos_view, name='gerirCargos')
+    path('gerirCargosUsers', views.adminGerirCargosUsers_view, name='gerirCargosUsers'),
+    path('gerirCargosTeams', views.adminGerirCargosTeams_view, name='gerirCargosTeams')
 ]

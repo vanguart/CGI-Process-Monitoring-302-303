@@ -2,8 +2,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from main.models import QueueProcess, Label, QueueTask
-# Create your views here.
 
+
+# Create your views here.
 def process_listing_page_view(request):
     processTasks = {}
 
@@ -12,15 +13,15 @@ def process_listing_page_view(request):
             if process.id == task.idProcess:
                 processTasks.update
 
-    if request.GET.get('filtros') == None:
+    if request.GET.get('filtros') is None:
         query = QueueProcess.objects.all()
     else:
-        if request.GET.get('filtros') == "noFilter" :
+        if request.GET.get('filtros') == "noFilter":
             query = QueueProcess.objects.all()
 
         if request.GET.get('filtros') != "noFilter":
-            featured_filter = request.GET.get('filtros')
-            query = QueueProcess.objects.filter(idLabels__name=featured_filter)
+            featuredFilter = request.GET.get('filtros')
+            query = QueueProcess.objects.filter(idLabels__name=featuredFilter)
 
     context = {
         'processes': query,
@@ -28,5 +29,5 @@ def process_listing_page_view(request):
         'tasks': QueueTask.objects.all(),
         # DEBUGG FILTER TYPE ->  'tipoDeFiltro': request.GET.get('filtros')
     }
-    
+
     return render(request, 'process_listing/process_listing.html', context)

@@ -1,60 +1,17 @@
-from django.shortcuts import render
-from django.contrib.auth import authenticate, login, logout
-from django.core.validators import validate_email
-from django.urls import reverse
-from django.http import HttpResponseRedirect
 
-from main.models import UserProfile
-from .services import verifyEmailOnDataBase, sendEmailWithGeneratedCode, validateCode, changePassword
-from datetime import timedelta
-from django.utils import timezone
+from django.shortcuts import render
+from django.contrib.auth import logout
+
+
+from .services import sendEmailWithGeneratedCode, validateCode, changePage, \
+    userAuthenticated, validateEmail, timerCode, validateChangePassword
 
 
 def login_page_view(request):
     if request.method == "POST":
+        userAutheticated = userAuthenticated(request)
+        return changePage(request, userAutheticated)
 
-        username_login_input = request.POST.get('username')
-        password_login_input = request.POST.get('password')
-
-        utilizador = authenticate(request, username=username_login_input, password=password_login_input)
-
-        if utilizador is not None:
-
-            login(request, utilizador)
-
-            if not request.user.groups.all():
-                return render(request, 'authentication/contactAdmin.html')
-
-            group = request.user.groups.filter(user=request.user)[0]
-
-            if group.name == "Admin":
-                return HttpResponseRedirect(reverse('adminPage'))
-            elif group.name == "Analyst":
-                return HttpResponseRedirect(reverse('todoAnalyst'))
-            elif group.name == "Operational":
-                return HttpResponseRedirect(reverse('businessExceptions'))
-            
-            return render(request, 'authentication/contactAdmin.html')
-
-        else:
-            return render(
-                request, 'authentication/login.html',
-                {'message': "Credenciais Inválidas"}
-            )
-        
-    if request.user.is_authenticated:
-        if not request.user.groups.all():
-            return render(request, 'authentication/contactAdmin.html')
-
-        group = request.user.groups.filter(user=request.user)[0]
-
-        if group.name == "Admin":
-            return HttpResponseRedirect(reverse('adminPage'))
-        elif group.name == "Analyst":
-            return HttpResponseRedirect(reverse('todoAnalyst'))
-        elif group.name == "Operational":
-           return HttpResponseRedirect(reverse('businessExceptions'))
-        
     return render(request, 'authentication/login.html')
 
 
@@ -65,33 +22,19 @@ def logout_page_view(request):
 
 def recuperarPassword_page_view(request):
     if request.method == "POST":
+        emailRecoverInput = request.POST.get('email')
+        validate = validateEmail(emailRecoverInput)  # [0] Boolean, [1] Error message
 
-        email_recover_input = request.POST.get('email')
-        validaMail = True
-        mnsgErro = ""
-
-        try:
-            validate_email(email_recover_input)
-        except Exception:
-            validaMail = False
-            mnsgErro = "Email Inválido"
-
-        if not verifyEmailOnDataBase(email_recover_input):
-            validaMail = False
-            mnsgErro = "Email inexistente"
-
-        if validaMail:
-
-            sendEmailWithGeneratedCode(email_recover_input)
-
+        if validate[0]:
+            sendEmailWithGeneratedCode(emailRecoverInput)
             # REALIZA UM REQUEST DA SESSION (PEDINDO O EMAIL)
-            request.session['email_recover_input'] = email_recover_input
+            request.session['email_recover_input'] = emailRecoverInput
 
             return render(request, 'authentication/recuperarPasswordCode.html')
         else:
             return render(
                 request, 'authentication/recuperarPassword.html',
-                {'message': mnsgErro}
+                {'message': validate[1]}
             )
 
     return render(request, 'authentication/recuperarPassword.html')
@@ -99,30 +42,22 @@ def recuperarPassword_page_view(request):
 
 def recuperarPasswordCode_page_view(request):
     # OBTEMOS O RESULTADO DO PEDIDO DA SESSION (EMAIL)
-    email_recover_input = request.session.get('email_recover_input')
+    emailRecoverInput = request.session.get('email_recover_input')
 
     if request.method == "POST":
-        # timer do código
-        user_profile = UserProfile.objects.filter(idUser__email=email_recover_input).first()
-        if user_profile.lastCodeSentTime is not None:
-            elapsed_time = timezone.now() - user_profile.lastCodeSentTime
-            if elapsed_time > timedelta(minutes=5):
-                user_profile.recoveryCode = ""
-                user_profile.lastCodeSentTime = None
-                user_profile.save()
+        # timer code
+        timerCode(emailRecoverInput)
 
-        codigo_recover_input = request.POST.get('codigo')
-
+        codigoRecoverInput = request.POST.get('codigo')
         validaCodigo = False
 
         # COLOCAR AQUI FORMA DE VALIDAR O CODIGO PROVENIENTE DO EMAIL
-        if validateCode(codigo_recover_input, email_recover_input):
+        if validateCode(codigoRecoverInput, emailRecoverInput):
             validaCodigo = True
 
         if validaCodigo:
-
             # REALIZA UM REQUEST DA SESSION (PEDINDO O EMAIL)
-            request.session['email_recover_input'] = email_recover_input
+            request.session['email_recover_input'] = emailRecoverInput
 
             return render(request, 'authentication/recuperarPasswordPwUpdate.html')
         else:
@@ -135,18 +70,10 @@ def recuperarPasswordCode_page_view(request):
 
 def recuperarPasswordPwUpdate_page_view(request):
     # OBTEMOS O RESULTADO DO PEDIDO DA SESSION (EMAIL)
-    email_recover_input = request.session.get('email_recover_input')
+    emailRecoverInput = request.session.get('email_recover_input')
 
     if request.method == "POST":
-
-        new_password1_input = request.POST.get('password1')
-        new_password2_input = request.POST.get('password2')
-        validaPassword = False
-
-        # COLOCAR AQUI FORMA DE VALIDAR AS PASSWORDS
-        if new_password2_input == new_password1_input:
-            validaPassword = True
-            changePassword(new_password1_input, email_recover_input)
+        validaPassword = validateChangePassword(request, emailRecoverInput)
 
         if validaPassword:
             return render(request, 'authentication/login.html')
