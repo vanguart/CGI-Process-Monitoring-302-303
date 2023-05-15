@@ -3,8 +3,6 @@ from django.contrib import admin
 # Register your models here.
 from .models import Team, Skill
 from .models import TaskType
-from .models import KPI
-from .models import LogType
 from .models import ProcessType
 from .models import UserProfile
 from .models import QueueProcess
@@ -14,6 +12,7 @@ from .models import Label
 from .models import ProcessConfiguration
 from .models import TaskConfiguration
 from .models import Reporting
+from .models import TaskData
 
 
 class TeamHorizontal(admin.ModelAdmin):
@@ -34,15 +33,15 @@ class UserProfileHorizontal(admin.ModelAdmin):
 
 admin.site.register(Label)
 admin.site.register(Skill)
-admin.site.register(TaskType)
-admin.site.register(KPI)
-admin.site.register(LogType)
-admin.site.register(ProcessType)
-admin.site.register(UserProfile, UserProfileHorizontal)
-admin.site.register(QueueProcess, QueueProcessesHorizontal)
-admin.site.register(QueueTask)
 admin.site.register(Team, TeamHorizontal)
 admin.site.register(Log)
+admin.site.register(UserProfile, UserProfileHorizontal)
+admin.site.register(Reporting)
+
+admin.site.register(TaskType)
+admin.site.register(ProcessType)
+admin.site.register(QueueProcess, QueueProcessesHorizontal)
+admin.site.register(QueueTask)
 admin.site.register(ProcessConfiguration, ProcessesConfigurationHorizontal)
 admin.site.register(TaskConfiguration)
-admin.site.register(Reporting)
+admin.site.register(TaskData)
