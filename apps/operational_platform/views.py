@@ -4,6 +4,7 @@ from django.urls import reverse
 from apps.operational_platform.forms import *
 from apps.operational_platform.services import *
 from main.models import QueueTask, UserProfile, QueueProcess, Team
+from django.db.models import Q as Query
 
 
 def businessExceptions_page_view(request):
@@ -66,7 +67,7 @@ def businessExceptions_page_view(request):
 
 
 def correcaoDocumentos_page_view(request, taskId):
-    taskData = TaskData.objects.filter(Q(idTask=taskId)& Q(outputData = ""))
+    taskData = TaskData.objects.filter(Query(idTask=taskId)& Query(outputData = ""))
     task = QueueTask.objects.get(id = taskId)
 
     if request.method == 'POST':
