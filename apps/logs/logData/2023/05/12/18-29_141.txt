@@ -15,13 +15,13 @@ Info-Nome:Constantino Hattam;Email:chattam3@issuu.com;Morada:78 Cascade Trail;Nú
 Info-Nome:Frasier Louche;Email:flouchei@over-blog.com;Morada:39 Sullivan Way;Número de telemovel:7007063399-2023-05-12 18:30:45.332Z
 Info-Nome:Pepita Kristufek;Email:pkristufek4@bizjournals.com;Morada:6 Carpenter Terrace;Número de telemovel:4491262936-2023-05-12 18:29:41.438Z
 Info-Nome:Ruth Birrell;Email:rbirrella@businessweek.com;Morada:476 Delladonna Way;Número de telemovel:7986855354-2023-05-12 18:30:08.393Z
-Info-Nome:Emmery Oxburgh;Email:eoxburghh@mayoclinic.com;Morada:5619 Manufacturers Parkway;Número de telemovel:1724480025-2023-05-12 18:30:40.461Z
-Info-Nome:Kristen De Francesco;Email:kdefrancescog@pcworld.com;Morada:4 Helena Lane;Número de telemovel:3021677361-2023-05-12 18:30:35.934Z
 Info-Nome:Bella Wickling;Email:bwickling1@usnews.com;Morada:66940 Mariners Cove Crossing;Número de telemovel:1725612465-2023-05-12 18:29:28.024Z
-Info-Nome:Trudie Scarborough;Email:tscarborough8@51.la;Morada:678 Columbus Alley;Número de telemovel:6975511870-2023-05-12 18:29:59.171Z
-Info-Nome:Ginger Lohmeyer;Email:glohmeyer6@free.fr;Morada:9 Grayhawk Court;Número de telemovel:4637704508-2023-05-12 18:29:50.3Z
+Info-Nome:Emmery Oxburgh;Email:eoxburghh@mayoclinic.com;Morada:5619 Manufacturers Parkway;Número de telemovel:1724480025-2023-05-12 18:30:40.461Z
 Trace-Task;Extração;Extração dados excel;RPA-Esta tarefa acede a uma dabela excel e extrai os dados da mesma;00:01:00;3-2023-05-12 18:29:16.799Z
 Trace-Task;Preenchimento de formulários;Preenchimento do formulário TFC formulário exemplo;RPA-Preenchimento do formulário com o primeiro e ultimo nome de uma pessoa, o seu email, a sua morada e o seu número de telemovel;00:04:00;4-2023-05-12 18:29:17.385Z
 Trace-Auditoria: Com a Aplicação Web. Browser: Chrome URL: https://docs.google.com/forms/d/e/1FAIpQLSfRSM2G9ag77DwyzBJDFhm1JKFVC7Qtm69BjDyTAKUdEbT4IQ/viewform-2023-05-12 18:29:17.519Z
+Info-Nome:Ginger Lohmeyer;Email:glohmeyer6@free.fr;Morada:9 Grayhawk Court;Número de telemovel:4637704508-2023-05-12 18:29:50.3Z
 Info-Nome:Locke Kippins;Email:lkippins0@princeton.edu;Morada:10605 Armistice Park;Número de telemovel:8206365164-2023-05-12 18:29:23.326Z
 Info-Nome:Micky Beddoes;Email:mbeddoes5@home.pl;Morada:5 Lotheville Crossing;Número de telemovel:4254711311-2023-05-12 18:29:45.93Z
+Info-Nome:Kristen De Francesco;Email:kdefrancescog@pcworld.com;Morada:4 Helena Lane;Número de telemovel:3021677361-2023-05-12 18:30:35.934Z
+Info-Nome:Trudie Scarborough;Email:tscarborough8@51.la;Morada:678 Columbus Alley;Número de telemovel:6975511870-2023-05-12 18:29:59.171Z

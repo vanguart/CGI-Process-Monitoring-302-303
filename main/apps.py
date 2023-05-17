@@ -5,10 +5,6 @@ import asyncio
 import threading
 import schedule
 import time
-from asgiref.sync import async_to_sync
-
-
-
 
 class MainConfig(AppConfig):
 
