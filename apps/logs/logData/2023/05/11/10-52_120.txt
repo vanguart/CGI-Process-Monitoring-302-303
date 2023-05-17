@@ -1,0 +1,27 @@
+Info-Nome:Constantino Hattam;Email:chattam3@issuu.com;Morada:78 Cascade Trail;Número de telemovel:8081690625-2023-05-11 10:52:51.08Z
+Info-Nome:Micky Beddoes;Email:mbeddoes5@home.pl;Morada:5 Lotheville Crossing;Número de telemovel:4254711311-2023-05-11 10:52:59.028Z
+Trace-Task;Verificação;Verificação do preenchimento de formulário;HUMANO-Preencher o formulário com os dados do excel de forma correta;01:55:00;5-2023-05-11 10:53:58.015Z
+Info-Execução de ProcessUserDataSmall terminada-2023-05-11 10:53:58.018Z
+Info-Nome:Ginger Lohmeyer;Email:glohmeyer6@free.fr;Morada:9 Grayhawk Court;Número de telemovel:4637704508-2023-05-11 10:53:03.403Z
+Info-Execução de ProcessUserDataSmall iniciada-2023-05-11 10:52:32.332Z
+Trace-Task;Preenchimento de formulários;Preenchimento do formulário TFC formulário exemplo;RPA-Preenchimento do formulário com o primeiro e ultimo nome de uma pessoa, o seu email, a sua morada e o seu número de telemovel;00:04:00;4-2023-05-11 10:52:32.91Z
+Info-Nome:Arni Skillen;Email:askillen2@shinystat.com;Morada:11111 Atwood Circle;Número de telemovel:8162949638-2023-05-11 10:52:46.758Z
+Info-Nome:Constancia Andras;Email:candras7@columbia.edu;Morada:58 Kennedy Road;Número de telemovel:2171915720-2023-05-11 10:53:07.34Z
+Info-Nome:Locke Kippins;Email:lkippins0@princeton.edu;Morada:10605 Armistice Park;Número de telemovel:8206365164-2023-05-11 10:52:37.429Z
+Info-Nome:Marilyn Smallpiece;Email:msmallpiecef@canalblog.com;Morada:70 Surrey Crossing;Número de telemovel:4675649905-2023-05-11 10:53:41.607Z
+Info-Nome:Lion Yakunin;Email:lyakuninj@rediff.com;Morada:55068 Hintze Court;Número de telemovel:6211195490-2023-05-11 10:53:58.009Z
+Info-Nome:Kristen De Francesco;Email:kdefrancescog@pcworld.com;Morada:4 Helena Lane;Número de telemovel:3021677361-2023-05-11 10:53:45.679Z
+Info-Nome:Emmery Oxburgh;Email:eoxburghh@mayoclinic.com;Morada:5619 Manufacturers Parkway;Número de telemovel:1724480025-2023-05-11 10:53:49.684Z
+Info-Nome:Frasier Louche;Email:flouchei@over-blog.com;Morada:39 Sullivan Way;Número de telemovel:7007063399-2023-05-11 10:53:54.012Z
+Info-Nome:Ruth Birrell;Email:rbirrella@businessweek.com;Morada:476 Delladonna Way;Número de telemovel:7986855354-2023-05-11 10:53:20.354Z
+Info-Nome:Timi MacGilpatrick;Email:tmacgilpatrick9@shop-pro.jp;Morada:5830 Caliangt Point;Número de telemovel:8285272964-2023-05-11 10:53:16.43Z
+Info-Nome:Pepita Kristufek;Email:pkristufek4@bizjournals.com;Morada:6 Carpenter Terrace;Número de telemovel:4491262936-2023-05-11 10:52:55.014Z
+Info-Nome:Daisy Vakhonin;Email:dvakhoninc@deliciousdays.com;Morada:5 Beilfuss Pass;Número de telemovel:4661283111-2023-05-11 10:53:28.734Z
+Info-Nome:Trudie Scarborough;Email:tscarborough8@51.la;Morada:678 Columbus Alley;Número de telemovel:6975511870-2023-05-11 10:53:11.36Z
+Trace-Task;Extração;Extração dados excel;RPA-Esta tarefa acede a uma dabela excel e extrai os dados da mesma;00:01:00;3-2023-05-11 10:52:32.487Z
+Info-Nome:Bella Wickling;Email:bwickling1@usnews.com;Morada:66940 Mariners Cove Crossing;Número de telemovel:1725612465-2023-05-11 10:52:42.2Z
+Info-Nome:Ruddy Dulieu;Email:rdulieub@cnbc.com;Morada:6092 Towne Hill;Número de telemovel:1173272278-2023-05-11 10:53:24.761Z
+Info-Nome:Ibbie Shakespear;Email:ishakespeare@constantcontact.com;Morada:6496 Rowland Hill;Número de telemovel:7739529536-2023-05-11 10:53:37.659Z
+Info-Nome:Bree Brighty;Email:bbrightyd@facebook.com;Morada:86113 Washington Street;Número de telemovel:5886444948-2023-05-11 10:53:33.367Z
+Trace-Process;Preencher Formulários;Formulários;Este processo vai extrair dados de uma tabela de excel e utiliza-los para preencher um formulário;02:00:00;ler excel-2023-05-11 10:52:32.475Z
+Trace-Auditoria: Com a Aplicação Web. Browser: Chrome URL: https://docs.google.com/forms/d/e/1FAIpQLSfRSM2G9ag77DwyzBJDFhm1JKFVC7Qtm69BjDyTAKUdEbT4IQ/viewform-2023-05-11 10:52:32.956Z

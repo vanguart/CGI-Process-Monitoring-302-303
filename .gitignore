@@ -1,6 +1,4 @@
 .idea
 env/
 __pycache__/
-db.sqlite3
-*.txt
 .vscode

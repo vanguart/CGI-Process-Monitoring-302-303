@@ -116,8 +116,16 @@ class Team(models.Model):
 
 
 def log_path(instance, filename):
-    now = datetime.now()
-    return f"Logs/{now.year}/{now.month}/{now.day}/{now.strftime('%H-%M')}_{instance.process.id}.txt"
+    
+    date = instance.process.startDate
+    dateSplit = date.split(" ")
+    year = dateSplit[0].split("-")[0]
+    month = dateSplit[0].split("-")[1]
+    day = dateSplit[0].split("-")[2]
+    
+    hour = dateSplit[1].split(":")[0]
+    mins = dateSplit[1].split(":")[1]
+    return f"apps/logs/logData/{year}/{month}/{day}/{hour}-{mins}_{instance.process.id}.txt"
 
 
 

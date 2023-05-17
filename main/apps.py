@@ -23,7 +23,9 @@ class MainConfig(AppConfig):
             t.start()
 
 def run_sync():
+    print("Started extractation")
     asyncio.run(asyncFunctionGetLogsApi())
+    print("Ended extractation")
 
 def run_schedule():
     while True:

@@ -85,7 +85,12 @@ def getLogs(creds,header):
 
 def transformLog(creds,header,keys):
     
-    fileread = open("docs/jobkeys.txt","r")
+    file_path = "apps/logs/logData/jobkeys.txt"
+    if not os.path.exists(file_path):
+        fileread = open(file_path,"x")
+    
+    
+    fileread = open(file_path,"r")
     lines = fileread.readlines()
     knowKeys = []
 
@@ -157,140 +162,139 @@ def transformLog(creds,header,keys):
             skipThisProcess = True
            
         #There is atleats 1 error so no tasks are going to me created or inserted in our database
-        if (skipThisProcess):
-            continue
+        if not skipThisProcess:
             
-
-        for logTrace in range(0,countLogsTrace):
             
-            jsonSplitMessageLog = str(logsTrace.json()['value'][logTrace]['Message']).split(";")
-            
-            if len(jsonSplitMessageLog) != 6:
-                continue
- 
-            if jsonSplitMessageLog[0] == 'Task':
-                # call loadLogTaskConfiguration
-                _,taskType,taskName,description,maxTimeOfExecution,priority = jsonSplitMessageLog
-                newOrOldTaskConfiguration,newQueueTask = loadLogTaskConfiguration(newOrOldProcessConfiguration,taskType,taskName,description,maxTimeOfExecution,newQueueProcess,priority)
-                allQueueTasksByQueueProcess.append(newQueueTask)
+            for logTrace in range(0,countLogsTrace):
                 
-                timeStamp = str(logsTrace.json()['value'][logTrace]['TimeStamp'])
-                saveTimes = getTimeStamp(timeStamp)
-                newQueueTask.startDate = saveTimes[0]+ " " + saveTimes[1]  # type: ignore
-                newQueueTask.save()
-
-             
-        # There was no log Task so nothing is going to be added in your database
-        if priority == None:
-            return  
-        
-       
-        # There was no log Task so nothing is going to be added in your database
-        if newOrOldTaskConfiguration == None:
-            return 
-        
-        # There was no log Task so nothing is going to be added in your database
-        if newQueueTask == None:
-            return
-        
-        
-        # Check if any of the queueTaksk in the queueProcess needs to be done by Human
-        for queueTasksByQueueProcess in allQueueTasksByQueueProcess:
-            if queueTasksByQueueProcess.idTaskConfiguration.responsibility == "HUMANO":
-            
-                queueTaskDoneByHuman = queueTasksByQueueProcess
+                jsonSplitMessageLog = str(logsTrace.json()['value'][logTrace]['Message']).split(";")
                 
-             
-      
-        logsInfo = requests.get(creds['url'] + f"/odata/RobotLogs?$filter=JobKey eq {key} and Level eq 'Info'", headers=header)
-        countLogsInfo = logsInfo.json()['@odata.count']
-        
+                if len(jsonSplitMessageLog) != 6:
+                    continue
+    
+                if jsonSplitMessageLog[0] == 'Task':
+                    # call loadLogTaskConfiguration
+                    _,taskType,taskName,description,maxTimeOfExecution,priority = jsonSplitMessageLog
+                    newOrOldTaskConfiguration,newQueueTask = loadLogTaskConfiguration(newOrOldProcessConfiguration,taskType,taskName,description,maxTimeOfExecution,newQueueProcess,priority)
+                    allQueueTasksByQueueProcess.append(newQueueTask)
+                    
+                    timeStamp = str(logsTrace.json()['value'][logTrace]['TimeStamp'])
+                    saveTimes = getTimeStamp(timeStamp)
+                    newQueueTask.startDate = saveTimes[0]+ " " + saveTimes[1]  # type: ignore
+                    newQueueTask.save()
 
-            
-        # There was no log Task for  the Human to check so we skip the insert of the task data since we are not going to check it
-        if queueTaskDoneByHuman == None:
-            continue
-        
-        for logInfo in range(0,countLogsInfo):
- 
-            # Data to insert into taskData
-            jsonMessageLog = str(logsInfo.json()['value'][logInfo]['Message'])
-            
-            jsonMessageLogSplit = jsonMessageLog.split(":")
-            
-
-            if len(jsonMessageLogSplit) == 1:
-                continue
-            
-            # The queueTaskDoneByHuman is the queueTask corresponding to the human that in this case is not going to work since there was no error or warning (just info)
-            # so this is the queueTasks where the robot data is going to be store
-            # there will be a lot of task data instance that corresponde to all the data extrated by the rpa
-            
-            TaskData.objects.create(
-                idTask = queueTaskDoneByHuman,
-                inputData = jsonMessageLog,
-                outputData = jsonMessageLog,
-            )
-                 
-
-            
-        logsWarning = requests.get(creds['url'] + f"/odata/RobotLogs?$filter=JobKey eq {key} and Level eq 'Warn'", headers=header)
-        countLogsWarning = logsWarning.json()['@odata.count']
-       
-        # There is atleast 1 warning in this queueProcess
-        if countLogsWarning != 0:
-            
-            # Process is waiting since there was a warning and no Human is currently correcting the queueTask
-            newQueueProcess.state = "Waiting"
-            newQueueProcess.endDate = None
-            newQueueProcess.save()
-            
-            # The QueueTasks that is done by Humans is waiting since there was a warning and no Human is correcting the queueTask
-            queueTaskDoneByHuman.state = "Waiting"
-            queueTaskDoneByHuman.save()
-           
-        # There was no warning so the end date is the same of the start date 
-        else:
-            queueTaskDoneByHuman.endDate = queueTaskDoneByHuman.startDate
-            queueTaskDoneByHuman.save()
-            newQueueProcess.endDate = queueTaskDoneByHuman.startDate 
-            newQueueProcess.save()
-            
+                
+            # There was no log Task so nothing is going to be added in your database
+            if priority == None:
+                return  
             
         
-        for logWarn in range(0,countLogsWarning):
- 
-            # Data to insert into taskData
-            jsonMessageLogSplit = str(logsWarning.json()['value'][logWarn]['Message']).split("|")
+            # There was no log Task so nothing is going to be added in your database
+            if newOrOldTaskConfiguration == None:
+                return 
+            
+            # There was no log Task so nothing is going to be added in your database
+            if newQueueTask == None:
+                return
             
             
-            # warning log is incorrect
-            if len(jsonMessageLogSplit) != 2:
-                continue
+            # Check if any of the queueTaksk in the queueProcess needs to be done by Human
+            for queueTasksByQueueProcess in allQueueTasksByQueueProcess:
+                if queueTasksByQueueProcess.idTaskConfiguration.responsibility == "HUMANO":
+                
+                    queueTaskDoneByHuman = queueTasksByQueueProcess
+                    
+                
+        
+            logsInfo = requests.get(creds['url'] + f"/odata/RobotLogs?$filter=JobKey eq {key} and Level eq 'Info'", headers=header)
+            countLogsInfo = logsInfo.json()['@odata.count']
             
-            # The queueTaskDoneByHuman is the queueTask corresponding to the human that in this case is not going to work since there was no error or warning (just info)
-            # so this is the queueTasks where the robot data is going to be store
-            # there will be a lot of task data instance that corresponde to all the data extrated by the rpa
+
+                
+            # There was no log Task for  the Human to check so we skip the insert of the task data since we are not going to check it
+            if not queueTaskDoneByHuman == None:
+                
             
-            TaskData.objects.create(
-                idTask = queueTaskDoneByHuman,
-                inputData = jsonMessageLogSplit[1].strip(),
-                errorMessage = jsonMessageLogSplit[0].strip()
-            )
-                 
-        # Now we are going to set the endDates to AllQueueTasks except the last which is done by the Human
-        allQueueTasksByQueueProcessObjects = QueueTask.objects.filter(id__in={instance.id for instance in allQueueTasksByQueueProcess})
-        sortedTasksByStartedDate = allQueueTasksByQueueProcessObjects.order_by("startDate") 
-                             
-        for queueTask  in range(0,len(sortedTasksByStartedDate) -1):
+                for logInfo in range(0,countLogsInfo):
+        
+                    # Data to insert into taskData
+                    jsonMessageLog = str(logsInfo.json()['value'][logInfo]['Message'])
+                    
+                    jsonMessageLogSplit = jsonMessageLog.split(":")
+                    
+
+                    if len(jsonMessageLogSplit) == 1:
+                        continue
+                    
+                    # The queueTaskDoneByHuman is the queueTask corresponding to the human that in this case is not going to work since there was no error or warning (just info)
+                    # so this is the queueTasks where the robot data is going to be store
+                    # there will be a lot of task data instance that corresponde to all the data extrated by the rpa
+                    
+                    TaskData.objects.create(
+                        idTask = queueTaskDoneByHuman,
+                        inputData = jsonMessageLog,
+                        outputData = jsonMessageLog,
+                    )
+                        
+
+                    
+                logsWarning = requests.get(creds['url'] + f"/odata/RobotLogs?$filter=JobKey eq {key} and Level eq 'Warn'", headers=header)
+                countLogsWarning = logsWarning.json()['@odata.count']
             
-            sortedTasksByStartedDate[queueTask].endDate  =  sortedTasksByStartedDate[queueTask + 1].startDate
-            sortedTasksByStartedDate[queueTask].save()
-        print("stART LOGS\n")
+                # There is atleast 1 warning in this queueProcess
+                if countLogsWarning != 0:
+                    
+                    # Process is waiting since there was a warning and no Human is currently correcting the queueTask
+                    newQueueProcess.state = "Waiting"
+                    newQueueProcess.endDate = None
+                    newQueueProcess.save()
+                    
+                    # The QueueTasks that is done by Humans is waiting since there was a warning and no Human is correcting the queueTask
+                    queueTaskDoneByHuman.state = "Waiting"
+                    queueTaskDoneByHuman.save()
+                
+                # There was no warning so the end date is the same of the start date 
+                else:
+                    queueTaskDoneByHuman.endDate = queueTaskDoneByHuman.startDate
+                    queueTaskDoneByHuman.save()
+                    newQueueProcess.endDate = queueTaskDoneByHuman.startDate 
+                    newQueueProcess.save()
+                    
+                    
+                
+                for logWarn in range(0,countLogsWarning):
+        
+                    # Data to insert into taskData
+                    jsonMessageLogSplit = str(logsWarning.json()['value'][logWarn]['Message']).split("|")
+                    
+                    
+                    # warning log is incorrect
+                    if len(jsonMessageLogSplit) != 2:
+                        continue
+                    
+                    # The queueTaskDoneByHuman is the queueTask corresponding to the human that in this case is not going to work since there was no error or warning (just info)
+                    # so this is the queueTasks where the robot data is going to be store
+                    # there will be a lot of task data instance that corresponde to all the data extrated by the rpa
+                    
+                    TaskData.objects.create(
+                        idTask = queueTaskDoneByHuman,
+                        inputData = jsonMessageLogSplit[1].strip(),
+                        errorMessage = jsonMessageLogSplit[0].strip()
+                    )
+                        
+                # Now we are going to set the endDates to AllQueueTasks except the last which is done by the Human
+                allQueueTasksByQueueProcessObjects = QueueTask.objects.filter(id__in={instance.id for instance in allQueueTasksByQueueProcess})
+                sortedTasksByStartedDate = allQueueTasksByQueueProcessObjects.order_by("startDate") 
+                                    
+                for queueTask  in range(0,len(sortedTasksByStartedDate) -1):
+                    
+                    sortedTasksByStartedDate[queueTask].endDate  =  sortedTasksByStartedDate[queueTask + 1].startDate
+                    sortedTasksByStartedDate[queueTask].save()
+        
         createLogFiles(creds,key,header,newQueueProcess)
     
     
-    filewrite = open("docs/jobkeys.txt", "w")
+    filewrite = open("apps/logs/logData/jobkeys.txt", "w")
     for key in keys:
         filewrite.write(key + "\n")
 
@@ -394,16 +398,18 @@ def getTimeStamp(timeStamp):
     startHour = timeStamp.split("T")[1]
     return (startDay,startHour)
 
-def ChangeStateRPA():
-    print("Mudar estado RPA")
-
 def createLogFiles(creds,key,header,newQueueProcess):
         
     # Write logs in our logs
-    print("vou criar os logs\n")
+
+    file_path = "apps/logs/logData/teste.txt"
+    
+    if os.path.exists(file_path):
+        os.remove(file_path)
+       
         
     # First we need to create a new txt file with some name that does not matter since its going to change when the los is created
-    newLogTxt = open("logs/teste.txt","w")
+    newLogTxt = open(file_path,"w")
     allLogs = requests.get(creds['url'] + f"/odata/RobotLogs?$filter=JobKey eq {key} ", headers=header)
     countAllLogs = allLogs.json()['@odata.count']
     for log in range(0,countAllLogs):
@@ -415,7 +421,7 @@ def createLogFiles(creds,key,header,newQueueProcess):
         newLogTxt.write(logType+ "-" +message + "-" + timeStampDate + " " + timeStampTime + "\n")
             
     newLogTxt.close()
-    with open("logs/teste.txt", "rb") as file:
+    with open(file_path, "rb") as file:
         log_file = File(file)
         Log.objects.create(
             process=newQueueProcess,
@@ -423,10 +429,7 @@ def createLogFiles(creds,key,header,newQueueProcess):
             date=datetime.now()
         )
             
-    file_path = "logs/teste.txt"
     if os.path.exists(file_path):
         os.remove(file_path)
-        print(f"O arquivo {file_path} foi excluído com sucesso.")
-
-
+        
 # -------------- End Other functions --------------- #
