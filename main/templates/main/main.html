@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+      <meta charset="UTF-8">
+
+      <title>Process Monitor</title>
+
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'css/main/main.css' %}">
+
+      {% block style %}
+
+      {% endblock style %}
+  </head>
+
+  <body>
+
+    <header>
+      <div>CGI Process Monitoring</div>
+      <nav>
+        <a href="{% url 'adminPage' %}">Administrativo</a>      
+        <a href="">Painel Estatistico</a>      
+        <a href="{% url 'process_listing' %}">Processos de Negócio</a>      
+        <a href="{% url 'businessExceptions' %}">Operational Platform</a>     
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="btnLogout">(User:{{request.user.username}}) Logout</a>
+        {% endif %}
+      </nav>
+
+    </header>
+    
+    <main>
+      {% block main %}
+      {% endblock main %}
+    </main>    
+
+  
+    <footer>ULusófona, 2023</footer>
+
+  </body>    
+</html>
