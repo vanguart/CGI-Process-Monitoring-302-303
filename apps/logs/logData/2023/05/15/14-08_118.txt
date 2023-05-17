@@ -1,6 +1,0 @@
-Error-Read User Data Range: O livro não existe-2023-05-15 14:08:30.321Z
-Info-Execução de ProcessUserDataSmall terminada-2023-05-15 14:08:30.343Z
-Info-Execução de ProcessUserDataSmall iniciada-2023-05-15 14:08:29.624Z
-Trace-Process;Preencher Formulários;Formulários;Este processo vai extrair dados de uma tabela de excel e utiliza-los para preencher um formulário;02:00:00;ler excel-2023-05-15 14:08:30.037Z
-Trace-Task;Extração;Extração dados excel;RPA-Esta tarefa acede a uma dabela excel e extrai os dados da mesma;00:01:00;3-2023-05-15 14:08:30.12Z
-Error-getData.xaml - Invoke Workflow File: O livro não existe-2023-05-15 14:08:30.331Z
