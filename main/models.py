@@ -117,17 +117,17 @@ class Team(models.Model):
 
 def log_path(instance, filename):
     now = datetime.now()
-    return f"Logs/{now.year}/{now.month}/{now.day}/{now.strftime('%H-%M')}_{instance.task.id}.txt"
+    return f"Logs/{now.year}/{now.month}/{now.day}/{now.strftime('%H-%M')}_{instance.process.id}.txt"
 
 
 
 class Log(models.Model):
-    task = models.ForeignKey(QueueTask, on_delete=models.CASCADE, related_name='task')
+    process = models.ForeignKey(QueueProcess, on_delete=models.CASCADE, related_name='LogProcess')
     ficheiro = models.FileField(upload_to=log_path, max_length=254)
     date = models.DateTimeField(null=True)
 
     def __str__(self):
-        return f"Log do {self.task}"
+        return f"Log do {self.process}"
 
 
 class Reporting(models.Model):

@@ -1,11 +1,13 @@
 # Connection API Orchestrator
 import io
+import os
 import json
 from asgiref.sync import sync_to_async
 import requests
 import msoffcrypto
 import pandas as pd
-from datetime import timedelta
+from datetime import timedelta,datetime
+from django.core.files import File
 from django.db.models import Q
 
 from main.models import  QueueTask, Log, QueueProcess, ProcessConfiguration, ProcessType,TaskConfiguration,TaskData,TaskType,Skill
@@ -284,7 +286,9 @@ def transformLog(creds,header,keys):
             
             sortedTasksByStartedDate[queueTask].endDate  =  sortedTasksByStartedDate[queueTask + 1].startDate
             sortedTasksByStartedDate[queueTask].save()
-        
+        print("stART LOGS\n")
+        createLogFiles(creds,key,header,newQueueProcess)
+    
     
     filewrite = open("docs/jobkeys.txt", "w")
     for key in keys:
@@ -381,7 +385,6 @@ def loadLogTaskConfiguration(processConfiguration,taskType,taskName,description,
     return taskConfigurationDB , queueTaskDB
 
 
-
 # ------------------- End Load --------------------- #
 
 # -------------- Start Other functions ------------- #
@@ -394,19 +397,36 @@ def getTimeStamp(timeStamp):
 def ChangeStateRPA():
     print("Mudar estado RPA")
 
-'''
-def getTaskLog(taskRef):
-    log = Log.objects.filter(task__id=taskRef).all()
-    textLog = ""
-    for logging in log:
-        try:
-            with logging.ficheiro.open('r') as file:
-                conteudo = file.read()
-                textLog += conteudo + '\n'
-                print(conteudo)
-        except Exception as e:
-            print(f"Erro ao ler o arquivo {logging.ficheiro}: {e}")
-    return textLog
-    '''
+def createLogFiles(creds,key,header,newQueueProcess):
+        
+    # Write logs in our logs
+    print("vou criar os logs\n")
+        
+    # First we need to create a new txt file with some name that does not matter since its going to change when the los is created
+    newLogTxt = open("logs/teste.txt","w")
+    allLogs = requests.get(creds['url'] + f"/odata/RobotLogs?$filter=JobKey eq {key} ", headers=header)
+    countAllLogs = allLogs.json()['@odata.count']
+    for log in range(0,countAllLogs):
+        message = str(allLogs.json()['value'][log]['Message'])
+        logType = str(allLogs.json()['value'][log]['Level'])
+        timeStampNeedsFixing = str(allLogs.json()['value'][log]['TimeStamp'])
+        timeStampDate = timeStampNeedsFixing.split("T")[0]
+        timeStampTime = timeStampNeedsFixing.split("T")[1]
+        newLogTxt.write(logType+ "-" +message + "-" + timeStampDate + " " + timeStampTime + "\n")
+            
+    newLogTxt.close()
+    with open("logs/teste.txt", "rb") as file:
+        log_file = File(file)
+        Log.objects.create(
+            process=newQueueProcess,
+            ficheiro=log_file,
+            date=datetime.now()
+        )
+            
+    file_path = "logs/teste.txt"
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        print(f"O arquivo {file_path} foi excluído com sucesso.")
+
 
 # -------------- End Other functions --------------- #
