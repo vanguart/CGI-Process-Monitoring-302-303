@@ -66,16 +66,18 @@ def businessExceptions_page_view(request):
 
 
 def correcaoDocumentos_page_view(request, taskId):
-    task = QueueTask.objects.get(id=taskId)
+    taskData = TaskData.objects.filter(Q(idTask=taskId)& Q(outputData = ""))
+    task = QueueTask.objects.get(id = taskId)
 
     if request.method == 'POST':
         form = taskForm(request.POST, fields=getInputData(taskId))
         if form.is_valid():
-            # Create a new QueueTask object and populate its fields with the form data
-            task.outputData = form.cleaned_data
-            task.state = 'Completed'
-            task.save()
-            cleanOutputData(taskId)
+            taskData[0].outputData = form.cleaned_data
+            if len(taskData) == 1:
+                task.state = 'Completed'
+                task.save()
+            
+            cleanOutputData(task)
             return HttpResponseRedirect(reverse('businessExceptions'))
 
     else:
@@ -87,6 +89,7 @@ def correcaoDocumentos_page_view(request, taskId):
     }
 
     return render(request, 'operational_platform/correcaoDocumentos.html', context)
+
 
 
 def reportarErrosNoSistema_page_view(request):
