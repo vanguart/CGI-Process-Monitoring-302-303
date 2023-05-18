@@ -1,7 +1,8 @@
-from main.models import UserProfile, QueueProcess, QueueTask, TaskData
+from main.models import UserProfile, QueueProcess, QueueTask, TaskData,Log
 from django.db.models import Q as Query
 import win32com.client as win32
 import pythoncom
+from datetime import datetime
 
 
 def addProcess(request, userProfile):
@@ -16,14 +17,17 @@ def addProcess(request, userProfile):
 def removeProcess(request):
     objectIDToTransfer = request.POST.get('removeProcess')
     process = QueueProcess.objects.filter(id=objectIDToTransfer)
+    process.update(state="Waiting")
     process.update(idUser=None)
 
 
 def getInputData(queueTaskId):
-    task = QueueTask.objects.get(id=queueTaskId)
-    taskData = TaskData.objects.filter(Query(idTask=task) & Query(outputData="")).first()
 
-    data = str(taskData.inputData)  # type: ignore
+    task = QueueTask.objects.get(id=queueTaskId)
+    taskData = TaskData.objects.filter(Query(idTask=task) & Query(outputData = "")).first()
+    task.state = "Running"
+    task.save()
+    data = str(taskData.inputData) # type: ignore
     fields = []
     dataAfterProcessing = []
     groupData = data.split(";")
@@ -56,8 +60,7 @@ def cleanOutputData(taskDataId):
 
 def addProcessToTeam(userProfile):
     teamProcessList = []
-    for processo in QueueProcess.objects.filter(idConfiguration__idTeam=userProfile.idTeam).exclude(
-            Query(state='Completed') | Query(state='Aborted')):
+    for processo in QueueProcess.objects.filter(idConfiguration__idTeam=userProfile.idTeam).exclude(Query(state='Completed') | Query(state='Aborted')):
         if processo.idUser is None:
             teamProcessList.append(processo)
 
@@ -68,11 +71,11 @@ def addProcessToUser(userProfile):
     userProcessList = []
     processTaskDictionary = {}
     userTaskCount = 0
-    for processo in QueueProcess.objects.filter(idUser=userProfile.id).exclude(
-            Query(state='Completed') | Query(state='Aborted')):
+    for processo in QueueProcess.objects.filter(idUser=userProfile.id).exclude(Query(state='Completed') | Query(state='Aborted')):
         userProcessList.append(processo)
-        for task in QueueTask.objects.filter(idProcess=processo.id).exclude(
-                Query(state='Completed') | Query(state='Aborted')):
+        processo.state = "Running"
+        processo.save()
+        for task in QueueTask.objects.filter(idProcess=processo.id).exclude(Query(state='Completed') | Query(state='Aborted')):
             userTaskCount += TaskData.objects.filter(idTask=task.id, outputData='').count()
 
             if processTaskDictionary.get(processo.id) is None:
@@ -96,3 +99,12 @@ def excel_to_pdf(input_file, output_file):
     # Fechar o arquivo e sair do Excel
     wb.Close()
     excel.Quit()
+
+def createHumanLogs(task, taskData, request):
+    log = Log.objects.get(process=task.idProcess)
+
+    with open(log.ficheiro.path, 'a') as file:
+        file.writelines(f"The user with id = {request.user.id}("
+                        f"{request.user.username}) Completed the correction of the taskData with id = {taskData.id}@{datetime.now()}Z\n")
+
+
