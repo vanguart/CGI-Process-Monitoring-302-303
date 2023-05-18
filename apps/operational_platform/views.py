@@ -77,15 +77,18 @@ def correcaoDocumentos_page_view(request, taskId):
         if form.is_valid():
             taskData.outputData = form.cleaned_data
             taskData.save()
+            createHumanLogs(task,taskData,request)
+            cleanOutputData(taskData.id)
+            #There is no more taskData to correct
             if countTaskData == 1:
                 task.idProcess.state = 'Completed'
                 task.idProcess.save()
                 task.endDate = datetime.now()
                 task.state = 'Completed'
                 task.save()
-            
-            cleanOutputData(taskData.id)
-            return HttpResponseRedirect(reverse('businessExceptions'))
+                return HttpResponseRedirect(reverse('businessExceptions'))
+
+            return HttpResponseRedirect(reverse('correcaoDocumentos', kwargs={'taskId':task.id}))
 
     else:
         form = taskForm(fields=getInputData(taskId))

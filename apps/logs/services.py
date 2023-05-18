@@ -294,8 +294,8 @@ def transformLog(creds,header,keys):
         createLogFiles(creds,key,header,newQueueProcess)
     
     
-    filewrite = open("apps/logs/logData/jobkeys.txt", "w")
-    for key in keys:
+    filewrite = open("apps/logs/logData/jobkeys.txt", "a")
+    for key in newKeys:
         filewrite.write(key + "\n")
 
 # ------------------- End Transform ---------------- #
@@ -418,7 +418,7 @@ def createLogFiles(creds,key,header,newQueueProcess):
         timeStampNeedsFixing = str(allLogs.json()['value'][log]['TimeStamp'])
         timeStampDate = timeStampNeedsFixing.split("T")[0]
         timeStampTime = timeStampNeedsFixing.split("T")[1]
-        newLogTxt.write(logType+ "-" +message + "|" + timeStampDate + " " + timeStampTime + "\n")
+        newLogTxt.write(logType+ "-" +message + "@" + timeStampDate + " " + timeStampTime + "\n")
             
     newLogTxt.close()
     sort_file_by_time(file_path) 
@@ -434,7 +434,7 @@ def createLogFiles(creds,key,header,newQueueProcess):
         os.remove(file_path)
        
 def extract_time(line):
-    time_start = line.find('|') + 1
+    time_start = line.find('@') + 1
     time_end = line.find('\n', time_start)
     return line[time_start:time_end]
 

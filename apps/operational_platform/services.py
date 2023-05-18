@@ -1,5 +1,6 @@
-from main.models import UserProfile, QueueProcess, QueueTask, TaskData
+from main.models import UserProfile, QueueProcess, QueueTask, TaskData,Log
 from django.db.models import Q as Query
+from datetime import datetime
 
 
 def addProcess(request, userProfile):
@@ -81,3 +82,14 @@ def addProcessToUser(userProfile):
             processTaskDictionary.update({processo.id: processTaskList})
 
     return userTaskCount, userProcessList, processTaskDictionary
+
+
+def createHumanLogs(task,taskData,request):
+    
+    log = Log.objects.get(process = task.idProcess)
+    
+    with open(log.ficheiro.path, 'a') as file:
+        
+        file.writelines(f"The user with id = {request.user.id}({request.user.username}) Completed the correction of the taskData with id = {taskData.id}@{datetime.now()}Z\n")
+        
+            
