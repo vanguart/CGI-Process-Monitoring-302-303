@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<script>
+  function toggleDropdown() {
+    document.getElementById("dropdown-content").classList.toggle("block");
+  }
+</script>
+
 <html lang="en">
 
   <head>
@@ -19,7 +25,6 @@
   </head>
 
   <body>
-
     <header>
       <img class="logo" src="{% static 'images/logo.png' %}">
       <nav>
@@ -28,7 +33,7 @@
         <a href="{% url 'process_listing' %}">Processos de Negócio</a>      
         <a href="{% url 'businessExceptions' %}">Operational Platform</a>
         <div class="dropdown-profile">
-          <div class="dropdown-button">
+          <div class="dropdown-button" onclick="toggleDropdown()">
             {{request.user.username}}
             <img src="{% static 'images/profile_placeholder.svg' %}">
           </div>
@@ -37,7 +42,6 @@
           </div>
         </div>
       </nav>
-
     </header>
     <div class="bar"></div>
     <main>
