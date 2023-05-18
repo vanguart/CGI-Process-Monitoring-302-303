@@ -1,9 +1,13 @@
+import io
 import random
 import smtplib
 import string
 from datetime import timedelta
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+
+import msoffcrypto
+import pandas as pd
 from django.urls import reverse
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
@@ -29,9 +33,20 @@ def sendEmailWithGeneratedCode(userEmailInput):
         print("That email does not exist in the your database")
         return None
 
+    passwd = 'RPA-process-monitoring'
+    config_file = r"docs\config.xlsx"
+
+    decrypted_workbook = io.BytesIO()
+    with open(config_file, 'rb') as file:
+        office_file = msoffcrypto.OfficeFile(file)
+        office_file.load_key(password=passwd)
+        office_file.decrypt(decrypted_workbook)
+
+    credentials_df = pd.read_excel(decrypted_workbook, engine='openpyxl')
+
     # informações da conta
-    emailUtilizador = 'a22007237@alunos.ulht.pt'
-    senha = 'JPcse1992'
+    emailUtilizador = credentials_df[credentials_df["Name"] == "emailOutlook"]["Value"].iloc[0]
+    senha = credentials_df[credentials_df["Name"] == "password"]["Value"].iloc[0]
 
     # informações do destinatário
     para = userEmailInput

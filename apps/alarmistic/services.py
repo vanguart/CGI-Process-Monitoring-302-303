@@ -1,16 +1,31 @@
+import io
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from main.models import Log, Task, UserProfile, Team
+import msoffcrypto
+import pandas as pd
+
+from main.models import Log, QueueTask, UserProfile, Team
 import schedule
 import time
 
 
 def enviamail(email, subject, body):
+    passwd = 'RPA-process-monitoring'
+    config_file = r"docs\config.xlsx"
+
+    decrypted_workbook = io.BytesIO()
+    with open(config_file, 'rb') as file:
+        office_file = msoffcrypto.OfficeFile(file)
+        office_file.load_key(password=passwd)
+        office_file.decrypt(decrypted_workbook)
+
+    credentials_df = pd.read_excel(decrypted_workbook, engine='openpyxl')
+
     # informações da conta
-    emailUtilizador = 'a22007237@alunos.ulht.pt'
-    senha = 'JPcse1992'
+    emailUtilizador = credentials_df[credentials_df["Name"] == "emailOutlook"]["Value"].iloc[0]
+    senha = credentials_df[credentials_df["Name"] == "password"]["Value"].iloc[0]
 
     # informações do destinatário
     para = email
@@ -45,7 +60,7 @@ def enviarEmailErro():
         if logs.logType.name == "Fatal Error":
             subject += "Fatal Error"
 
-        for task in Task.objects.all():
+        for task in QueueTask.objects.all():
 
             if task == logs.task:
                 body = "You have " + subject.lower()
