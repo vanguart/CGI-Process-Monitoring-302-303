@@ -71,14 +71,14 @@ def correcaoDocumentos_page_view(request, taskId):
     task = QueueTask.objects.get(id = taskId)
 
     if request.method == 'POST':
-        form = taskForm(request.POST, fields=getInputData(taskId))
+        form = taskForm(request.POST, fields=getInputData(taskData))
         if form.is_valid():
             taskData[0].outputData = form.cleaned_data
             if len(taskData) == 1:
                 task.state = 'Completed'
                 task.save()
             
-            cleanOutputData(task)
+            cleanOutputData(taskData.id)
             return HttpResponseRedirect(reverse('businessExceptions'))
 
     else:

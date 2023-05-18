@@ -19,14 +19,9 @@ def removeProcess(request):
 
 def getInputData(queueTaskId):
 
-    tasksData = TaskData.objects.filter(idTask=queueTaskId)
-    for taskData in tasksData:
-        if taskData.outputData == "":
-            print(taskData.inputData)
-            tasksData = taskData
-            break
+    taskData = TaskData.objects.get(id = queueTaskId)
             
-    data = str(tasksData.inputData) # type: ignore
+    data = str(taskData.inputData) # type: ignore
     fields = []
     dataAfterProcessing = []
     groupData = data.split(";")
