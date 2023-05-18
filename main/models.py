@@ -1,4 +1,3 @@
-from datetime import datetime,timedelta
 from django.contrib.auth.models import User, Group
 from django.db import models
 
@@ -153,4 +152,4 @@ class TaskData(models.Model):
     errorMessage = models.CharField(default="No error or warning in this queueTasks",max_length=10000)
     
     def __str__(self):
-        return str(self.idTask)
+        return str(self.id)

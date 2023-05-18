@@ -53,7 +53,7 @@ def connectionToApi():
 
     header['X-UIPATH-TenantName'] = creds['tenancyName']
 
-    header['X-UIPATH-OrganizationUnitId'] = '4368333'
+    header['X-UIPATH-OrganizationUnitId'] = '4388550'
     
     getLogs(creds,header)
 
@@ -418,9 +418,10 @@ def createLogFiles(creds,key,header,newQueueProcess):
         timeStampNeedsFixing = str(allLogs.json()['value'][log]['TimeStamp'])
         timeStampDate = timeStampNeedsFixing.split("T")[0]
         timeStampTime = timeStampNeedsFixing.split("T")[1]
-        newLogTxt.write(logType+ "-" +message + "-" + timeStampDate + " " + timeStampTime + "\n")
+        newLogTxt.write(logType+ "-" +message + "|" + timeStampDate + " " + timeStampTime + "\n")
             
     newLogTxt.close()
+    sort_file_by_time(file_path) 
     with open(file_path, "rb") as file:
         log_file = File(file)
         Log.objects.create(
@@ -431,5 +432,20 @@ def createLogFiles(creds,key,header,newQueueProcess):
             
     if os.path.exists(file_path):
         os.remove(file_path)
+       
+def extract_time(line):
+    time_start = line.find('|') + 1
+    time_end = line.find('\n', time_start)
+    return line[time_start:time_end]
+
+def sort_file_by_time(file_path):
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+
+    sorted_lines = sorted(lines, key=extract_time)
+
+    with open(file_path, 'w') as file:
+        file.writelines(sorted_lines)
+
         
 # -------------- End Other functions --------------- #

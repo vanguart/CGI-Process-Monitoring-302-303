@@ -4,6 +4,8 @@ from django.urls import reverse
 from apps.operational_platform.forms import *
 from apps.operational_platform.services import *
 from main.models import QueueTask, UserProfile, QueueProcess, Team
+from django.db.models import Q as Query
+from datetime import datetime
 
 
 def businessExceptions_page_view(request):
@@ -15,7 +17,8 @@ def businessExceptions_page_view(request):
     userProfile = UserProfile.objects.filter(idUser__username=username).first()
     teamOfUser = None
     chefeEquipa = None
-
+    userTaskCount = 0
+    
     # PICK PROCESS IN OPERATIONAL PLATFORM
     if request.method == 'POST' and 'addProcess' in request.POST:
         addProcess(request, userProfile)
@@ -35,7 +38,7 @@ def businessExceptions_page_view(request):
         teamProcessList = addProcessToTeam(userProfile)
 
         # ADDS SPECIFIED PROCESS AND IT'S TASKS TO AN USER (THAT PICKED THE PROCESS)
-        userProcessList, processTaskDictionary = addProcessToUser(userProfile)
+        userTaskCount, userProcessList, processTaskDictionary = addProcessToUser(userProfile)
 
     # GET ALL USER FROM DATABASE
     allUsersDataBase = UserProfile.objects.all()
@@ -47,8 +50,6 @@ def businessExceptions_page_view(request):
     # GET THE NUMBER OF USER PROCESSES
     userProcessCount = len(userProcessList)
 
-    # GET THE NUMBER OF USER TASKS TO-DO
-    userTaskCount = sum(len(listTasks) for listTasks in processTaskDictionary.values())
 
     context = {
         'teamName': teamOfUser,
@@ -67,16 +68,23 @@ def businessExceptions_page_view(request):
 
 
 def correcaoDocumentos_page_view(request, taskId):
-    task = QueueTask.objects.get(id=taskId)
+    countTaskData = TaskData.objects.filter(Query(idTask=taskId)& Query(outputData = "")).count()
+    taskData = TaskData.objects.filter(Query(idTask=taskId)& Query(outputData = "")).first()
+    task = QueueTask.objects.get(id = taskId)
 
     if request.method == 'POST':
         form = taskForm(request.POST, fields=getInputData(taskId))
         if form.is_valid():
-            # Create a new QueueTask object and populate its fields with the form data
-            task.outputData = form.cleaned_data
-            task.state = 'Completed'
-            task.save()
-            cleanOutputData(taskId)
+            taskData.outputData = form.cleaned_data
+            taskData.save()
+            if countTaskData == 1:
+                task.idProcess.state = 'Completed'
+                task.idProcess.save()
+                task.endDate = datetime.now()
+                task.state = 'Completed'
+                task.save()
+            
+            cleanOutputData(taskData.id)
             return HttpResponseRedirect(reverse('businessExceptions'))
 
     else:
@@ -88,6 +96,7 @@ def correcaoDocumentos_page_view(request, taskId):
     }
 
     return render(request, 'operational_platform/correcaoDocumentos.html', context)
+
 
 
 def reportarErrosNoSistema_page_view(request):
