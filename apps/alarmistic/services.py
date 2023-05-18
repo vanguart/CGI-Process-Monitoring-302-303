@@ -78,12 +78,3 @@ def enviarEmailTarefasRealizarToday():
         body = "Number of tasks the team has to do today:" + str(tarefas) + " tasks!"
         enviamail(email, subject, body)
 
-
-# todos os dias envia os emails
-schedule.every(24).hours.do(enviarEmailErro)
-schedule.every(24).hours.do(enviarEmailTarefasRealizarToday)
-
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
