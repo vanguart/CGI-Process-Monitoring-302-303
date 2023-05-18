@@ -15,6 +15,7 @@ def addProcess(request, userProfile):
 def removeProcess(request):
     objectIDToTransfer = request.POST.get('removeProcess')
     process = QueueProcess.objects.filter(id=objectIDToTransfer)
+    process.update(state="Waiting")
     process.update(idUser=None)
 
 
@@ -22,7 +23,8 @@ def getInputData(queueTaskId):
 
     task = QueueTask.objects.get(id=queueTaskId)
     taskData = TaskData.objects.filter(Query(idTask=task) & Query(outputData = "")).first()
-            
+    task.state = "Running"
+    task.save()
     data = str(taskData.inputData) # type: ignore
     fields = []
     dataAfterProcessing = []
@@ -71,6 +73,8 @@ def addProcessToUser(userProfile):
     userTaskCount = 0
     for processo in QueueProcess.objects.filter(idUser=userProfile.id).exclude(Query(state='Completed') | Query(state='Aborted')):
         userProcessList.append(processo)
+        processo.state = "Running"
+        processo.save()
         for task in QueueTask.objects.filter(idProcess=processo.id).exclude(Query(state='Completed') | Query(state='Aborted')):
             userTaskCount += TaskData.objects.filter(idTask=task.id, outputData='').count()
 
