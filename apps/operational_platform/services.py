@@ -88,6 +88,14 @@ def addProcessToUser(userProfile):
     return userTaskCount, userProcessList, processTaskDictionary
 
 
+def createHumanLogs(task, taskData, request):
+    log = Log.objects.get(process=task.idProcess)
+
+    with open(log.ficheiro.path, 'a') as file:
+        file.writelines(f"The user with id = {request.user.id}("
+                        f"{request.user.username}) Completed the correction of the taskData with id = {taskData.id}@{datetime.now()}Z\n")
+
+
 def excel_to_pdf(input_file, output_file):
     pythoncom.CoInitialize()
     excel = win32.gencache.EnsureDispatch('Excel.Application')
@@ -99,12 +107,4 @@ def excel_to_pdf(input_file, output_file):
     # Fechar o arquivo e sair do Excel
     wb.Close()
     excel.Quit()
-
-def createHumanLogs(task, taskData, request):
-    log = Log.objects.get(process=task.idProcess)
-
-    with open(log.ficheiro.path, 'a') as file:
-        file.writelines(f"The user with id = {request.user.id}("
-                        f"{request.user.username}) Completed the correction of the taskData with id = {taskData.id}@{datetime.now()}Z\n")
-
 
