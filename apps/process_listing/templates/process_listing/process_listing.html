@@ -21,15 +21,28 @@
 
 <br>
 
-<!-- Formulário de filtragem -->
+<!-- Formulário de filtragem por LABEL -->
 <form action="{% url 'process_listing' %}" method="get">
         
-    <label for="filtros">Filters:</label>
+    <label for="filtros">Labels:</label>
     <select name="filtros" onchange="this.form.submit();">
         <option value="" selected disabled>Choose filter</option>
         <option value="noFilter">-- None --</option>
         {% for filterOption in filtros %} 
             <option value="{{ filterOption }}">{{ filterOption }}</option>
+        {% endfor %}
+    </select>
+</form>
+
+<!-- Formulário de filtragem por ESTADO DO PROCESSO -->
+<form action="{% url 'process_listing' %}" method="get">
+        
+    <label for="estados">Estados:</label>
+    <select name="estados" onchange="this.form.submit();">
+        <option value="" selected disabled>Choose filter</option>
+        <option value="noState">-- None --</option>
+        {% for StateOption in states %} 
+            <option value="{{ StateOption }}">{{ StateOption }}</option>
         {% endfor %}
     </select>
 </form>
