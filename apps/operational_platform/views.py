@@ -1,3 +1,5 @@
+import os
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -18,7 +20,7 @@ def businessExceptions_page_view(request):
     teamOfUser = None
     chefeEquipa = None
     userTaskCount = 0
-    
+
     # PICK PROCESS IN OPERATIONAL PLATFORM
     if request.method == 'POST' and 'addProcess' in request.POST:
         addProcess(request, userProfile)
@@ -50,7 +52,6 @@ def businessExceptions_page_view(request):
     # GET THE NUMBER OF USER PROCESSES
     userProcessCount = len(userProcessList)
 
-
     context = {
         'teamName': teamOfUser,
         'teamProcesses': teamProcessList,
@@ -68,9 +69,17 @@ def businessExceptions_page_view(request):
 
 
 def correcaoDocumentos_page_view(request, taskId):
-    countTaskData = TaskData.objects.filter(Query(idTask=taskId)& Query(outputData = "")).count()
-    taskData = TaskData.objects.filter(Query(idTask=taskId)& Query(outputData = "")).first()
-    task = QueueTask.objects.get(id = taskId)
+    countTaskData = TaskData.objects.filter(Query(idTask=taskId) & Query(outputData="")).count()
+    taskData = TaskData.objects.filter(Query(idTask=taskId) & Query(outputData="")).first()
+    task = QueueTask.objects.get(id=taskId)
+    # Obtém o diretório base do projeto
+    BASE_DIR = os.path.dirname(os.path.abspath('CGI-Process-Monitoring-302-303'))
+    # Caminhos relativos aos arquivos
+    input_file = os.path.join(BASE_DIR, 'static/files/MOCK_DATA_SMALL.xlsx')
+    output_file = os.path.join(BASE_DIR, 'static/files/excel.pdf')
+    # Chama a função para converter o arquivo
+
+    excel_to_pdf(input_file, output_file)
 
     if request.method == 'POST':
         form = taskForm(request.POST, fields=getInputData(taskId))
@@ -83,7 +92,7 @@ def correcaoDocumentos_page_view(request, taskId):
                 task.endDate = datetime.now()
                 task.state = 'Completed'
                 task.save()
-            
+
             cleanOutputData(taskData.id)
             return HttpResponseRedirect(reverse('businessExceptions'))
 
@@ -92,11 +101,10 @@ def correcaoDocumentos_page_view(request, taskId):
 
     context = {
         'teamtasks': task,
-        'form': form
-    }
+        'form': form,
+        'file': r"../static/files/excel.pdf"}
 
     return render(request, 'operational_platform/correcaoDocumentos.html', context)
-
 
 
 def reportarErrosNoSistema_page_view(request):
