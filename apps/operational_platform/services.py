@@ -19,7 +19,8 @@ def removeProcess(request):
 
 def getInputData(queueTaskId):
 
-    taskData = TaskData.objects.get(id = queueTaskId)
+    task = QueueTask.objects.get(id=queueTaskId)
+    taskData = TaskData.objects.filter(Query(idTask=task) & Query(outputData = "")).first()
             
     data = str(taskData.inputData) # type: ignore
     fields = []
@@ -34,7 +35,8 @@ def getInputData(queueTaskId):
 
 
 def cleanOutputData(taskDataId):
-    taskData = TaskData.objects.get(id=taskDataId)
+    
+    taskData = TaskData.objects.get(id = taskDataId)
     data = str(taskData.outputData)
 
     data = data.replace("{", "").replace("}", "").replace("\'", "")
@@ -43,6 +45,7 @@ def cleanOutputData(taskDataId):
     for j in range(0, len(groupData)):
         individualData = groupData[j].split(":")
         if j == 0:
+            
             result = result + individualData[0].strip() + ":" + individualData[1].strip()
         else:
             result = result + ";" + individualData[0].strip() + ":" + individualData[1].strip()

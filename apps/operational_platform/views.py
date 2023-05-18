@@ -5,6 +5,7 @@ from apps.operational_platform.forms import *
 from apps.operational_platform.services import *
 from main.models import QueueTask, UserProfile, QueueProcess, Team
 from django.db.models import Q as Query
+from datetime import datetime
 
 
 def businessExceptions_page_view(request):
@@ -67,14 +68,19 @@ def businessExceptions_page_view(request):
 
 
 def correcaoDocumentos_page_view(request, taskId):
-    taskData = TaskData.objects.filter(Query(idTask=taskId)& Query(outputData = ""))
+    countTaskData = TaskData.objects.filter(Query(idTask=taskId)& Query(outputData = "")).count()
+    taskData = TaskData.objects.filter(Query(idTask=taskId)& Query(outputData = "")).first()
     task = QueueTask.objects.get(id = taskId)
 
     if request.method == 'POST':
-        form = taskForm(request.POST, fields=getInputData(taskData))
+        form = taskForm(request.POST, fields=getInputData(taskId))
         if form.is_valid():
-            taskData[0].outputData = form.cleaned_data
-            if len(taskData) == 1:
+            taskData.outputData = form.cleaned_data
+            taskData.save()
+            if countTaskData == 1:
+                task.idProcess.state = 'Completed'
+                task.idProcess.save()
+                task.endDate = datetime.now()
                 task.state = 'Completed'
                 task.save()
             
