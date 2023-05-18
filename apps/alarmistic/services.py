@@ -69,33 +69,20 @@ def enviarEmailErro():
                     enviamail(email, subject, body)
 
 
-def enviarEmailObjetivo(threshold=70):
-    subject = "Goal Low"
-    for users in UserProfile.objects.all():
-        email = users.user.email
-        if users.goal < threshold:
-            if users.groupUser.name == 'RPA':
-                body = "The RPA " + users.user.username + " goal is low!"
-                enviamail(email, subject, body)
-            else:
-                body = "Your goal is low!"
-                enviamail(email, subject, body)
-
-
 def enviarEmailTarefasRealizarToday():
     subject = "Tasks to-do Today"
 
     for team in Team.objects.all():
-        email = team.teamLider.user.email
-        tarefas = len(team.tasks)
-        body = "To-do today:\n " + str(tarefas)
+        email = team.idTeamLider.idUser.email
+        tarefas = QueueTask.objects.filter(idProcess__idUser__idTeam=team).count()
+        body = "Number of tasks the team has to do today:" + str(tarefas) + " tasks!"
         enviamail(email, subject, body)
 
 
 # todos os dias envia os emails
 schedule.every(24).hours.do(enviarEmailErro)
 schedule.every(24).hours.do(enviarEmailTarefasRealizarToday)
-schedule.every(24).hours.do(enviarEmailObjetivo)
+
 
 while True:
     schedule.run_pending()
