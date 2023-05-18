@@ -1,10 +1,4 @@
 <!DOCTYPE html>
-<script>
-  function toggleDropdown() {
-    document.getElementById("dropdown-content").classList.toggle("block");
-  }
-</script>
-
 <html lang="en">
 
   <head>
@@ -33,7 +27,7 @@
         <a href="{% url 'process_listing' %}">Processos de Negócio</a>      
         <a href="{% url 'businessExceptions' %}">Operational Platform</a>
         <div class="dropdown-profile">
-          <div class="dropdown-button" onclick="toggleDropdown()">
+          <div class="dropdown-button">
             {{request.user.username}}
             <img src="{% static 'images/profile_placeholder.svg' %}">
           </div>
