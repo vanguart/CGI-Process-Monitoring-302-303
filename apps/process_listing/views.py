@@ -27,7 +27,6 @@ def process_listing_page_view(request):
         'processes': query,
         'filtros': Label.objects.all(),
         'tasks': QueueTask.objects.all(),
-        # DEBUGG FILTER TYPE ->  'tipoDeFiltro': request.GET.get('filtros')
     }
 
     return render(request, 'process_listing/process_listing.html', context)
