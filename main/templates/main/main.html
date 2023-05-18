@@ -21,26 +21,28 @@
   <body>
 
     <header>
-      <div>CGI Process Monitoring</div>
+      <img class="logo" src="{% static 'images/logo.png' %}">
       <nav>
         <a href="{% url 'adminPage' %}">Administrativo</a>      
-        <a href="">Painel Estatistico</a>      
+        <a href="">Painel Estatistico</a>
         <a href="{% url 'process_listing' %}">Processos de Negócio</a>      
-        <a href="{% url 'businessExceptions' %}">Operational Platform</a>     
-        {% if user.is_authenticated %}
-        <a href="{% url 'logout' %}" class="btnLogout">(User:{{request.user.username}}) Logout</a>
-        {% endif %}
+        <a href="{% url 'businessExceptions' %}">Operational Platform</a>
+        <div class="dropdown-profile">
+          <div class="dropdown-button">
+            {{request.user.username}}
+            <img src="{% static 'images/profile_placeholder.svg' %}">
+          </div>
+          <div class="dropdown-content">
+            <a href="{% url 'logout' %}" class="btnLogout">Logout</a>
+          </div>
+        </div>
       </nav>
 
     </header>
-    
+    <div class="bar"></div>
     <main>
       {% block main %}
       {% endblock main %}
     </main>    
-
-  
-    <footer>ULusófona, 2023</footer>
-
   </body>    
 </html>

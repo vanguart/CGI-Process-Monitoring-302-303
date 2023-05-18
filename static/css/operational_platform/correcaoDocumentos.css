@@ -2,7 +2,7 @@
     height: 100%;
     width: 50%;
     position: fixed;
-    top: 0;
+    top: 10vh;
     overflow-x: hidden;
     padding-top: 20px;
 }

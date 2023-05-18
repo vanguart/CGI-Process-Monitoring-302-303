@@ -5,6 +5,12 @@
     font-family: 'Secular One', sans-serif;
 }
 
+.logo {
+    height: 7.5vh;
+    width: auto;
+    margin: 1.5vh;
+}
+
 .background {
     background-color: white;
     position: absolute;

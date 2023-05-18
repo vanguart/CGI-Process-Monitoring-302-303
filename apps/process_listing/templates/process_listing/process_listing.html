@@ -16,60 +16,60 @@
     }
 </script>
 
-<body>
-    <h2>Processos de Negócio</h2>
 
-    <br>
+<h2>Processos de Negócio</h2>
 
-    <!-- Formulário de filtragem -->
-    <form action="{% url 'process_listing' %}" method="get">
-           
-        <label for="filtros">Filters:</label>
-        <select name="filtros" onchange="this.form.submit();">
-            <option value="" selected disabled>Choose filter</option>
-            <option value="noFilter">-- None --</option>
-            {% for filterOption in filtros %} 
-                <option value="{{ filterOption }}">{{ filterOption }}</option>
-            {% endfor %}
-        </select>
-    </form>
+<br>
 
-    <!-- Tabela de processos -->
-    <div class="process_table">
-        <table>
-            <tr>
-                <th>Processos</th>
-                <th>Estado</th>
-            </tr>
-            {% for process in processes %}
-            <tr class="row" onclick="showHideRow('{{process.id}}')">
-                <td>
-                    {{process.idConfiguration.name}}
-                    <br>
-                    {{process.idConfiguration.description}}
-                </td>
-                <td>{{process.state}}</td>
-    
-            </tr>
-            <tr id="hidden_row_{{process.id}}" class="hidden_row">
-                <td colspan="3">
-                    {% for task in tasks %}
-                        {% if task.idProcess == process %}
-                            <p>Tarefa:{{task.idTaskConfiguration.name}}</p>
-                            <br>
-                            <p>Estado da tarefa:{{task.state}}</p>
-                            <br>
-                            <p>Descrição da tarefa:{{task.idTaskConfiguration.description}}</p>
-                            <br>
-                            <br>
-                        {% endif %}
-                    {% endfor %}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-</body>
+<!-- Formulário de filtragem -->
+<form action="{% url 'process_listing' %}" method="get">
+        
+    <label for="filtros">Filters:</label>
+    <select name="filtros" onchange="this.form.submit();">
+        <option value="" selected disabled>Choose filter</option>
+        <option value="noFilter">-- None --</option>
+        {% for filterOption in filtros %} 
+            <option value="{{ filterOption }}">{{ filterOption }}</option>
+        {% endfor %}
+    </select>
+</form>
+
+<!-- Tabela de processos -->
+<div class="process_table">
+    <table>
+        <tr>
+            <th>Processos</th>
+            <th>Estado</th>
+        </tr>
+        {% for process in processes %}
+        <tr class="row" onclick="showHideRow('{{process.id}}')">
+            <td>
+                {{process.idConfiguration.name}}
+                <br>
+                {{process.idConfiguration.description}}
+            </td>
+            <td>{{process.state}}</td>
+
+        </tr>
+        <tr id="hidden_row_{{process.id}}" class="hidden_row">
+            <td colspan="3">
+                {% for task in tasks %}
+                    {% if task.idProcess == process %}
+                        <p>Tarefa:{{task.idTaskConfiguration.name}}</p>
+                        <br>
+                        <p>Estado da tarefa:{{task.state}}</p>
+                        <br>
+                        <p>Descrição da tarefa:{{task.idTaskConfiguration.description}}</p>
+                        <br>
+                        <br>
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
 
 {% endblock %}
 
