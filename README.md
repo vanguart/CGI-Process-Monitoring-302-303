@@ -27,6 +27,7 @@ pip install msoffcrypto-tool
 pip install pandas
 pip install openpyxl
 pip install schedule
+pip install pywin32
 ```
 
 4. Configurar o manage.py do projeto atravéz dos seguintes comandos:
