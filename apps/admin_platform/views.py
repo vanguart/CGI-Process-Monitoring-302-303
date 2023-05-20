@@ -55,3 +55,22 @@ def adminGerirCargosTeams_view(request):
     }
 
     return render(request, 'admin_platform/gerirCargosTeams.html', context)
+
+
+def adminGerirEquipaProcesso_view(request):
+    allTeamsDataBase = Team.objects.all()
+    allProcessConfigurationDataBase = ProcessConfiguration.objects.all()
+
+    if request.method == 'POST':
+        print(f"222222222222222222222222222222------->{request}")
+        # FORMULARIO DE ALTERACAO DE EQUIPA DO PROCESSO
+        if request.POST.get('teamProcessConfiguration'):
+            print(f"------->{request}")
+            changeProcessTeam(request)
+
+    context = {
+        'allTeamNames': allTeamsDataBase,
+        'allProcessConfigurationNames': allProcessConfigurationDataBase,
+    }
+
+    return render(request, 'admin_platform/gerirEquipaProcesso.html', context)
