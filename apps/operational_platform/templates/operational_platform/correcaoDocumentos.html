@@ -35,11 +35,15 @@
         <p>Nome do objeto a passar para esta pagina: {{teamtasks}}</p>
 
         <form method="POST" enctype="multipart/form-data">
+           
             <div>
                 {% csrf_token %}
                 {{ form.as_p }}
             </div>
+
             <input type="submit" value="Gravar" class="btn btn-success">
+            <a href="{% url 'businessExceptions' %}" role="button" class="btnCancel">Cancelar</a>
+
         </form>
 
     </div>
