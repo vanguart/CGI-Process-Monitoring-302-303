@@ -40,7 +40,7 @@
                             {% endif %}
 
                             {% for user in allUsersNames %}
-                                {{ team.id }}-{{ user.id }}
+                               
                                 {% if user.idTeam == team and user != team.idTeamLider %}
                                     
                                     <option value="{{ team.id }}-{{ user.id }}">{{ user }}</option>
