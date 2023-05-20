@@ -49,3 +49,9 @@ def countTasks(allUsersDataBase):
         tasksDoneCount = 0
         tasksTodoCount = 0
     return [tasksDone, tasksTodo]
+
+
+def changeProcessTeam(request):
+    teamId, ProcessConfigurationId = request.POST.get('teamProcessConfiguration').split('-')
+    processConfig = ProcessConfiguration.objects.filter(id=ProcessConfigurationId)
+    processConfig.update(idTeam=teamId)
