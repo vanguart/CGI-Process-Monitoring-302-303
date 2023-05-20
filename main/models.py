@@ -23,7 +23,6 @@ class TaskType(models.Model):
         return self.name
 
 
-
 class ProcessType(models.Model):
     name = models.CharField(max_length=256)
 
@@ -35,8 +34,9 @@ class ProcessConfiguration(models.Model):
     name = models.CharField(max_length=256)
     idProcessType = models.ForeignKey(ProcessType, on_delete=models.CASCADE, related_name='processType')
     description = models.CharField(max_length=500)
-    maxTimeSla = models.DurationField(null=True)
-    idTeam = models.ForeignKey('Team', on_delete=models.CASCADE, related_name='ProcessConfigurationTeam',blank=True,null=True)
+    maxTimeKPI = models.DurationField(null=True)
+    idTeam = models.ForeignKey('Team', on_delete=models.CASCADE, related_name='ProcessConfigurationTeam', blank=True,
+                               null=True)
     idSkills = models.ManyToManyField(Skill, related_name='ProcessConfigurationSkill')
 
     def __str__(self):
@@ -65,9 +65,9 @@ class UserProfile(models.Model):
 
 class QueueProcess(models.Model):
     idConfiguration = models.ForeignKey(ProcessConfiguration, on_delete=models.CASCADE, related_name='configuration')
-    startDate = models.DateTimeField(null=True,blank=True)
-    endDate = models.DateTimeField(null=True,blank=True)
-    state = models.CharField(max_length=256,default="Completed")
+    startDate = models.DateTimeField(null=True, blank=True)
+    endDate = models.DateTimeField(null=True, blank=True)
+    state = models.CharField(max_length=256, default="Completed")
     idLabels = models.ManyToManyField(Label, related_name="labels", blank=True)
     idUser = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='userProfile', blank=True, null=True)
 
@@ -81,7 +81,7 @@ class TaskConfiguration(models.Model):
     name = models.CharField(max_length=256)
     description = models.CharField(max_length=500)
     idtaskType = models.ForeignKey(TaskType, on_delete=models.CASCADE, related_name='taskType')
-    maxTimeSla = models.DurationField(null=True)
+    maxTimeKPI = models.DurationField(null=True)
     responsibility = models.CharField(max_length=50)
 
     def __str__(self):
@@ -93,11 +93,9 @@ class QueueTask(models.Model):
                                             related_name="taskConfiguration")
     idProcess = models.ForeignKey('QueueProcess', on_delete=models.CASCADE, related_name="process")
     priority = models.IntegerField()
-    state = models.CharField(max_length=256,default="Completed")
-    startDate = models.DateTimeField(null=True,blank=True)
-    endDate = models.DateTimeField(null=True,blank=True)
-
-    
+    state = models.CharField(max_length=256, default="Completed")
+    startDate = models.DateTimeField(null=True, blank=True)
+    endDate = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return str(self.idTaskConfiguration)
@@ -115,30 +113,28 @@ class Team(models.Model):
 
 
 def log_path(instance, filename):
-    
     date = instance.process.startDate
     dateSplit = date.split(" ")
     year = dateSplit[0].split("-")[0]
     month = dateSplit[0].split("-")[1]
     day = dateSplit[0].split("-")[2]
-    
+
     hour = dateSplit[1].split(":")[0]
     mins = dateSplit[1].split(":")[1]
     return f"apps/logs/logData/{year}/{month}/{day}/{hour}-{mins}_{instance.process.id}.txt"
 
 
-
 class Log(models.Model):
-    process = models.ForeignKey(QueueProcess, on_delete=models.CASCADE, related_name='LogProcess')
+    idProcess = models.ForeignKey(QueueProcess, on_delete=models.CASCADE, related_name='LogProcess')
     ficheiro = models.FileField(upload_to=log_path, max_length=254)
     date = models.DateTimeField(null=True)
 
     def __str__(self):
-        return f"Log do {self.process}"
+        return f"Log do {self.idProcess}"
 
 
 class Reporting(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, related_name="reportingUser")
+    idUser = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, related_name="reportingUser")
     description = models.CharField(max_length=2000)
 
     def __str__(self):
@@ -147,9 +143,9 @@ class Reporting(models.Model):
 
 class TaskData(models.Model):
     idTask = models.ForeignKey('QueueTask', on_delete=models.CASCADE, related_name="taskData")
-    inputData = models.CharField(blank= True, max_length=10000)
-    outputData = models.CharField(blank= True, max_length=10000)
-    errorMessage = models.CharField(default="No error or warning in this queueTasks",max_length=10000)
-    
+    inputData = models.CharField(blank=True, max_length=10000)
+    outputData = models.CharField(blank=True, max_length=10000)
+    errorMessage = models.CharField(default="No error or warning in this queueTasks", max_length=10000)
+
     def __str__(self):
         return str(self.id)
