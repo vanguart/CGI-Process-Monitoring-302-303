@@ -22,6 +22,22 @@
 
                     <br>
 
+                    <p>TeamLider?
+
+                        {% for team in allTeamNames %}
+                          
+                            {% if user.idTeam.name == team.name and user.idUser == team.idTeamLider.idUser %}
+                              <span style="color: green;">Sim</span> (Não é possível alterar Equipa)
+                            {% elif user.idTeam.name == team.name %}
+                                <span style="color: red;">Não</span> 
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </p>
+
+                    <br>
+
                     <form action="{% url 'gerirCargosUsers' %}" method="POST">
                         {% csrf_token %}
 

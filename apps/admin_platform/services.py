@@ -27,6 +27,7 @@ def countTasks(allUsersDataBase):
 
     tasksDoneCount = 0
     tasksTodoCount = 0
+    
     for user in allUsersDataBase:
 
         tasksDone.update({user.id: tasksDoneCount})
@@ -35,14 +36,14 @@ def countTasks(allUsersDataBase):
         for processo in QueueProcess.objects.filter(idUser=user.id):
 
             for task in QueueTask.objects.filter(idProcess=processo.id):
-
+                
                 if task.state == "Completed":  # tarefas realizadas
 
                     tasksDoneCount += 1
                     tasksDone.update({user.id: tasksDoneCount})
 
-                elif task.state == "Stopped":  # tarefas a realizar
-
+                elif task.state == "Running":  # tarefas a realizar
+                    
                     tasksTodoCount += 1
                     tasksTodo.update({user.id: tasksTodoCount})
 

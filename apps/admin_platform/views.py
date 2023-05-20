@@ -62,10 +62,8 @@ def adminGerirEquipaProcesso_view(request):
     allProcessConfigurationDataBase = ProcessConfiguration.objects.all()
 
     if request.method == 'POST':
-        print(f"222222222222222222222222222222------->{request}")
         # FORMULARIO DE ALTERACAO DE EQUIPA DO PROCESSO
         if request.POST.get('teamProcessConfiguration'):
-            print(f"------->{request}")
             changeProcessTeam(request)
 
     context = {
