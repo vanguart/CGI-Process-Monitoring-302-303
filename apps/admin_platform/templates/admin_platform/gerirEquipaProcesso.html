@@ -1,0 +1,66 @@
+{% extends 'main/main.html' %}
+
+{% block style %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/admin_platform/gerirEquipaProcesso.css' %}"/>
+
+{% endblock style %}
+
+
+{% block main %}
+
+<div class="Nosplit">
+
+    <div class="centered">  
+
+        <div class="TeamTasks">
+
+            {% for processoConfiguracao in allProcessConfigurationNames %}
+               
+                <div>
+
+                    <p>Processo Configuração: {{ processoConfiguracao.name }}</p>
+
+                    <form action="{% url 'gerirEquipaProcesso' %}" method="POST">
+                        {% csrf_token %}
+
+                        <label for="teamProcessConfiguration">Equipa ➜ Processo:</label>
+                        <select name="teamProcessConfiguration" onchange="this.form.submit();">
+
+                            {% if processoConfiguracao.idTeam %}
+
+                                <option value="{{ processoConfiguracao.idTeam.id }}" selected>{{ processoConfiguracao.idTeam.name }}</option>
+
+                            {% else %}
+
+                                <option value="" selected disabled>No Team</option>
+
+                            {% endif %}
+
+                            {% for team in allTeamNames %}
+                                
+                                {% if not processoConfiguracao.idTeam or team.id != processoConfiguracao.idTeam.id %}
+
+                                    <option value="{{ team.id }}-{{ processoConfiguracao.id }}">{{ team }}</option>
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </select>
+
+                    </form>
+
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
