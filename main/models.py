@@ -113,7 +113,7 @@ class Team(models.Model):
 
 
 def log_path(instance, filename):
-    date = instance.process.startDate
+    date = instance.idProcess.startDate
     dateSplit = date.split(" ")
     year = dateSplit[0].split("-")[0]
     month = dateSplit[0].split("-")[1]
@@ -121,7 +121,7 @@ def log_path(instance, filename):
 
     hour = dateSplit[1].split(":")[0]
     mins = dateSplit[1].split(":")[1]
-    return f"apps/logs/logData/{year}/{month}/{day}/{hour}-{mins}_{instance.process.id}.txt"
+    return f"apps/logs/logData/{year}/{month}/{day}/{hour}-{mins}_{instance.idProcess.id}.txt"
 
 
 class Log(models.Model):
