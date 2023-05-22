@@ -1,0 +1,72 @@
+{% extends 'main/main.html' %}
+
+{% block style %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/admin_platform/criarTeams.css' %}"/>
+
+{% endblock style %}
+
+
+{% block main %}
+
+<div class="split left">
+
+    <div class="centered"> 
+
+        <h2>Lista de Equipas</h2>
+        <br><br>
+
+        <div class="TeamTasks">
+
+            
+
+            {% for team in teams %}
+
+                <div>
+                    <p>Team: {{ team }}</p>
+
+                    <p>TeamLeader: {{ team.idTeamLider }}</p>
+                    
+                    <button>
+                        <a href="{% url 'criarTeam_delete' team.id %}" class="apagar"
+                        style="color:black;text-decoration: none;">Apagar</a>
+                    </button>
+                    
+                </div>
+
+            {% endfor %}
+            
+        </div>
+
+    </div>
+
+
+<div class="split right">
+
+    <div class="centered">  
+
+        <h2>Criar Equipa</h2>
+        <br><br>
+
+        <div class="TeamTasks">
+
+            <div>
+
+                <form method = "post" enctype="multipart/form-data">
+                    <div>
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                    </div>
+                    <input type="submit" value="Gravar" class="btn btn-success">
+                </form>
+
+            </div>
+            
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
