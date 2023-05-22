@@ -1,6 +1,9 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from apps.admin_platform.services import *
 from main.models import *
+from . forms import *
 
 
 # Create your views here.
@@ -72,3 +75,48 @@ def adminGerirEquipaProcesso_view(request):
     }
 
     return render(request, 'admin_platform/gerirEquipaProcesso.html', context)
+
+
+def adminCriarTeams_view(request):
+    
+    criar_Team_Form = criarTeamForm(request.POST or None)
+
+    if criar_Team_Form.is_valid():
+        criar_Team_Form.save()
+        return HttpResponseRedirect(reverse('criarTeams'))
+
+    context = {
+        'form': criar_Team_Form,
+        'teams': Team.objects.all()
+    }
+
+    return render(request, 'admin_platform/criarTeams.html', context)
+
+def adminTeams_delete_view(request, team_id):
+    get_Team_Form = Team.objects.get(id=team_id)
+    get_Team_Form.delete()
+    return HttpResponseRedirect(reverse('criarTeams'))
+
+
+
+def adminCriarSkills_view(request):
+    
+    criar_Skill_Form = criarSkillForm(request.POST or None)
+
+    if criar_Skill_Form.is_valid():
+        criar_Skill_Form.save()
+        return HttpResponseRedirect(reverse('criarSkills'))
+    
+
+    context = {
+        'form': criar_Skill_Form,
+        'skills': Skill.objects.all()
+    }
+
+    return render(request, 'admin_platform/criarSkills.html', context)
+
+
+def adminSkills_delete_view(request, skill_id):
+    get_Skill_Form = Skill.objects.get(id=skill_id)
+    get_Skill_Form.delete()
+    return HttpResponseRedirect(reverse('criarSkills'))
