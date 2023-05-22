@@ -1,4 +1,4 @@
-from main.models import UserProfile, QueueProcess, QueueTask, TaskData,Log
+from main.models import QueueProcess, QueueTask, TaskData,Log
 from django.db.models import Q as Query
 import win32com.client as win32
 import pythoncom
@@ -16,9 +16,15 @@ def addProcess(request, userProfile):
 
 def removeProcess(request):
     objectIDToTransfer = request.POST.get('removeProcess')
-    process = QueueProcess.objects.filter(id=objectIDToTransfer)
-    process.update(state="Waiting")
-    process.update(idUser=None)
+    process = QueueProcess.objects.get(id=objectIDToTransfer)
+    queueTasks = QueueTask.objects.filter(idProcess = objectIDToTransfer)
+    for queueTask in queueTasks:
+        # in this casa the user already started to do some corretions so it is impossible to unpick the process
+        if queueTask.state == "Running":
+            return
+    process.state = "Waiting"
+    process.idUser = None
+    process.save()
 
 
 def getInputData(queueTaskId):
