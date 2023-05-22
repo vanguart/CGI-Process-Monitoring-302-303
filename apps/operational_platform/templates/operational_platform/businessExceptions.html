@@ -130,7 +130,7 @@
             {% else %}
                 <h2>Lista de tarefas da {{teamName}}</h2>
                 <br>
-                <p>Processos não corrigidos ➜ {{TeamProcessCount}}</p>
+                <p>Processos a corrigidir ➜ {{TeamProcessCount}}</p>
             {% endif %}
 
             <br><br>
@@ -210,7 +210,7 @@
 
                                     <p>Nome da tarefa: {{task.idTaskConfiguration.name}}</p>
                                     
-                                    <a href="{% url 'correcaoDocumentos' task.id %}">Corrigir Tarefa</a>
+                                    <a href="{% url 'correcaoDocumentos' task.id %}">Realizar Tarefa</a>
 
                                     <br>
 

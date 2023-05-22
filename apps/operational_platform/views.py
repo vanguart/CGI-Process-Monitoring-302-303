@@ -77,8 +77,12 @@ def correcaoDocumentos_page_view(request, taskId):
     input_file = os.path.join(BASE_DIR, 'static/files/MOCK_DATA_SMALL.xlsx')
     output_file = os.path.join(BASE_DIR, 'static/files/excel.pdf')
     # Chama a função para converter o arquivo
-
     excel_to_pdf(input_file, output_file)
+    print(task.startWorkingDate)
+    
+    if task.startWorkingDate == None:
+        task.startWorkingDate = datetime.now()
+        task.save()
 
     if request.method == 'POST':
         form = taskForm(request.POST, fields=getInputData(taskId))
@@ -90,6 +94,7 @@ def correcaoDocumentos_page_view(request, taskId):
             #There is no more taskData to correct
             if countTaskData == 1:
                 task.idProcess.state = 'Completed'
+                task.idProcess.endDate = datetime.now()
                 task.idProcess.save()
                 task.endDate = datetime.now()
                 task.state = 'Completed'

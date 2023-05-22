@@ -127,6 +127,7 @@ def transformLog(creds, header, keys):
                 timeStamp = str(logsTrace.json()['value'][logTrace]['TimeStamp'])
                 saveTimes = getTimeStamp(timeStamp)
                 newQueueProcess.startDate = saveTimes[0] + " " + saveTimes[1]  # type: ignore
+                newQueueProcess.registerDate = datetime.now()
                 newQueueProcess.save()
                 break
 
@@ -173,6 +174,7 @@ def transformLog(creds, header, keys):
                     timeStamp = str(logsTrace.json()['value'][logTrace]['TimeStamp'])
                     saveTimes = getTimeStamp(timeStamp)
                     newQueueTask.startDate = saveTimes[0] + " " + saveTimes[1]  # type: ignore
+                    newQueueTask.startWorkingDate = datetime.now()
                     newQueueTask.save()
 
             # There was no log Task so nothing is going to be added in your database
@@ -233,6 +235,7 @@ def transformLog(creds, header, keys):
 
                     # The QueueTasks that is done by Humans is waiting since there was a warning and no Human is correcting the queueTask
                     queueTaskDoneByHuman.state = "Waiting"
+                    queueTaskDoneByHuman.startWorkingDate = None
                     queueTaskDoneByHuman.save()
 
                 # There was no warning so the end date is the same of the start date 
@@ -390,7 +393,16 @@ def createLogFiles(creds, key, header, newQueueProcess):
         timeStampNeedsFixing = str(allLogs.json()['value'][log]['TimeStamp'])
         timeStampDate = timeStampNeedsFixing.split("T")[0]
         timeStampTime = timeStampNeedsFixing.split("T")[1]
-        newLogTxt.write(logType + "-" + message + "@" + timeStampDate + " " + timeStampTime + "\n")
+        miliseconds = timeStampTime.split(".")[1]
+        
+        if len(miliseconds)!= 4:
+            miliseconds = miliseconds.replace("Z","")
+            while len(miliseconds)!=3:
+                miliseconds +="0"
+            miliseconds+="Z"
+
+        timeStampTime = timeStampTime.split(".")[0] + "." + miliseconds
+        newLogTxt.write(timeStampDate + " " + timeStampTime + "\t" + "Uipath Orchestrator" + "\t" + logType + "\t\t" + message + "\n")
 
     newLogTxt.close()
     sort_file_by_time(file_path)
@@ -407,8 +419,8 @@ def createLogFiles(creds, key, header, newQueueProcess):
 
 
 def extract_time(line):
-    time_start = line.find('@') + 1
-    time_end = line.find('\n', time_start)
+    time_start = line.find('2')
+    time_end = line.find('\t')
     return line[time_start:time_end]
 
 

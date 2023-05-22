@@ -67,6 +67,7 @@ class QueueProcess(models.Model):
     idConfiguration = models.ForeignKey(ProcessConfiguration, on_delete=models.CASCADE, related_name='configuration')
     startDate = models.DateTimeField(null=True, blank=True)
     endDate = models.DateTimeField(null=True, blank=True)
+    registerDate = models.DateTimeField(null=True, blank=True)
     state = models.CharField(max_length=256, default="Completed")
     idLabels = models.ManyToManyField(Label, related_name="labels", blank=True)
     idUser = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='userProfile', blank=True, null=True)
@@ -95,6 +96,7 @@ class QueueTask(models.Model):
     priority = models.IntegerField()
     state = models.CharField(max_length=256, default="Completed")
     startDate = models.DateTimeField(null=True, blank=True)
+    startWorkingDate = models.DateTimeField(null=True, blank=True)
     endDate = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):

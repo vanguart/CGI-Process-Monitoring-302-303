@@ -95,11 +95,21 @@ def addProcessToUser(userProfile):
 
 
 def createHumanLogs(task, taskData, request):
-    log = Log.objects.get(process=task.idProcess)
+    log = Log.objects.get(idProcess=task.idProcess)
+    date = str(datetime.now())
+
+    miliseconds = date.split(".")[1]
+
+    if len(miliseconds) != 3:
+        miliseconds = miliseconds[:3]
+        
+    miliseconds+="Z"
+    
+    timeStampTime = date.split(".")[0] + "." + miliseconds
 
     with open(log.ficheiro.path, 'a') as file:
-        file.writelines(f"The user with id = {request.user.id}("
-                        f"{request.user.username}) Completed the correction of the taskData with id = {taskData.id}@{datetime.now()}Z\n")
+       file.writelines(timeStampTime + "\t" + "Process Monitor" + "\t\t" + "Correction" + "\t" +"The user with id " + str(request.user.id) + "(" + request.user.username + ") completed the correction of the taskData with id = "+ str(taskData.id) + "\n")
+
 
 
 def excel_to_pdf(input_file, output_file):
