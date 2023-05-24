@@ -19,10 +19,9 @@ header {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-left: 60px; 
+  margin-left: 60px;
   height: auto;
   background-color: var(--white);
-  z-index: 20;
 }
 
 .logo {

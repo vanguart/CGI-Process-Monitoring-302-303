@@ -385,7 +385,7 @@ def createLogFiles(creds, key, header, newQueueProcess):
 
     # First we need to create a new txt file with some name that does not matter since its going to change when the los is created
     newLogTxt = open(file_path, "w")
-    newLogTxt.write("TimeStamp\tPlataform\tLogType\tMessage")
+    newLogTxt.write("TimeStamp\tPlataform\tLogType\tMessage\n")
     allLogs = requests.get(creds['url'] + f"/odata/RobotLogs?$filter=JobKey eq {key} ", headers=header)
     countAllLogs = allLogs.json()['@odata.count']
     for log in range(0, countAllLogs):
@@ -403,7 +403,7 @@ def createLogFiles(creds, key, header, newQueueProcess):
             miliseconds+="Z"
 
         timeStampTime = timeStampTime.split(".")[0] + "." + miliseconds
-        newLogTxt.write(timeStampDate + " " + timeStampTime + "\t" + "Uipath Orchestrator" + "\t" + logType + "\t\t" + message + "\n")
+        newLogTxt.write(timeStampDate + " " + timeStampTime + "\t" + "Uipath Orchestrator" + "\t" + logType + "\t" + message + "\n")
 
     newLogTxt.close()
     sort_file_by_time(file_path)
