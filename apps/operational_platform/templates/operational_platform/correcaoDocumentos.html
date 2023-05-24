@@ -41,6 +41,27 @@
                 {{ form.as_p }}
             </div>
 
+            
+            {%if 0 == numberTasks %}
+
+            {%elif currentPosition == numberTasks%}
+
+                <a href="{% url 'correcaoDocumentos' teamtasks.id currentPosition|add:'-1'%}">BACK</a>
+                <a href="{% url 'correcaoDocumentos' teamtasks.id 0%}">NEXT</a>
+                   
+            {%elif currentPosition == 0%}
+
+                <a href="{% url 'correcaoDocumentos' teamtasks.id numberTasks%}">BACK</a>
+                <a href="{% url 'correcaoDocumentos' teamtasks.id 1%}">NEXT</a>
+            
+            {%else %}
+                
+                <a href="{% url 'correcaoDocumentos' teamtasks.id currentPosition|add:'-1'%}">BACK</a>
+                <a href="{% url 'correcaoDocumentos' teamtasks.id currentPosition|add:'1'%}">NEXT</a>
+            {%endif%}
+
+            
+
             <input type="submit" value="Gravar" class="btn btn-success">
             
             <button>

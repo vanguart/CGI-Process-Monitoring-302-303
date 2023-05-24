@@ -17,20 +17,16 @@ def addProcess(request, userProfile):
 def removeProcess(request):
     objectIDToTransfer = request.POST.get('removeProcess')
     process = QueueProcess.objects.get(id=objectIDToTransfer)
-    queueTasks = QueueTask.objects.filter(idProcess = objectIDToTransfer)
-    for queueTask in queueTasks:
-        # in this casa the user already started to do some corretions so it is impossible to unpick the process
-        if queueTask.state == "Running":
-            return
     process.state = "Waiting"
     process.idUser = None
     process.save()
 
+    
 
-def getInputData(queueTaskId):
+def getInputData(queueTaskId,taskPosition):
 
     task = QueueTask.objects.get(id=queueTaskId)
-    taskData = TaskData.objects.filter(Query(idTask=task) & Query(outputData = "")).first()
+    taskData = TaskData.objects.filter(Query(idTask=task) & Query(outputData = ""))[taskPosition]
     task.state = "Running"
     task.save()
     data = str(taskData.inputData) # type: ignore
