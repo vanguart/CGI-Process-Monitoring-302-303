@@ -123,7 +123,7 @@ def log_path(instance, filename):
 
     hour = dateSplit[1].split(":")[0]
     mins = dateSplit[1].split(":")[1]
-    return f"apps/logs/logData/{year}/{month}/{day}/{hour}-{mins}_{instance.idProcess.id}.txt"
+    return f"apps/logs/logData/{year}/{month}/{day}/{hour}-{mins}_{instance.idProcess.id}.log"
 
 
 class Log(models.Model):
