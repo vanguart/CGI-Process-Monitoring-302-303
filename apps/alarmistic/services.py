@@ -85,7 +85,6 @@ def enviarEmailErro():
                     arquivo.close()
 
     for key,values  in processosUtilizadorComErros.items():
-        print(f"-------------->{key}")
         email = key
         nomeProc = QueueProcess.objects.get(id=values[2])
         body = f"In the process {nomeProc.idConfiguration.name} - has {values[1]} fatal errors; has {values[0]} warnings"
