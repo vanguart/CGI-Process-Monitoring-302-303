@@ -80,7 +80,7 @@ def correcaoDocumentos_page_view(request, taskId):
     excel_to_pdf(input_file, output_file)
     print(task.startWorkingDate)
     
-    if task.startWorkingDate == None:
+    if task.startWorkingDate is None:
         task.startWorkingDate = datetime.now()
         task.save()
 
@@ -89,9 +89,9 @@ def correcaoDocumentos_page_view(request, taskId):
         if form.is_valid():
             taskData.outputData = form.cleaned_data
             taskData.save()
-            createHumanLogs(task,taskData,request)
+            createHumanLogs(task, taskData, request)
             cleanOutputData(taskData.id)
-            #There is no more taskData to correct
+            # There is no more taskData to correct
             if countTaskData == 1:
                 task.idProcess.state = 'Completed'
                 task.idProcess.endDate = datetime.now()
@@ -101,7 +101,7 @@ def correcaoDocumentos_page_view(request, taskId):
                 task.save()
                 return HttpResponseRedirect(reverse('businessExceptions'))
 
-            return HttpResponseRedirect(reverse('correcaoDocumentos', kwargs={'taskId':task.id}))
+            return HttpResponseRedirect(reverse('correcaoDocumentos', kwargs={'taskId': task.id}))
 
     else:
         form = taskForm(fields=getInputData(taskId))

@@ -2,8 +2,8 @@
 
 {% block style %}
 
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/process_listing/process_listing.css' %}"/>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/process_listing/process_listing.css' %}"/>
 
 {% endblock style %}
 
@@ -14,6 +14,8 @@
         var row = document.getElementById("hidden_row_" + id);
         row.classList.toggle('hidden_row')
     }
+
+
 </script>
 
 
@@ -23,26 +25,26 @@
 
 <!-- Formulário de filtragem por LABEL -->
 <form action="{% url 'process_listing' %}" method="get">
-        
+
     <label for="filtros">Labels:</label>
     <select name="filtros" onchange="this.form.submit();">
         <option value="" selected disabled>Choose filter</option>
         <option value="noFilter">-- None --</option>
-        {% for filterOption in filtros %} 
-            <option value="{{ filterOption }}">{{ filterOption }}</option>
+        {% for filterOption in filtros %}
+        <option value="{{ filterOption }}">{{ filterOption }}</option>
         {% endfor %}
     </select>
 </form>
 
 <!-- Formulário de filtragem por ESTADO DO PROCESSO -->
 <form action="{% url 'process_listing' %}" method="get">
-        
+
     <label for="estados">Estados:</label>
     <select name="estados" onchange="this.form.submit();">
         <option value="" selected disabled>Choose filter</option>
         <option value="noState">-- None --</option>
-        {% for StateOption in states %} 
-            <option value="{{ StateOption }}">{{ StateOption }}</option>
+        {% for StateOption in states %}
+        <option value="{{ StateOption }}">{{ StateOption }}</option>
         {% endfor %}
     </select>
 </form>
@@ -50,14 +52,19 @@
 <!-- Tabela de processos -->
 <div class="process_table">
     <table>
+{% for processConfig in processesConfiguration %}
         <tr>
-            <th>Processos</th>
+            <th>Processos- {{processConfig.name}}</th>
             <th>Estado</th>
         </tr>
+
+
         {% for process in processes %}
+        {% if process.idConfiguration.id == processConfig.id %}
         <tr class="row" onclick="showHideRow('{{process.id}}')">
+
             <td>
-                {{process.idConfiguration.name}}
+                {{process.id}}
                 <br>
                 {{process.idConfiguration.description}}
             </td>
@@ -67,22 +74,25 @@
         <tr id="hidden_row_{{process.id}}" class="hidden_row">
             <td colspan="3">
                 {% for task in tasks %}
-                    {% if task.idProcess == process %}
-                        <p>Tarefa:{{task.idTaskConfiguration.name}}</p>
-                        <br>
-                        <p>Estado da tarefa:{{task.state}}</p>
-                        <br>
-                        <p>Descrição da tarefa:{{task.idTaskConfiguration.description}}</p>
-                        <br>
-                        <br>
-                    {% endif %}
+                {% if task.idProcess == process %}
+                <p>Tarefa: {{task.idTaskConfiguration.name}}</p>
+                <br>
+                <p>Estado da tarefa: {{task.state}}</p>
+                <br>
+                <p>Descrição da tarefa: {{task.idTaskConfiguration.description}}</p>
+                <br>
+                <br>
+                {% endif %}
                 {% endfor %}
             </td>
         </tr>
+        {% endif %}
+        {% endfor %}
         {% endfor %}
     </table>
 </div>
-<iframe src="http://localhost:5601/app/dashboards#/view/94aace80-f8e3-11ed-8c14-578d3c329bf1?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A60000)%2Ctime%3A(from%3A'2023-05-17T15%3A28%3A09.690Z'%2Cto%3A'2023-05-17T15%3A29%3A43.675Z'))" height="600" width="800"></iframe>
+<iframe src="http://localhost:5601/app/dashboards#/view/94aace80-f8e3-11ed-8c14-578d3c329bf1?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A60000)%2Ctime%3A(from%3A'2023-05-17T15%3A28%3A09.690Z'%2Cto%3A'2023-05-17T15%3A29%3A43.675Z'))"
+        height="600" width="800"></iframe>
 
 
 {% endblock %}
