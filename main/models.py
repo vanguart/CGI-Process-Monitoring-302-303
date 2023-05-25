@@ -138,9 +138,10 @@ class Log(models.Model):
 class Reporting(models.Model):
     idUser = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, related_name="reportingUser")
     description = models.CharField(max_length=2000)
+    ficheiro = models.FileField(upload_to="static/files/ReportingErros/", max_length=254, null=True, blank=True)
 
     def __str__(self):
-        return self.description
+        return f"{self.idUser} -> {self.description[0:50]}"
 
 
 class TaskData(models.Model):
