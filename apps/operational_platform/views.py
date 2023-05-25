@@ -133,7 +133,23 @@ def correcaoDocumentos_page_view(request, taskId, taskPosition):
 
 
 def reportarErrosNoSistema_page_view(request):
-    return render(request, 'operational_platform/reportarErrosNoSistema.html')
+
+    criar_reportarErros_Form = ReportingErrosForm(request.POST or None, request.FILES)
+
+    if criar_reportarErros_Form.is_valid():
+
+        username = request.user.username
+        userProfile = UserProfile.objects.get(idUser__username=username)
+        criar_reportarErros_Form.instance.idUser = userProfile
+
+        criar_reportarErros_Form.save()
+
+        return HttpResponseRedirect(reverse('businessExceptions'))
+ 
+    context = {
+        'form': criar_reportarErros_Form,
+    }
+    return render(request, 'operational_platform/reportarErrosNoSistema.html', context)
 
 
 def changeSkills_page_view(request, userId):
