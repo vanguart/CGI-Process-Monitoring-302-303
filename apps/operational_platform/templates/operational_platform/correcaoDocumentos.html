@@ -20,7 +20,7 @@
         <div class="Documento">
             <h2>Documento a ser corrigido</h2>
             <br>
-           <iframe src="{{file}}" style="width:100%; height:100%;" frameborder="0"></iframe></div>
+           <iframe src="{{ file }}" style="width:100%; height:100%;" frameborder="0"></iframe></div>
     </div>
 
 </div>
@@ -40,6 +40,27 @@
                 {% csrf_token %}
                 {{ form.as_p }}
             </div>
+
+            
+            {%if 0 == numberTasks %}
+
+            {%elif currentPosition == numberTasks%}
+
+                <a href="{% url 'correcaoDocumentos' teamtasks.id currentPosition|add:'-1'%}">BACK</a>
+                <a href="{% url 'correcaoDocumentos' teamtasks.id 0%}">NEXT</a>
+                   
+            {%elif currentPosition == 0%}
+
+                <a href="{% url 'correcaoDocumentos' teamtasks.id numberTasks%}">BACK</a>
+                <a href="{% url 'correcaoDocumentos' teamtasks.id 1%}">NEXT</a>
+            
+            {%else %}
+                
+                <a href="{% url 'correcaoDocumentos' teamtasks.id currentPosition|add:'-1'%}">BACK</a>
+                <a href="{% url 'correcaoDocumentos' teamtasks.id currentPosition|add:'1'%}">NEXT</a>
+            {%endif%}
+
+            
 
             <input type="submit" value="Gravar" class="btn btn-success">
             

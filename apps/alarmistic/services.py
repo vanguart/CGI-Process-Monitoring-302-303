@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 import msoffcrypto
 import pandas as pd
 
-from main.models import Log, QueueTask, UserProfile, Team
+from main.models import Log, QueueTask, UserProfile, Team, QueueProcess
 import schedule
 import time
 
@@ -52,21 +52,43 @@ def enviamail(email, subject, body):
 
 
 def enviarEmailErro():
-    for logs in Log.objects.all():
-        subject = "Task with "
-        if logs.logType.name == "Warning":
-            subject += "Warning"
+    subject = "Processes with error "
+    userEmail = ""
+    processosUtilizadorComErros = {}
+    countWarnings = 0
+    countErrors = 0
+    infoMail = [0,0,0]
+    for log in Log.objects.all():
+        for process in QueueProcess.objects.all():
+                if log.idProcess.id == process.id and process.idUser != None:
+                    userEmail = process.idUser.idUser.email
 
-        if logs.logType.name == "Fatal Error":
-            subject += "Fatal Error"
+                    infoMail[2]=process.id
 
-        for task in QueueTask.objects.all():
+                    arquivo = open(str(log.ficheiro), 'r')
+                    linhas = arquivo.readlines()
 
-            if task == logs.task:
-                body = "You have " + subject.lower()
-                if task.user is not None:
-                    email = task.user.user.email
-                    enviamail(email, subject, body)
+                    for linha in linhas:
+                        if linha == 1:
+                            continue
+
+                        dados = linha.split("\t")
+                        if dados[2] == "Warn":
+                            countWarnings+=1
+
+                        if dados[2] == "Error":
+                            countErrors+=1
+
+                        infoMail[0], infoMail[1] = countWarnings, countErrors
+                        processosUtilizadorComErros.update({userEmail : infoMail})
+
+                    arquivo.close()
+
+    for key,values  in processosUtilizadorComErros.items():
+        email = key
+        nomeProc = QueueProcess.objects.get(id=values[2])
+        body = f"In the process {nomeProc.idConfiguration.name} - has {values[1]} fatal errors; has {values[0]} warnings"
+        enviamail(email, subject, body)
 
 
 def enviarEmailTarefasRealizarToday():
