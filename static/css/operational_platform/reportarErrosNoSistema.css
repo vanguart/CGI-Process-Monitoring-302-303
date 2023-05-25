@@ -15,3 +15,15 @@
     transform: translate(-50%, -50%);
     text-align: center;
 }
+
+.errorlist {
+    list-style: none; /* Remove os pontos da lista */
+    margin: 0; /* Remove a margem padrão da lista */
+    padding: 0; /* Remove o preenchimento padrão da lista */
+    color: red;
+}
+
+form p{
+    margin-top: 10px;
+    list-style: none;
+}
