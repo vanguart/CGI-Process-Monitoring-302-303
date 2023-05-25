@@ -21,23 +21,18 @@ def businessExceptions_page_view(request):
     chefeEquipa = None
     userTaskCount = 0
 
-
-
     # PICK PROCESS IN OPERATIONAL PLATFORM
     if request.method == 'POST' and 'addProcess' in request.POST:
         addProcess(request, userProfile)
 
     # REMOVE PICKED PROCESS IN OPERATIONAL PLATFORM
     if request.method == 'POST' and 'removeProcess' in request.POST:
-
         removeProcess(request)
 
     if userProfile.idTeam is not None:
         teamOfUser = userProfile.idTeam
         teamOfUser1 = Team.objects.filter(id=teamOfUser.id).get()
         chefeEquipa = teamOfUser1.idTeamLider
-
-
 
     # PROCESS & TASKS MANAGER
     if (teamOfUser is not None) and (QueueProcess.objects.filter(idConfiguration__idTeam=teamOfUser).exists()):
@@ -46,9 +41,6 @@ def businessExceptions_page_view(request):
 
         # ADDS SPECIFIED PROCESS AND IT'S TASKS TO AN USER (THAT PICKED THE PROCESS)
         userTaskCount, userProcessList, processTaskDictionary = addProcessToUser(userProfile)
-
-
-
 
     # GET ALL USER FROM DATABASE
     allUsersDataBase = UserProfile.objects.all()
@@ -60,22 +52,17 @@ def businessExceptions_page_view(request):
     # GET THE NUMBER OF USER PROCESSES
     userProcessCount = len(userProcessList)
 
-
     # TO VERIFY IF THE TASKS INSIDE THE PROCESS, STARTED THE CORRECTION PROCESS
     # IF YES, USER CANT DESELECT THE PROCESS, IF NO IT IS POSSIBLE TO REMOVE THE PROCESS
     for proc in userProcessList:
         entrei = False
 
         for task in QueueTask.objects.filter(idProcess=proc.id):
-            if task.state=="Running":
-                verificaStateTasksInProcess.update({proc.id:False})
-                entrei =True
+            if task.state == "Running":
+                verificaStateTasksInProcess.update({proc.id: False})
+                entrei = True
         if not entrei:
-            verificaStateTasksInProcess.update({proc.id:True})
-
-
-
-
+            verificaStateTasksInProcess.update({proc.id: True})
 
     context = {
         'teamName': teamOfUser,
@@ -88,14 +75,14 @@ def businessExceptions_page_view(request):
         'UserProcessCount': userProcessCount,
         'UserTaskCount': userTaskCount,
         'userTasks': processTaskDictionary,
-        'dicTasks':verificaStateTasksInProcess,
+        'dicTasks': verificaStateTasksInProcess,
 
     }
 
     return render(request, 'operational_platform/businessExceptions.html', context)
 
 
-def correcaoDocumentos_page_view(request, taskId,taskPosition):
+def correcaoDocumentos_page_view(request, taskId, taskPosition):
     countTaskData = TaskData.objects.filter(Query(idTask=taskId) & Query(outputData="")).count()
     taskData = TaskData.objects.filter(Query(idTask=taskId) & Query(outputData=""))[taskPosition]
     task = QueueTask.objects.get(id=taskId)
@@ -105,24 +92,23 @@ def correcaoDocumentos_page_view(request, taskId,taskPosition):
     input_file = os.path.join(BASE_DIR, 'static/files/MOCK_DATA_SMALL.xlsx')
     output_file = os.path.join(BASE_DIR, 'static/files/excel.pdf')
     # Chama a função para converter o arquivo
-    excel_to_pdf(input_file, output_file)
+    excel_to_pdf_with_data_check(input_file, output_file)
 
-
-    
-    if task.startWorkingDate == None:
+    if task.startWorkingDate is None:
         task.startWorkingDate = datetime.now()
         task.save()
 
     if request.method == 'POST':
 
-        form = taskForm(request.POST, fields=getInputData(taskId,taskPosition))
+        form = taskForm(request.POST, fields=getInputData(taskId, taskPosition))
 
         if form.is_valid():
             taskData.outputData = form.cleaned_data
             taskData.save()
-            createHumanLogs(task,taskData,request)
+
+            createHumanLogs(task, taskData, request)
             cleanOutputData(taskData.id)
-            #There is no more taskData to correct
+            # There is no more taskData to correct
             if countTaskData == 1:
                 task.idProcess.state = 'Completed'
                 task.idProcess.endDate = datetime.now()
@@ -132,18 +118,17 @@ def correcaoDocumentos_page_view(request, taskId,taskPosition):
                 task.save()
                 return HttpResponseRedirect(reverse('businessExceptions'))
 
-            return HttpResponseRedirect(reverse('correcaoDocumentos', kwargs={'taskId':task.id,'taskPosition':0}))
+            return HttpResponseRedirect(reverse('correcaoDocumentos', kwargs={'taskId': task.id, 'taskPosition': 0}))
 
     else:
-        form = taskForm(fields=getInputData(taskId,taskPosition))
+        form = taskForm(fields=getInputData(taskId, taskPosition))
 
     context = {
-        'numberTasks' : countTaskData - 1,
+        'numberTasks': countTaskData - 1,
         'currentPosition': taskPosition,
         'teamtasks': task,
         'form': form,
-        'file': r"../static/files/excel.pdf"}
-
+        'file': "../../static/files/excel.pdf"}
     return render(request, 'operational_platform/correcaoDocumentos.html', context)
 
 
