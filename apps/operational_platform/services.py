@@ -109,10 +109,21 @@ def createHumanLogs(task, taskData, request):
     timeStampTime = date.split(".")[0] + "." + miliseconds
 
     with open(log.ficheiro.path, 'a') as file:
-        file.writelines(
-            timeStampTime + "\t" + "Process Monitor" + "\t" + "Correction" + "\t" + "The user with id " + str(
-                request.user.id) + "(" + request.user.username + ") completed the correction of the taskData with id = " + str(
-                taskData.id) + "\t" + str(task.idProcess) + "\n")
+       file.writelines(timeStampTime + "\t" + "Process Monitor" + "\t" + "Correction" + "\t" +"The user with id " + str(request.user.id) + "(" + request.user.username + ") completed the correction of the taskData with id = "+ str(taskData.id) + "\t" + str(task.idProcess.id) + "\t" + task.idProcess.idConfiguration.name + "\n")
+
+
+def adjust_column_width(ws):
+    for column in ws.columns:
+        max_length = 0
+        column = list(column)
+        for cell in column:
+            try:
+                if len(str(cell.value)) > max_length:
+                    max_length = len(cell.value)
+            except:
+                pass
+        adjusted_width = (max_length + 2) * 1.2  # Ajuste para a largura desejada
+        ws.column_dimensions[column[0].column_letter].width = adjusted_width
 
 
 def adjust_column_width(ws):
