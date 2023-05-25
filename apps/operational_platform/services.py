@@ -109,7 +109,10 @@ def createHumanLogs(task, taskData, request):
     timeStampTime = date.split(".")[0] + "." + miliseconds
 
     with open(log.ficheiro.path, 'a') as file:
-       file.writelines(timeStampTime + "\t" + "Process Monitor" + "\t" + "Correction" + "\t" +"The user with id " + str(request.user.id) + "(" + request.user.username + ") completed the correction of the taskData with id = "+ str(taskData.id) + "\t" + str(task.idProcess.id) + "\t" + task.idProcess.idConfiguration.name + "\n")
+       file.writelines(
+           timeStampTime + "\t" + "Process Monitor" + "\t" + "Correction" + "\t" +"The user with id "
+           + str(request.user.id) + "(" + request.user.username + ") completed the correction of the taskData with id = "
+           + str(taskData.id) + "\t" + str(task.idProcess.id) + "\t" + task.idProcess.idConfiguration.name + "\n")
 
 
 def adjust_column_width(ws):
