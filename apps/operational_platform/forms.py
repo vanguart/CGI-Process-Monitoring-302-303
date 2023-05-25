@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django import forms
 
-from main.models import Skill, UserProfile, QueueTask
+from main.models import Skill, UserProfile, QueueTask, Reporting
 #from .models import 
 
 from django.contrib.admin.widgets import FilteredSelectMultiple
@@ -28,6 +28,12 @@ class taskForm(forms.Form):
     class Meta:
         model = QueueTask
         fields = ['outputData']
+
+class ReportingErrosForm(ModelForm):
+    class Meta:
+        model = Reporting
+        fields = ['description','ficheiro']
+
 
 
 
