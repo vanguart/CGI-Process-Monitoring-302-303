@@ -116,6 +116,8 @@ def correcaoDocumentos_page_view(request, taskId, taskPosition):
                 task.endDate = datetime.now()
                 task.state = 'Completed'
                 task.save()
+                task.idProcess.idConfiguration.latestOperation = datetime.now()
+                task.idProcess.idConfiguration.save()
                 return HttpResponseRedirect(reverse('businessExceptions'))
 
             return HttpResponseRedirect(reverse('correcaoDocumentos', kwargs={'taskId': task.id, 'taskPosition': 0}))

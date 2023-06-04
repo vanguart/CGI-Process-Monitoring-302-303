@@ -10,7 +10,7 @@
 
 
 {% block main %}
-
+{% include 'main/side_drawer.html' %}
 
 
 <div class="split left">
@@ -20,7 +20,7 @@
         <div class="Documento">
             <h2>Documento a ser corrigido</h2>
             <br>
-           <iframe src="{{ file }}" style="width:100%; height:100%;" frameborder="0"></iframe></div>
+           <iframe src="{{ file }}#toolbar=0" style="width:100%; height:100%;" frameborder="0"></iframe></div>
     </div>
 
 </div>

@@ -19,21 +19,20 @@
   </head>
 
   <body>
-    {% include 'main/side_drawer.html' %}
     <header>
       <img class="logo" src="{% static 'images/logo.png' %}">
       <nav>
-        <a href="{% url 'adminPage' %}">Administrativo</a>      
-        <a href="{% url 'statistics' %}">Painel Estatistico</a>
-        <a href="{% url 'process_listing' %}">Processos de Negócio</a>      
-        <a href="{% url 'businessExceptions' %}">Operational Platform</a>
+        <a class="nav_item" href="{% url 'adminPage' %}">Administrativo</a>      
+        <a class="nav_item" href="{% url 'statistics' %}">Painel Estatistico</a>
+        <a class="nav_item" href="{% url 'process_listing' %}">Processos de Negócio</a>      
+        <a class="nav_item" href="{% url 'businessExceptions' %}">Operational Platform</a>
         <div class="dropdown-profile">
           <div class="dropdown-button">
             {{request.user.username}}
             <img src="{% static 'images/profile_placeholder.svg' %}">
           </div>
           <div class="dropdown-content">
-            <a href="{% url 'logout' %}" class="btnLogout">Logout</a>
+            <a href="{% url 'logout' %}" class="btnLogout"><p>Logout</p></a>
           </div>
         </div>
       </nav>

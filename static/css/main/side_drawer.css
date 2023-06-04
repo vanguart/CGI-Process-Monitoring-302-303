@@ -1,17 +1,5 @@
-@import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
-
-.fa-2x {
-  font-size: 2em;
-}
-
-.fa {
-  position: relative;
-  display: table-cell;
-  width: 60px;
-  height: 36px;
-  text-align: center;
-  vertical-align: middle;
-  font-size:20px;
+.menu-body {
+  position:sticky;
 }
 
 .menu-icon {
@@ -26,6 +14,8 @@
   display: flex;
   background:#212121;
   position:absolute;
+  align-items: baseline;
+  padding-top: 8.5vh;
   top:0;
   bottom:0;
   height:100%;
@@ -77,6 +67,7 @@ ul, li {
   display: none;
   position: absolute;
   top: 0;
+  left: 0;
   height: 100%;
   width: 100%;
   background-color: #000000;

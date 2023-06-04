@@ -38,6 +38,8 @@ class ProcessConfiguration(models.Model):
     idTeam = models.ForeignKey('Team', on_delete=models.CASCADE, related_name='ProcessConfigurationTeam', blank=True,
                                null=True)
     idSkills = models.ManyToManyField(Skill, related_name='ProcessConfigurationSkill')
+    latestOperation = models.DateTimeField(null=True, blank=True)
+    idLabels = models.ManyToManyField(Label, related_name="labels", blank=True)
 
     def __str__(self):
         return self.name
@@ -69,7 +71,6 @@ class QueueProcess(models.Model):
     endDate = models.DateTimeField(null=True, blank=True)
     registerDate = models.DateTimeField(null=True, blank=True)
     state = models.CharField(max_length=256, default="Completed")
-    idLabels = models.ManyToManyField(Label, related_name="labels", blank=True)
     idUser = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='userProfile', blank=True, null=True)
 
     def __str__(self):

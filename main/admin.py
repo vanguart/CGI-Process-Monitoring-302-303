@@ -19,12 +19,8 @@ class TeamHorizontal(admin.ModelAdmin):
     filter_horizontal = ("idPermissions", "idSkils",)
 
 
-class QueueProcessesHorizontal(admin.ModelAdmin):
-    filter_horizontal = ("idLabels",)
-
-
 class ProcessesConfigurationHorizontal(admin.ModelAdmin):
-    filter_horizontal = ("idSkills",)
+    filter_horizontal = ("idSkills","idLabels",)
 
 
 class UserProfileHorizontal(admin.ModelAdmin):
@@ -40,7 +36,7 @@ admin.site.register(Reporting)
 
 admin.site.register(TaskType)
 admin.site.register(ProcessType)
-admin.site.register(QueueProcess, QueueProcessesHorizontal)
+admin.site.register(QueueProcess)
 admin.site.register(QueueTask)
 admin.site.register(ProcessConfiguration, ProcessesConfigurationHorizontal)
 admin.site.register(TaskConfiguration)

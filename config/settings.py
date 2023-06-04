@@ -30,7 +30,7 @@ EMAIL_HOST_USER = 'e8eced3f76a17c'
 EMAIL_HOST_PASSWORD = 'f85f129929313c'
 EMAIL_PORT = '2525'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
