@@ -53,7 +53,8 @@ def connectionToApi():
 
     header['X-UIPATH-TenantName'] = creds['tenancyName']
 
-    header['X-UIPATH-OrganizationUnitId'] = '4388550'
+    header['X-UIPATH-OrganizationUnitId'] = '4448507'
+
 
     getLogs(creds, header)
 
@@ -65,6 +66,7 @@ def connectionToApi():
 
 
 def getLogs(creds, header):
+    
     jobs = requests.get(creds['url'] + "/odata/Jobs", headers=header)
     jobscount = jobs.json()['@odata.count']
     keys = []
@@ -243,7 +245,9 @@ def transformLog(creds, header, keys):
                     queueTaskDoneByHuman.endDate = queueTaskDoneByHuman.startDate
                     queueTaskDoneByHuman.save()
                     newQueueProcess.endDate = queueTaskDoneByHuman.startDate
+                    newOrOldProcessConfiguration.latestOperation = queueTaskDoneByHuman.startDate
                     newQueueProcess.save()
+                    newOrOldProcessConfiguration.save()
 
                 for logWarn in range(0, countLogsWarning):
 
