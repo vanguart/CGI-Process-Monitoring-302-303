@@ -141,3 +141,65 @@ main {
   margin-left: 60px;
   min-height: 91.75vh;
 }
+
+
+/* SINO NOTIFICAÇÕES */
+.notification-bar {
+  position: relative;
+  z-index: 999;
+}
+
+.notification-icon {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 999;
+}
+
+.notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 0px 5px;
+  font-size: 12px;
+  z-index: 999;
+}
+
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 200px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5%;
+  border: 1px solid black; /* Adiciona uma borda preta */
+  z-index: 999;
+}
+
+.notification-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  z-index: 999;
+}
+
+.notification-item {
+  padding: 5px 0;
+  z-index: 999;
+}
+
+.notification-message {
+  display: block;
+  z-index: 999;
+}
+
+.ReportingSpan{
+  color:black;
+}

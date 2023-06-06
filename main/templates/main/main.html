@@ -1,5 +1,19 @@
+{% load main_tags %}
+
+{% get_reportingCount as numberReporting %}
+{% get_reportingData as DataReporting %}
+
 <!DOCTYPE html>
+
 <script src="https://kit.fontawesome.com/9e27ddefee.js" crossorigin="anonymous"></script>
+
+<script>
+  function toggleNotificationDropdown() {
+  const dropdown = document.querySelector('.notification-dropdown');
+  dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+}
+</script>
+
 <html lang="en">
 
   <head>
@@ -17,6 +31,7 @@
       {% block style %}
 
       {% endblock style %}
+
   </head>
   
   <body>
@@ -27,6 +42,52 @@
         <a class="nav_item" href="{% url 'statistics' %}">Painel Estatistico</a>
         <a class="nav_item" href="{% url 'process_listing' %}">Processos de Negócio</a>      
         <a class="nav_item" href="{% url 'businessExceptions' %}">Operational Platform</a>
+
+        <!-- Sino de notificações -->
+        <div class="notification-bar">
+
+          <button class="notification-icon" onclick="toggleNotificationDropdown()">
+            <i class="fas fa-bell fa-xl"></i>
+            <span class="notification-count">{{ numberReporting }}</span>
+          </button>
+
+          <div class="notification-dropdown">
+
+            <ul class="notification-list">
+
+              <li class="notification-item">
+
+                {% for notificacao in DataReporting %}
+                  
+                  {% if forloop.first %}
+                    <hr> 
+                  {% endif %}
+
+                  <label class="notification-label"> <span class="ReportingSpan"> <b> <u> User </u>: </b> </span> </label>
+                  <span class="notification-message">{{ notificacao.idUser }}</span>
+
+                  <label class="notification-label"> <span class="ReportingSpan"> <u> <b> Description </u>: </b> </span> </label>
+                  <span class="notification-message">{{ notificacao.description }}</span>
+
+                  <label class="notification-label"> <span class="ReportingSpan"> <b> <u> File</u>: </b> </span> </label>
+                  {% if notificacao.file_name %}
+                    <span class="notification-message">{{ notificacao.file_name }}</span>
+                  {% else %}
+                    <span class="notification-message">No File</span>
+                  {% endif %}
+
+                  <hr> 
+                {% endfor %}
+              
+              </li>
+
+            </ul>
+
+          </div>
+
+        </div>
+        
+        
         <div class="dropdown-profile">
           <div class="dropdown-button">
             {{request.user.username}}
