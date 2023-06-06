@@ -245,7 +245,9 @@ def transformLog(creds, header, keys):
                     queueTaskDoneByHuman.endDate = queueTaskDoneByHuman.startDate
                     queueTaskDoneByHuman.save()
                     newQueueProcess.endDate = queueTaskDoneByHuman.startDate
+                    newOrOldProcessConfiguration.latestOperation = queueTaskDoneByHuman.startDate
                     newQueueProcess.save()
+                    newOrOldProcessConfiguration.save()
 
                 for logWarn in range(0, countLogsWarning):
 
