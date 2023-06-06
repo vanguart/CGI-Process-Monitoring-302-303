@@ -1,5 +1,5 @@
 .title {
-    margin: 2rem 0 0 3rem;
+    margin: 2rem 0 0 2rem;
 }
 
 .filter_menu {
@@ -46,6 +46,11 @@
 .filters_content div {
     padding: 12px 16px;
     display: block;
+}
+
+.remove_bt {
+    margin-left: 240px;
+    cursor: pointer;
 }
 
 .show {
@@ -104,6 +109,22 @@
     width:15vw;
     text-align:right;
     padding-right:1vw;
+}
+
+.label_list {
+    display: flex;
+    align-items: center;
+
+}
+
+.label {
+    border: #5BC0EB;
+    color: #5BC0EB;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 8px;
+    padding: 3px;
+    margin:0.5rem 0.3rem;
 }
 
 .inner_table {
@@ -165,6 +186,18 @@
 
 .hidden_row {
     visibility: collapse;
+}
+
+dialog {
+    margin: auto auto auto auto;
+    height: 80vh;
+    width: 120vh;
+    border: none !important;
+    border-radius: 8px;
+}
+
+.hide_dialog {
+    cursor: pointer;
 }
 
 iframe {
