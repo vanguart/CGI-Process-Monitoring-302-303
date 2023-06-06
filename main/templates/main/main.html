@@ -53,38 +53,50 @@
 
           <div class="notification-dropdown">
 
-            <ul class="notification-list">
+            <ul class="notification-list scrollable">
 
               <li class="notification-item">
 
                 {% for notificacao in DataReporting %}
-                  
+
                   {% if forloop.first %}
                     <hr> 
                   {% endif %}
 
-                  <label class="notification-label"> <span class="ReportingSpan"> <b> <u> User </u>: </b> </span> </label>
+                  <label class="notification-label">
+                    <span class="ReportingSpan"><b><u>User:</u></b></span>
+                  </label>
                   <span class="notification-message">{{ notificacao.idUser }}</span>
 
-                  <label class="notification-label"> <span class="ReportingSpan"> <u> <b> Description </u>: </b> </span> </label>
+                  <label class="notification-label">
+                    <span class="ReportingSpan"><u><b>Description:</u></b></span>
+                  </label>
                   <span class="notification-message">{{ notificacao.description }}</span>
 
-                  <label class="notification-label"> <span class="ReportingSpan"> <b> <u> File</u>: </b> </span> </label>
+                  <label class="notification-label">
+                    <span class="ReportingSpan"><b><u>File:</u></b></span>
+                  </label>
+
                   {% if notificacao.file_name %}
+
                     <span class="notification-message">{{ notificacao.file_name }}</span>
+
                   {% else %}
+
                     <span class="notification-message">No File</span>
+
                   {% endif %}
 
                   <hr> 
+
                 {% endfor %}
-              
+
               </li>
 
             </ul>
-
+            
           </div>
-
+          
         </div>
         
         
