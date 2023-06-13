@@ -25,7 +25,7 @@ def enviamail(email, subject, body):
 
     # informações da conta
     emailUtilizador = credentials_df[credentials_df["Name"] == "emailOutlook"]["Value"].iloc[0]
-    senha = credentials_df[credentials_df["Name"] == "password"]["Value"].iloc[0]
+    senha = credentials_df[credentials_df["Name"] == "passwordOutlook"]["Value"].iloc[0]
 
     # informações do destinatário
     para = email

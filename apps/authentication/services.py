@@ -46,7 +46,7 @@ def sendEmailWithGeneratedCode(userEmailInput):
 
     # informações da conta
     emailUtilizador = credentials_df[credentials_df["Name"] == "emailOutlook"]["Value"].iloc[0]
-    senha = credentials_df[credentials_df["Name"] == "password"]["Value"].iloc[0]
+    senha = credentials_df[credentials_df["Name"] == "passwordOutlook"]["Value"].iloc[0]
 
     # informações do destinatário
     para = userEmailInput
@@ -62,7 +62,7 @@ def sendEmailWithGeneratedCode(userEmailInput):
     msg.attach(MIMEText(mensagem, 'plain'))
 
     # conectando ao servidor SMTP
-    server = smtplib.SMTP('smtp-mail.outlook.com', 587)
+    server = smtplib.SMTP('smtp.office365.com', 587)
     server.starttls()
 
     # fazendo login na conta

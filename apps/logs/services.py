@@ -30,7 +30,7 @@ def connectionToApi():
 
     creds = {
         "usernameOrEmailAddress": credentials_df[credentials_df["Name"] == "usernameOrEmailAddress"]["Value"].iloc[0],
-        "password": credentials_df[credentials_df["Name"] == "password"]["Value"].iloc[0],
+        "password": credentials_df[credentials_df["Name"] == "passwordGmail"]["Value"].iloc[0],
         "tenancyName": credentials_df[credentials_df["Name"] == "tenancyName"]["Value"].iloc[0],
         "grant_type": "refresh_token",
         "client_id": "8DEv1AMNXczW3y4U15LL3jYf62jK93n5",
