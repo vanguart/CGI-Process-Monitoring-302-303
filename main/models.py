@@ -49,9 +49,9 @@ class UserProfile(models.Model):
     idUser = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user")
     recoveryCode = models.CharField(max_length=10, blank=True)
     goal = models.IntegerField(default=100)
-    idGroupUser = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="groupUser")
+    idGroupUser = models.ForeignKey(Group, on_delete=models.DO_NOTHING, related_name="groupUser")
     lastCodeSentTime = models.DateTimeField(null=True, blank=True)
-    idTeam = models.ForeignKey('Team', on_delete=models.CASCADE, related_name="equipaMembros", blank=True, null=True)
+    idTeam = models.ForeignKey('Team', on_delete=models.SET_NULL, related_name="equipaMembros", blank=True, null=True)
     idSkills = models.ManyToManyField(Skill, related_name="skillUser")
 
     def __str__(self):
@@ -71,7 +71,7 @@ class QueueProcess(models.Model):
     endDate = models.DateTimeField(null=True, blank=True)
     registerDate = models.DateTimeField(null=True, blank=True)
     state = models.CharField(max_length=256, default="Completed")
-    idUser = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='userProfile', blank=True, null=True)
+    idUser = models.ForeignKey(UserProfile, on_delete=models.DO_NOTHING, related_name='userProfile', blank=True, null=True)
 
     def __str__(self):
         return str(self.idConfiguration)
@@ -108,7 +108,7 @@ class Team(models.Model):
     name = models.CharField(max_length=256)
     description = models.CharField(max_length=500)
     idPermissions = models.ManyToManyField(Group, related_name='teamPermissions')
-    idTeamLider = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name="teamLider", null=True)
+    idTeamLider = models.OneToOneField(UserProfile, on_delete=models.DO_NOTHING, related_name="teamLider", null=True)
     idSkils = models.ManyToManyField(Skill, related_name="skills")
 
     def __str__(self):
