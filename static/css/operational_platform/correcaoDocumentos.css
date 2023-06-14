@@ -1,34 +1,94 @@
-.split {
-    height: 100%;
-    width: 50%;
-    position: fixed;
-    top: 10vh;
-    overflow-x: hidden;
-    padding-top: 20px;
+.title {
+    margin: 2rem;
+    font-weight: 500;
 }
 
-.left {
-    left: 0;
-    background-color: palevioletred;
+.btn-back {
+    margin: 1rem;
+    color: black;
+    text-decoration: none;
 }
 
-.right {
-    right: 0;
-    background-color: red;
+.btn-next {
+    float: right;
+    margin: 1rem;
+    margin-top: 0;
+    color: black;
+    text-decoration: none;
 }
 
-.centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+.description {
+    margin-left: 2.5rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 400;
 }
 
-.Documento {
-    margin-top: 6vh;
-    width: 100vh;
-    height: 85vh;
+.documento {
+    width: 100vw;
+    height: 50vh;
     z-index: 10;
     overflow: hidden;
+}
+
+p {
+    position: relative;
+    margin-bottom: 1.8rem;
+    margin-left: 2.5rem;
+    margin-top: 2.5rem;
+    width: 29rem;
+}
+  
+p input[type="text"] {
+    font-size: 16px;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    padding: 5px 0;
+    background-color: transparent;
+    outline: none;
+}
+  
+p label {
+    position: absolute;
+    top: -20px;
+    font-size: 16px;
+    left: 0;
+    color: black;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.btn-success {
+    margin-bottom: 3rem;
+    margin-left: 1rem;
+    padding: 0.4rem;
+    padding-left: 2.2rem;
+    padding-right: 2.2rem;
+    background-color: #4B72D2;
+    border: none;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    margin-bottom: 3rem;
+    margin-left: 13.5rem;
+    padding: 0.4rem;
+    padding-left: 2.2rem;
+    padding-right: 2.2rem;
+    background-color: #AF4660;
+    border: none;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 1rem;
+    cursor: pointer;
+    
+}
+
+.btn-cancel a {
+    color: #fff;
+    text-decoration: none;
 }

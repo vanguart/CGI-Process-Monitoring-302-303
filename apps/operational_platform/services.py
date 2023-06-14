@@ -168,6 +168,7 @@ def excel_to_pdf_with_data_check(input_file, output_file):
     # Expandir as células da primeira linha
     wb = load_workbook(temp_file)
     ws = wb.active
+    ws.page_setup.orientation = ws.ORIENTATION_LANDSCAPE
     adjust_column_width(ws)
     wb.save(temp_file)
     wb.close()

@@ -53,13 +53,13 @@ header {
   border-radius: 10px;
 }
 
-.btnLogout {
-    background-color: #AF4660;
-    border-radius: 15px;
-    margin-right: 0.5rem;
+.btnLogout { 
+    background-color: #AF4660 !important;
+    border-radius: 15px !important;
+    margin-right: 0.5rem !important;
 }
 
-.btnLogout p {
+.btnLogout div {
   color: white;
 }
 
