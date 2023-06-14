@@ -55,7 +55,8 @@ header {
 
 .btnLogout {
     background-color: #AF4660;
-    border-radius: 100px;
+    border-radius: 15px;
+    margin-right: 0.5rem;
 }
 
 .btnLogout p {
@@ -175,9 +176,7 @@ main {
   background-color: #f9f9f9;
   min-width: 200px;
   padding: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 5%;
-  border: 1px solid black; /* Adiciona uma borda preta */
+  box-shadow:  rgba(0, 0, 0, 0.08) 0px 0.9px 4px, rgba(0, 0, 0, 0.06) 0px 2.6px 8px, rgba(0, 0, 0, 0.05) 0px 5.7px 12px, rgba(0, 0, 0, 0.04) 0px 15px 15px;
   z-index: 999;
 }
 
