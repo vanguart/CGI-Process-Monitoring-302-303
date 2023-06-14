@@ -55,9 +55,7 @@ header {
 
 .btnLogout {
     background-color: #AF4660;
-    border-radius: 5px;
-    margin: 0.5rem;
-    
+    border-radius: 100px;
 }
 
 .btnLogout p {

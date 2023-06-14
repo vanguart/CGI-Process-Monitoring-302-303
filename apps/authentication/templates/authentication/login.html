@@ -11,12 +11,10 @@
 {% block main %}
 
 <div class="background">
-
     <div class="loginBackground">
-
         <div>
             <img class="logo" src="{% static 'images/logo.png' %}">
-            <h3>Login</h3>
+            <h3 id="form-title">Introduza as suas Credenciais</h3>
 
             <p class="messageInvalidLogin">
                 {% if message %}
@@ -26,25 +24,25 @@
 
             <form action="{% url 'login' %}" method="post">
                 {% csrf_token %}
+                <div class="input-container">
+                    <input type="text" name="username" id="input-username" required="">
+                    <label for="input-username" class="label">Utilizador</label>
+                    <div class="underline"></div>
+                </div>
 
-                <p class="inputTitle">Username:</p>
-                <input type="text" name="username" placeholder="Username" class="inputBox">
-                
-                <br><br>
-
-                <p class="inputTitle">Password:</p>
-                <input type="password" name="password" placeholder="Password" class="inputBox">
+                <div class="input-container">
+                    <input type="password" name="password" id="input-password" required="">
+                    <label for="input-password" class="label">Palavra-passe</label>
+                    <div class="underline"></div>
+                </div>
 
                 <a class="recuperarPassword" href="{% url 'recuperarPassword' %}">recuperar palavra-passe</a>
 
                 <input type="submit" value="Entrar" class="btnSubmit">
                
             </form>
-            
         </div>
-
     </div>
-
 </div>
 
 {% endblock %}

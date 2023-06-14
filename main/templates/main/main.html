@@ -14,6 +14,8 @@
 }
 </script>
 
+{% include 'main/side_drawer.html' %}
+
 <html lang="en">
 
   <head>
@@ -37,11 +39,9 @@
   <body>
     <header>
       <img class="logo" src="{% static 'images/logo.png' %}">
-      <nav>
-        <a class="nav_item" href="{% url 'adminPage' %}">Administrativo</a>      
-        <a class="nav_item" href="{% url 'statistics' %}">Painel Estatistico</a>
-        <a class="nav_item" href="{% url 'process_listing' %}">Processos de Negócio</a>      
-        <a class="nav_item" href="{% url 'businessExceptions' %}">Operational Platform</a>
+      <nav>  
+        <a class="nav_item" href="{% url 'reportarErrosNoSistema' %}">Reportar</a>
+        <a class="nav_item">Contactos</a>
 
         <!-- Sino de notificações -->
         <div class="notification-bar">

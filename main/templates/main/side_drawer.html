@@ -2,67 +2,69 @@
 <link rel="stylesheet" href="{% static 'css/main/side_drawer.css' %}" />
 <link rel="stylesheet" href="{% static 'css/main/main.css' %}" />
 
-
 <body class="menu-body">
     <nav class="main-menu">
         <div class="menu-icon">
             <i class="menu-icon fa fa-bars fa-2x"></i>
         </div>
         <ul>
-        <li>
-          <a href="#">
-            <i class="fa fa-home fa-2x"></i>
-            <span class="nav-text"> Community Dashboard </span>
-          </a>
-        </li>
-        <li class="has-subnav">
-          <a href="#">
-            <i class="fa fa-globe fa-2x"></i>
-            <span class="nav-text"> Global Surveyors </span>
-          </a>
-        </li>
-        <li class="has-subnav">
-          <a href="#">
-            <i class="fa fa-comments fa-2x"></i>
-            <span class="nav-text"> Group Hub Forums </span>
-          </a>
-        </li>
-        <li class="has-subnav">
-          <a href="#">
-            <i class="fa fa-camera-retro fa-2x"></i>
-            <span class="nav-text"> Survey Photos </span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-film fa-2x"></i>
-            <span class="nav-text"> Surveying Tutorials </span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-book fa-2x"></i>
-            <span class="nav-text"> Surveying Jobs </span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-cogs fa-2x"></i>
-            <span class="nav-text"> Tools & Resources </span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-map-marker fa-2x"></i>
-            <span class="nav-text"> Member Map </span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-info fa-2x"></i>
-            <span class="nav-text"> Documentation </span>
-          </a>
-        </li>
+          <li class="admin_icon">
+            <a href="{% url 'adminPage' %}">
+              <i class="fa fa-toolbox fa-2x"></i>
+              <span class="nav-text"> Administrativo </span>
+            </a>
+            <ul>
+              <li class="hidden_admin_icons">
+                <a href="{% url 'gerirCargosUsers' %}">
+                  <i class="fa fa-user fa-2x"></i>
+                  <span class="nav-text"> Cargos de Utilizadores </span>
+                </a>
+              </li>
+              <li class="hidden_admin_icons">
+                <a href="{% url 'criarTeams' %}">
+                  <i class="fa fa-users fa-2x"></i>
+                  <span class="nav-text"> Equipas </span>
+                </a>
+              </li>
+              <li class="hidden_admin_icons">
+                <a href="{% url 'gerirCargosTeams' %}">
+                  <i class="fa fa-users fa-2x"></i>
+                  <span class="nav-text"> Cargos de Equipas </span>
+                </a>
+              </li>
+              <li class="hidden_admin_icons">
+                <a href="{% url 'gerirEquipaProcesso' %}">
+                  <i class="fa fa-bars-progress fa-2x"></i>
+                  <span class="nav-text"> Equipas de Processos </span>
+                </a>
+              </li>
+              <li class="hidden_admin_icons">
+                <a href="{% url 'criarSkills' %}">
+                  <i class="fa fa-plus fa-2x"></i>
+                  <span class="nav-text"> Skills </span>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <a href="{% url 'statistics' %}">
+              <i class="fa fa-chart-simple fa-2x"></i>
+              <span class="nav-text"> Painel Estatistico </span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'process_listing' %}">
+              <i class="fa fa-list fa-2x"></i>
+              <span class="nav-text"> Lista de Processos </span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'businessExceptions' %}">
+              <i class="fa fa-wrench fa-2x"></i>
+              <span class="nav-text"> Plataforma Operativa </span>
+            </a>
+          </li>
         </ul>
     </nav>
     <div class="shadow"></div>

@@ -7,7 +7,7 @@
   left:0;
   top:0;
   margin-top: 1.5vh;
-  color:#999;
+  color:#D8D8D8;
 }
 
 .main-menu {
@@ -34,12 +34,14 @@
 
 li>a {
   text-decoration: none;
-  color:#999;
+  color:#D8D8D8;
   font-size: 14px;
 }
 
 .main-menu li {
   width:250px;
+  padding-top: 14px;
+  padding-bottom: 6px;
   border-collapse:collapse;
   border-spacing:0;
   -webkit-transform:translateZ(0) scale(1,1);
@@ -75,6 +77,22 @@ ul, li {
   z-index: 1999;
 }
 
+.hidden_admin_icons {
+  padding-left: 20px;
+}
+
 .main-menu:hover + .shadow {
   display: block;
+}
+
+.admin_icon:hover .hidden_admin_icons {
+  display: block;
+}
+
+.hidden_admin_icons:hover {
+  display: block;
+}
+
+.hidden_admin_icons {
+  display: none;
 }

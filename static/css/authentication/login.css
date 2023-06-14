@@ -1,19 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
+
 *{
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
-    padding: 0;
-    overflow: hidden;
-    font-family: 'Secular One', sans-serif;
 }
 
 .logo {
-    height: 7.5vh;
+    height: 4.5vh;
     width: auto;
-    margin: 1.5vh;
+    margin: 3rem;
+    margin-bottom: 1rem;
+}
+
+#form-title {
+    margin-left: 3rem;
+    font-weight: 500;
 }
 
 .background {
-    background-color: white;
-    position: absolute;
+    background: linear-gradient(90deg, rgba(242,211,211,1) 0%, rgba(237,195,237,1) 53%, rgba(223,224,244,1) 100%);
     height: 100%;
     width: 100%;
     display: grid;
@@ -24,95 +30,107 @@
 .loginBackground{
     width: 35rem;
     height: 100%;
-    box-shadow: 5px 2px 3px 7px black;
-    border-radius: 10px;
+    box-shadow:  rgba(0, 0, 0, 0.08) 0px 0.9px 4px, rgba(0, 0, 0, 0.06) 0px 2.6px 8px, rgba(0, 0, 0, 0.05) 0px 5.7px 12px, rgba(0, 0, 0, 0.04) 0px 15px 15px;
+    border-radius: 5px;
     background-color: white;
-    padding: 20px;
-    margin: 7px;
     margin-top: auto;
     margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
 }
 
-.spanColorCGI{
-    color: #e11937;
+.input-container {
+    position: relative;
+    margin-bottom: 1.8rem;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    margin-top: 2.5rem;
+    width: 29rem;
 }
-
-h4{
-    font-size: 1.25em;
-    font-weight: bold;
-}
-
-h3{
-    font-size: 2em;
-    color: #a72565;
-    margin-top: 1em;
-    margin-left: 10px;
-    text-align: center;
-    font-weight: bold;
-}
-
-form{
+  
+.input-container input[type="text"],
+.input-container input[type="password"],
+.input-container input[type="email"] {
+    font-size: 16px;
     width: 100%;
-    display: grid;
-    align-content: flex-start;    
-    justify-content: flex-start;
-    margin-left: 15%;
-    margin-top: 1em;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    padding: 5px 0;
+    background-color: transparent;
+    outline: none;
 }
-
-.inputBox{
-    width: 25em;
-    height: 2.2em;
-    margin-top: 1.05em;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.inputTitle{
-    font-size: 1em;
-    font-weight: bolder;
-}
-
-.messageInvalidLogin{
-    font-size: 1.25em;
-    color: red;
-    font-weight: bold;
-    margin-top: 1em;
-    margin-left: 10px;
-    text-align: center;
-}
-
-.btnSubmit{
-    width: 50%;
-    height: auto;
-    margin-top: 20px;
-    background-color: #5735a6;
-    color: white;
-    text-decoration: none;
-    border: 2px solid transparent;
-    font-weight: bold;
-    padding: 15px 35px;
-    border-radius: 30px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
-    transition: transform .7s;
-    font-size: 15px;
-}
-
-.btnSubmit:hover{
-    transform: scale(1.1);
-}
-
-.recuperarPassword{
-    width: 100%;
-    height: auto;
+  
+.input-container .label {
+    position: absolute;
+    top: 0;
+    left: 0;
     color: black;
-    margin-top: 1em;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+  
+.input-container input[type="text"]:focus ~ .label,
+.input-container input[type="text"]:valid ~ .label,
+.input-container input[type="password"]:focus ~ .label,
+.input-container input[type="password"]:valid ~ .label,
+.input-container input[type="email"]:focus ~ .label,
+.input-container input[type="email"]:valid ~ .label {
+    top: -20px;
+    font-size: 16px;
+    color: #333;
+}
+  
+.input-container .underline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background-color: #333;
+    transform: scaleX(0);
+    transition: all 0.3s ease;
+}
+  
+.input-container input[type="text"]:focus ~ .underline,
+.input-container input[type="text"]:valid ~ .underline,
+.input-container input[type="password"]:focus ~ .underline,
+.input-container input[type="password"]:valid ~ .underline,
+.input-container input[type="email"]:focus ~ .underline,
+.input-container input[type="email"]:valid ~ .underline {
+    transform: scaleX(1);
+}
+
+.recuperarPassword {
+    margin-left: 3rem;
+    font-size: 0.8rem;
+    text-decoration: none;
+}
+
+.recuperarPassword:hover {
+    color: gray;
+    text-decoration: underline;
+}
+
+.btnSubmit {
+    margin-bottom: 3rem;
+    margin-right: 3rem;
+    float: right;
+    padding: 0.4rem;
+    padding-left: 2.2rem;
+    padding-right: 2.2rem;
+    background-color: #4B72D2;
+    border: none;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btnSubmit:hover {
+    background-color: #315BC4;
+}
+
+.messageInvalidLogin {
+    margin-left: 3rem;
+    color: red;
 }

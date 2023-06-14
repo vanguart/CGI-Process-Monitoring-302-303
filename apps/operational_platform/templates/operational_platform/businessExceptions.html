@@ -4,19 +4,9 @@
 
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/operational_platform/businessExceptions.css' %}"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 {% endblock style %}
 
-
 {% block main %}
-{% include 'main/side_drawer.html' %}
-
-    <button>
-        <a href="{% url 'reportarErrosNoSistema' %}">REPORTAR ERROS NO SISTEMA</a>
-    </button>
-
-
     {% if chefeDeEquipa == username %}
 
         <div class="split left">
