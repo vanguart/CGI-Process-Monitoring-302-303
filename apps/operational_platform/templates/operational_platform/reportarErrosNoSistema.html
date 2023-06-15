@@ -11,25 +11,16 @@
 
 {% block main %}
 {% include 'main/side_drawer.html' %}
-
-<div class="background">
    
-    <div class="centered">
-      
-        <h2>Reporte um Erro</h2>
-        
-        <br><br>
-        
-        <form method = "post" enctype="multipart/form-data">
-            <div>
-                {% csrf_token %}
-                {{ form.as_p }}
-            </div>
-            <input type="submit" value="Gravar" class="btn btn-success">
-        </form>
-
-    </div>
+<div class="centered">
+    <h2 class="title">Reporte um Erro</h2>
+    
+    <form method = "post" enctype="multipart/form-data">
+        <div>
+            {% csrf_token %}
+            {{ form.as_p }}
+        </div>
+        <input type="submit" value="Gravar" class="btn btn-success">
+    </form>
 </div>
-
-
 {% endblock %}

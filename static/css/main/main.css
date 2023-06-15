@@ -15,6 +15,22 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
   margin: 0;
+  scrollbar-width: auto;
+  scrollbar-color: #bbb9b9 #ffffff;
+}
+
+*::-webkit-scrollbar {
+    width: 14px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #bbb9b9;
+  border-radius: 10px;
+  border: 3px solid #ffffff;
 }
 
 .fa-2x {
