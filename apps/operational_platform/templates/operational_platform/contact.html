@@ -1,0 +1,32 @@
+{% extends 'main/main.html' %}
+
+{% block style %}
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/operational_platform/contact.css' %}"/>
+
+{% endblock style %}
+
+
+{% block main %}
+
+<div class="container">  
+  <form id="contact" action="mailto:88alexcosta88@gmail.com" method="post">
+    <h3>Contacte-nos!</h3>
+    <fieldset>
+      <input placeholder="Nome" type="text" tabindex="1" required autofocus>
+    </fieldset>
+    <fieldset>
+      <input placeholder="Email" type="email" tabindex="2" required>
+    </fieldset>
+    <fieldset>
+      <textarea placeholder="Escreva a sua mensagem...." tabindex="3" required></textarea>
+    </fieldset>
+    <fieldset>
+      <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+    </fieldset>
+    <a class="github" href="https://github.com/josesobral22005813/CGI-Process-Monitoring-302-303"><i class="fa-brands fa-github fa-lg"></i>  Github</a>
+  </form>
+</div>
+
+{% endblock %}

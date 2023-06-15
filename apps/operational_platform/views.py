@@ -169,3 +169,6 @@ def changeSkills_page_view(request, userId):
     }
 
     return render(request, 'operational_platform/changeSkills.html', context)
+
+def contact_page_view(request):
+    return render(request, 'operational_platform/contact.html')

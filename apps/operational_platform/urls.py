@@ -6,5 +6,6 @@ urlpatterns = [
     path('businessExceptions', views.businessExceptions_page_view, name='businessExceptions'),
     path('changeSkills/<int:userId>', views.changeSkills_page_view, name='changeSkills'),
     path('correcaoDocumentos/<int:taskId>/<int:taskPosition>', views.correcaoDocumentos_page_view, name='correcaoDocumentos',),
-    path('reportarErrosNoSistema', views.reportarErrosNoSistema_page_view, name='reportarErrosNoSistema')
+    path('reportarErrosNoSistema', views.reportarErrosNoSistema_page_view, name='reportarErrosNoSistema'),
+    path('contact', views.contact_page_view, name='contact')
 ]
