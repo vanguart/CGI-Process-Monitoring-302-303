@@ -9,62 +9,40 @@
 
 
 {% block main %}
-<div class="split left">
 
-    <div class="centered"> 
-        
-        <h2>Lista de Skills</h2>
-        <br><br>
-
-        <div class="TeamTasks">
-
+<h2 class="title2">Criar Skill</h2>
+<div class="main_skills">
+    <form method = "post" enctype="multipart/form-data">
+        <div>
+            {% csrf_token %}
+            {{ form.as_p }}
+        </div>
+        <input type="submit" value="Gravar" class="btn btn-success">
+    </form>
+    
+    <div class="skill_table"> 
+        <h2 class="title">Lista de Skills</h2>
+        <table class="outer_table">
+            <thead>
+                <tr class="outer_table_head">
+                    <th class="outer_column1">Skill</th>
+                    <th class="outer_column2"></th>
+                </tr>
+            </thead>
             {% for skill in skills %}
-
-                <div>
-                    <p>Skill: {{ skill }}</p>
-                    
-                    <button>
-                        <a href="{% url 'criarSkills_delete' skill.id %}" class="apagar"
-                        style="color:black;text-decoration: none;">Apagar</a>
-                    </button>
-                    
-                </div>
-
+                <tr class="row">            
+                    <td class="outer_column1">{{ skill }}</td>
+                    <td class="outer_column2">
+                        <button class="btChange">
+                            <a href="{% url 'criarSkills_delete' skill.id %}"><i class="fa-solid fa-xmark fa-xl" style="color: black"></i></a>
+                        </button>
+                    </td>
+                </tr>
             {% endfor %}
-            
-        </div>
-
+        </table>
     </div>
-
 </div>
 
-<div class="split right">
-
-    <div class="centered">
-
-        <h2>Criar Skill</h2>
-        <br><br>
-
-        <div class="TeamTasks">
-
-            <div>
-
-                <form method = "post" enctype="multipart/form-data">
-                    <div>
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                    </div>
-                    <input type="submit" value="Gravar" class="btn btn-success">
-                </form>
-            
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
 
 
 

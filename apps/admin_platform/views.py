@@ -43,23 +43,6 @@ def adminGerirCargosUsers_view(request):
     return render(request, 'admin_platform/gerirCargosUsers.html', context)
 
 
-def adminGerirCargosTeams_view(request):
-    allTeamsDataBase = Team.objects.all()
-    allUsersDataBase = UserProfile.objects.all()
-
-    if request.method == 'POST':
-        # FORMULARIO DE ALTERACAO DE EQUIPA
-        if request.POST.get('teamLider'):
-            changeTeamLider(request)
-
-    context = {
-        'allUsersNames': allUsersDataBase,
-        'allTeamNames': allTeamsDataBase,
-    }
-
-    return render(request, 'admin_platform/gerirCargosTeams.html', context)
-
-
 def adminGerirEquipaProcesso_view(request):
     allTeamsDataBase = Team.objects.all()
     allProcessConfigurationDataBase = ProcessConfiguration.objects.all()
@@ -78,8 +61,13 @@ def adminGerirEquipaProcesso_view(request):
 
 
 def adminCriarTeams_view(request):
-
     criar_Team_Form = criarTeamForm(request.POST or None)
+    allUsersDataBase = UserProfile.objects.all()
+    
+    if request.method == 'POST':
+        # FORMULARIO DE ALTERACAO DE EQUIPA
+        if request.POST.get('teamLider'):
+            changeTeamLider(request)
 
     if criar_Team_Form.is_valid():
         criar_Team_Form.save()
@@ -87,7 +75,8 @@ def adminCriarTeams_view(request):
 
     context = {
         'form': criar_Team_Form,
-        'teams': Team.objects.all()
+        'teams': Team.objects.all(),
+        'allUsersNames': allUsersDataBase,
     }
 
     return render(request, 'admin_platform/criarTeams.html', context)

@@ -9,23 +9,25 @@
 
 
 {% block main %}
-
-<div class="Nosplit">
-
-    <div class="centered">  
-
-        <div class="TeamTasks">
-
-            {% for processoConfiguracao in allProcessConfigurationNames %}
-               
-                <div>
-
-                    <p>Processo Configuração: {{ processoConfiguracao.name }}</p>
-
+<h2 class="title">Utilizadores da Plataforma</h2>
+<div class="process_table"> 
+    <table class="outer_table">
+        <thead>
+            <tr class="outer_table_head">
+                <th class="outer_column1">Processo</th>
+                <th class="outer_column2">Descrição</th>
+                <th class="outer_column3">Equipa Atribuida</th>
+            </tr>
+        </thead>
+        {% for processoConfiguracao in allProcessConfigurationNames %}
+            <tr class="row">            
+                <td class="outer_column1">{{ processoConfiguracao.name }}</td>
+                <td class="outer_column2">
+                    {{ processoConfiguracao.description }}
+                </td>
+                <td class="outer_column3">
                     <form action="{% url 'gerirEquipaProcesso' %}" method="POST">
                         {% csrf_token %}
-
-                        <label for="teamProcessConfiguration">Equipa ➜ Processo:</label>
                         <select name="teamProcessConfiguration" onchange="this.form.submit();">
 
                             {% if processoConfiguracao.idTeam %}
@@ -49,18 +51,10 @@
                             {% endfor %}
 
                         </select>
-
                     </form>
-
-
-                </div>
-
-            {% endfor %}
-
-        </div>
-
-    </div>
-
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 </div>
-
 {% endblock %}

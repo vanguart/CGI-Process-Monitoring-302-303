@@ -9,103 +9,94 @@
 
 
 {% block main %}
+<h2 class="title">Utilizadores da Plataforma</h2>
 
-<div class="Nosplit">
+<div class="user_table"> 
+    <table class="outer_table">
+        <thead>
+            <tr class="outer_table_head">
+                <th class="outer_column1">Utilizador</th>
+                <th class="outer_column2">Teamlider</th>
+                <th class="outer_column3">Equipa</th>
+                <th class="outer_column4">Cargo</th>
+            </tr>
+        </thead>
+        {% for user in allUsersNames %}
+            <tr class="row">            
+                <td class="outer_column1">{{ user.idUser.username }} ({{ user.idGroupUser.name }})</td>
+                <td class="outer_column2">
+                {% for team in allTeamNames %}
+                    
+                    {% if user.idTeam.name == team.name and user.idUser == team.idTeamLider.idUser %}
+                        <span style="color: green;">Sim</span> (Não é possível alterar Equipa)
+                    {% elif user.idTeam.name == team.name %}
+                        <span style="color: red;">Não</span> 
+                    {% endif %}
 
-    <div class="centered">  
-
-        <div class="TeamTasks">
-
-            {% for user in allUsersNames %}
-                <div>
-                    <p>Nome do funcionario: {{ user.idUser.username }}</p>
-
-                    <br>
-
-                    <p>TeamLeader?
-
-                        {% for team in allTeamNames %}
-                          
-                            {% if user.idTeam.name == team.name and user.idUser == team.idTeamLider.idUser %}
-                              <span style="color: green;">Sim</span> (Não é possível alterar Equipa)
-                            {% elif user.idTeam.name == team.name %}
-                                <span style="color: red;">Não</span> 
-                            {% endif %}
-
-                        {% endfor %}
-
-                    </p>
-
-                    <br>
-
+                {% endfor %}
+                </td>
+                <td class="outer_column3">
                     <form action="{% url 'gerirCargosUsers' %}" method="POST">
                         {% csrf_token %}
-
-                        <label for="equipa">Equipa:</label>
+        
                         <select name="equipa" onchange="this.form.submit();">
-
+        
                             {% if user.idTeam %}
-
+        
                                 <option value="{{ user.idTeam.id }}" selected>{{ user.idTeam.name }}</option>
-
+        
                             {% else %}
-
+        
                                 <option value="" selected disabled>No Team</option>
-
+        
                             {% endif %}
-
+        
                             {% for team in allTeamNames %}
-
+        
                                 {% if not user.idTeam or team.id != user.idTeam.id %}
-
+        
                                     <option value="{{ team.id }}-{{ user.id }}">{{ team.name }}</option>
-
+        
                                 {% endif %}
-
+        
                             {% endfor %}
-
+        
                         </select>
-
+        
                     </form>
-                    
-                    <br>
-                    
+                </td>
+                <td class="outer_column4">
                     <form action="{% url 'gerirCargosUsers' %}" method="POST">
                         {% csrf_token %}
-
-                        <label for="grupo">Cargo:</label>
+        
                         <select name="grupo" onchange="this.form.submit();">
-
+        
                             {% if user.idGroupUser %}
-
+        
                                 <option value="{{ user.idGroupUser.id }}" selected>{{ user.idGroupUser.name }}</option>
-
+        
                             {% else %}
-
+        
                                 <option value="" selected disabled>No Group</option>
                             {% endif %}
-
+        
                             {% for group in allGroupNames %}
-
+        
                                 {% if not user.idGroupUser or group.id != user.idGroupUser.id %}
-
+        
                                     <option value="{{ group.id }}-{{ user.id }}">{{ group.name }}</option>
-
+        
                                 {% endif %}
-
+        
                             {% endfor %}
-
+        
                         </select>
-
+        
                     </form>
-
-                </div>
-            {% endfor %}
-
-        </div>
-
-    </div>
-
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 </div>
 
 {% endblock %}

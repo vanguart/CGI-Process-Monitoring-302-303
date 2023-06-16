@@ -1,59 +1,71 @@
-.split {
-  height: 100%;
-  width: 50%;
-  position: fixed;
-  top: 10vh;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
-  
-.left {
-  left: 0;
-  background-color: palevioletred;
-}
-  
-.right {
-  right: 0;
-  background-color: red;
-}
-  
-.centered {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+.title {
+  margin: 2rem 0 2rem 2rem;
+  font-weight: 500;
 }
 
-.TeamTasks {
+.title2 {
+  margin: 2rem 0 0 2rem;
+  font-weight: 500;
+}
+
+.main_admin {
+  display: flex;
+  flex-direction: row;
+}
+
+.user_table {
+  width: 70vw;
+  margin-left: auto;
+  margin-right: auto;
+  padding:33px 30px;
+  overflow: hidden;
+  margin-top: -1.5rem;
+}
+
+.outer_table {
+  border-spacing:1;
+  border-collapse:collapse;
+  background:#fff;
+  border-radius:5px;
+  overflow:hidden;
+  width:100%;
+  margin:0 auto;
+  position:relative;
+  box-shadow:  rgba(0, 0, 0, 0.08) 0px 0.9px 4px, rgba(0, 0, 0, 0.06) 0px 2.6px 8px, rgba(0, 0, 0, 0.05) 0px 5.7px 12px, rgba(0, 0, 0, 0.04) 0px 15px 15px;
+}
+
+.outer_table_head {
+  background-color: var(--black);
+}
+
+.outer_table_head th {
+  font-size: var(--font_size_secondary);
+  font-weight: 500;
+  color:white;
+}
+
+.outer_column1 {
+  width:25vw;
   text-align: left;
-  margin-left: 5%;
-  width: 300px;
+  padding:0.75rem;
+  padding-left:1vw;
 }
 
-.TeamTasks > div{
-  background-color: white;
-  width: auto;
-  padding: 5px;
-  margin: 5px;
-  color: black;
-  width: 50vh;
+.outer_column2 {
+  width:25vw;
+  text-align: left;
 }
 
-.NumeroTarefasDisplay{
-  background-color: orange;
-  color: black;
-  text-align: center;
-  height: auto;
-  width: auto;
+.outer_column3 {
+  width:10vw;
+  text-align: left;
 }
 
-.Nosplit {
-  height: 100%;
-  width: 100%;
-  position: fixed;
-  top: 10vh;
-  overflow-x: hidden;
-  padding-top: 20px;
-  background-color: orange;
+.outer_column4 {
+  width:10vw;
+  text-align: left;
+}
+
+select {
+  padding-right: 2rem;
 }

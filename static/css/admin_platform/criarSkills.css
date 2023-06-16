@@ -1,71 +1,111 @@
-.split {
-    height: 100%;
-    width: 50%;
-    position: fixed;
-    top: 10vh;
-    overflow-x: hidden;
-    padding-top: 20px;
+.title {
+    margin: 2rem 0 2rem 0;
+    font-weight: 500;
 }
-    
-.left {
-    left: 0;
-    background-color: palevioletred;
+
+.title2 {
+    margin: 2rem 0 2rem 2rem;
+    font-weight: 500;
 }
-    
-.right {
-    right: 0;
-    background-color: red;
+
+.main_skills {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
-    
-.centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+
+.skill_table {
+    width: 40vw;
+    padding:33px 30px;
+    overflow: hidden;
+    margin-top: -8.25rem;
+    float:right;
 }
-  
-.TeamTasks {
+
+.outer_table {
+    border-spacing:1;
+    border-collapse:collapse;
+    background:#fff;
+    border-radius:5px;
+    overflow:hidden;
+    width:100%;
+    margin:0 auto;
+    position:relative;
+    box-shadow:  rgba(0, 0, 0, 0.08) 0px 0.9px 4px, rgba(0, 0, 0, 0.06) 0px 2.6px 8px, rgba(0, 0, 0, 0.05) 0px 5.7px 12px, rgba(0, 0, 0, 0.04) 0px 15px 15px;
+}
+
+.outer_table_head {
+    background-color: var(--black);
+}
+
+.outer_table_head th {
+    font-size: var(--font_size_secondary);
+    font-weight: 500;
+    color:white;
+}
+
+.outer_column1 {
+    width:38vw;
     text-align: left;
-    margin-left: 5%;
-    width: 500px;
+    padding:0.75rem;
+    padding-left:1vw;
 }
-  
-.TeamTasks > div{
-    background-color: white;
-    width: auto;
-    padding: 5px;
-    margin: 50 px;
-    color: black;
 
+.outer_column2 {
+    width:2vw;
+    text-align: left;
+}
+
+.btChange {
+    border: none;
+    background: #fff;
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+form {
+    padding: 2rem;
+    margin-left: 2rem;
+    width: 30vw;
+    box-shadow:  rgba(0, 0, 0, 0.08) 0px 0.9px 4px, rgba(0, 0, 0, 0.06) 0px 2.6px 8px, rgba(0, 0, 0, 0.05) 0px 5.7px 12px, rgba(0, 0, 0, 0.04) 0px 15px 15px;
+}
+
+p {
+    position: relative;
+    margin-bottom: 1.8rem;
+    margin-top: 2.5rem;
+    width: 26vw;
 }
   
-.NumeroTarefasDisplay{
-    background-color: orange;
-    color: black;
-    text-align: center;
-    height: auto;
-    width: auto;
-}
-  
-.Nosplit {
-    height: 100%;
+p input[type="text"] {
+    font-size: 16px;
     width: 100%;
-    position: fixed;
-    top: 10vh;
-    overflow-x: hidden;
-    padding-top: 20px;
-    background-color: orange;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    padding: 5px 0;
+    background-color: transparent;
+    outline: none;
+}
+  
+p label {
+    position: absolute;
+    top: -20px;
+    font-size: 16px;
+    left: 0;
+    color: black;
+    transition: all 0.3s ease;
+    pointer-events: none;
 }
 
-.errorlist {
-    list-style: none; /* Remove os pontos da lista */
-    margin: 0; /* Remove a margem padrão da lista */
-    padding: 0; /* Remove o preenchimento padrão da lista */
-    color: red;
-}
-
-form p{
-    margin-top: 10px;
-    list-style: none;
+.btn-success {
+    margin-left: 19vw;
+    padding: 0.4rem;
+    padding-left: 2.2rem;
+    padding-right: 2.2rem;
+    background-color: #4B72D2;
+    border: none;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 1rem;
+    cursor: pointer;
 }

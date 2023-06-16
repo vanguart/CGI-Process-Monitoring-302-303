@@ -10,63 +10,65 @@
 
 {% block main %}
 
-<div class="split left">
-
-    <div class="centered"> 
-
-        <h2>Lista de Equipas</h2>
-        <br><br>
-
-        <div class="TeamTasks">
-
-            
-
+<h2 class="title2">Criar Equipa</h2>
+<div class="main_teams">
+    <form class="change_team" method = "post" enctype="multipart/form-data">
+        <div>
+            {% csrf_token %}
+            {{ form.as_p }}
+        </div>
+        <input type="submit" value="Gravar" class="btn btn-success">
+    </form>
+    
+    <div class="team_table"> 
+        <h2 class="title">Equipas da Plataforma</h2>
+        <table class="outer_table">
+            <thead>
+                <tr class="outer_table_head">
+                    <th class="outer_column1">Equipa</th>
+                    <th class="outer_column2">Lider de Equipa</th>
+                    <th class="outer_column3"></th>
+                </tr>
+            </thead>
             {% for team in teams %}
-
-                <div>
-                    <p>Team: {{ team }}</p>
-
-                    <p>TeamLeader: {{ team.idTeamLider }}</p>
-                    
-                    <button>
-                        <a href="{% url 'criarTeam_delete' team.id %}" class="apagar"
-                        style="color:black;text-decoration: none;">Apagar</a>
-                    </button>
-                    
-                </div>
-
+                <tr class="row">            
+                    <td class="outer_column1">{{ team }}</td>
+                    <td class="outer_column2">
+                        <form action="{% url 'criarTeams' %}" method="POST">
+                            {% csrf_token %}
+                            <select name="teamLider" class="lider_select" onchange="this.form.submit();">
+                                {% if team.idTeamLider %}
+                                    <option value="{{ team.idTeamLider.id }}" selected>{{ team.idTeamLider.idUser.username }}</option>
+                                {% else %}
+    
+                                    <option value="" selected disabled>Selecione um teamLider</option>
+    
+                                {% endif %}
+    
+                                {% for user in allUsersNames %}
+                                   
+                                    {% if user.idTeam == team and user != team.idTeamLider %}
+                                        
+                                        <option value="{{ team.id }}-{{ user.id }}">{{ user }}</option>
+    
+                                    {% endif %}
+    
+                                {% endfor %}
+    
+                            </select>
+                        </form>
+                    </td>
+                    <td class="outer_column3">
+                        <button class="btChange">
+                            <a href="{% url 'criarTeam_delete' team.id %}"><i class="fa-solid fa-xmark fa-xl" style="color: black"></i></a>
+                        </button>
+                    </td>
+                </tr>
             {% endfor %}
-            
-        </div>
-
+        </table>
     </div>
-
-
-<div class="split right">
-
-    <div class="centered">  
-
-        <h2>Criar Equipa</h2>
-        <br><br>
-
-        <div class="TeamTasks">
-
-            <div>
-
-                <form method = "post" enctype="multipart/form-data">
-                    <div>
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                    </div>
-                    <input type="submit" value="Gravar" class="btn btn-success">
-                </form>
-
-            </div>
-            
-        </div>
-
-    </div>
-
 </div>
+
+
 
 {% endblock %}

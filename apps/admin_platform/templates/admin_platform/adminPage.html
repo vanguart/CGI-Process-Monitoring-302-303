@@ -9,63 +9,45 @@
 
 
 {% block main %}
-
-<div class="split left">
-
-    <div class="centered">
-
-        <div class="TeamTasks">
-
-            <p>OLA</p>
-
-        </div>
-
+<div class="main_admin">
+    <div>
+        <h2 class="title2">Utilizadores da Plataforma</h2>
+        <iframe src="https://localhost:5601/app/dashboards#/view/39f1f770-fe24-11ed-8652-e5f6110e5e92?embed=true&_g=(refreshInterval:(pause:!t,value:60000),time:(from:now-15w,to:now))&_a=()&hide-filter-bar=true"></iframe>
     </div>
-
-</div>
-
-<div class="split right">
-
-    <div class="centered">  
-
-        <div class="TeamTasks">
-
+    
+    <div class="user_table"> 
+        <h2 class="title">Utilizadores da Plataforma</h2>
+        <table class="outer_table">
+            <thead>
+                <tr class="outer_table_head">
+                    <th class="outer_column1">Utilizador</th>
+                    <th class="outer_column2">Equipa</th>
+                    <th class="outer_column3">Tarefas por Realizar</th>
+                    <th class="outer_column4">Tarefas Realizadas</th>
+                </tr>
+            </thead>
             {% for user in allUsersNames %}
-
-                <div>
-
-                    <p>Nome do utilizador: {{ user.idUser.username }} ({{ user.idGroupUser.name }})</p>
-
+                <tr class="row">            
+                    <td class="outer_column1">{{ user.idUser.username }} ({{ user.idGroupUser.name }})</td>
+                    <td class="outer_column2">{{ user.idTeam }}</td>
+                    <td class="outer_column3">
                     {% for key, value in tasksTodo.items %}
-                        
-                        {% if key == user.id %}
-
-                            <p>Tarefas a realizar: {{ value }}</p>
-
+                        {% if key == user.id %}   
+                            {{ value }}
                         {% endif %}
-
                     {% endfor %}
-
-                    {% for key, value in tasksDone.items %}
-                        
+                    </td>
+                    <td class="outer_column4">
+                    {% for key, value in tasksDone.items %}               
                         {% if key == user.id %}
-
-                            <p>Tarefas realizadas: {{ value }}</p>
-
+                            {{ value }}
                         {% endif %}
-
                     {% endfor %}
-
-                    <p>Equipa: {{ user.idTeam }}</p>
-
-                </div>
-
+                    </td>
+                </tr>
             {% endfor %}
-
-        </div>
-
+        </table>
     </div>
-
 </div>
 
 {% endblock %}
