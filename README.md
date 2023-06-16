@@ -55,4 +55,7 @@ http://127.0.0.1:8000/admin
 
 9. Entrar no objeto "Groups" e adicionar 3 grupos com os nomes “Admin”, “Analyst” e “Operational”.
 
+10. Opcional: Para ter acesso a estatisticas instalar kibana, elasticsearch e filebeat a partir do seguinte link:
+https://www.dropbox.com/s/xu6ibr1f1ksefyr/process-monitoring-stats.rar?dl=0
+
 Após os passos acima descritos, o projeto deverá encontrar-se instalado e pronto para desenvolvimento/testagem/análise.
