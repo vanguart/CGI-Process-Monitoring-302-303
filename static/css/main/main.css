@@ -149,7 +149,7 @@ nav > a:hover {
 
 .dropdown-profile:hover .dropdown-button {
   background-color: #F5F5F5;
-}
+} 
 
 main {
   background-color: var(--white);
@@ -189,8 +189,8 @@ main {
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: #f9f9f9;
-  min-width: 200px;
+  background-color: #fff;
+  min-width: 20vw;
   padding: 10px;
   box-shadow:  rgba(0, 0, 0, 0.08) 0px 0.9px 4px, rgba(0, 0, 0, 0.06) 0px 2.6px 8px, rgba(0, 0, 0, 0.05) 0px 5.7px 12px, rgba(0, 0, 0, 0.04) 0px 15px 15px;
   z-index: 999;

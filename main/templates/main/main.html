@@ -52,51 +52,34 @@
           </button>
 
           <div class="notification-dropdown">
-
             <ul class="notification-list scrollable">
-
               <li class="notification-item">
-
                 {% for notificacao in DataReporting %}
-
-                  {% if forloop.first %}
-                    <hr> 
-                  {% endif %}
-
                   <label class="notification-label">
-                    <span class="ReportingSpan"><b><u>User:</u></b></span>
+                    <span class="ReportingSpan">Utilizador: {{ notificacao.idUser }}</span>
                   </label>
-                  <span class="notification-message">{{ notificacao.idUser }}</span>
-
+                  <br>
                   <label class="notification-label">
-                    <span class="ReportingSpan"><u><b>Description:</u></b></span>
+                    <span class="ReportingSpan">Descrição:</span>
                   </label>
                   <span class="notification-message">{{ notificacao.description }}</span>
-
-                  <label class="notification-label">
-                    <span class="ReportingSpan"><b><u>File:</u></b></span>
-                  </label>
-
                   {% if notificacao.file_name %}
-
-                    <span class="notification-message">{{ notificacao.file_name }}</span>
-
+                  <label class="notification-label">
+                    <span class="ReportingSpan">Ficheiro: {{ notificacao.file_name }}</span>
+                  </label>
                   {% else %}
-
-                    <span class="notification-message">No File</span>
-
+                  <label class="notification-label">
+                    <span class="ReportingSpan">Ficheiro: Não existe Ficheiro</span>
+                  </label>
                   {% endif %}
-
-                  <hr> 
-
+                  {% if forloop.last %}
+                  {% else %}
+                    <hr>
+                  {% endif %}
                 {% endfor %}
-
               </li>
-
-            </ul>
-            
+            </ul>            
           </div>
-          
         </div>
         
         
