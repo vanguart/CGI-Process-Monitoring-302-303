@@ -2,9 +2,11 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from main.models import QueueProcess, Label, QueueTask, ProcessConfiguration
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
 
-
-# Create your views here.
+@login_required
+@permission_required("main.access_analytic_page")
 def process_listing_page_view(request):
     if request.GET.get('filtros') is None:
         query = ProcessConfiguration.objects.all()

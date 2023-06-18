@@ -119,7 +119,7 @@ def changePage(request, userAutheticated):
         if group.name == "Admin":
             url = 'adminPage'
         elif group.name == "Analyst":
-            url = 'todoAnalyst'
+            url = 'statistics'
         elif group.name == "Operational":
             url = 'businessExceptions'
 

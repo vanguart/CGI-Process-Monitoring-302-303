@@ -8,6 +8,7 @@
             <i class="menu-icon fa fa-bars fa-2x"></i>
         </div>
         <ul>
+          {% if perms.main.access_admin_page %}
           <li class="admin_icon">
             <a href="{% url 'adminPage' %}">
               <i class="fa fa-toolbox fa-2x"></i>
@@ -40,7 +41,8 @@
               </li>
             </ul>
           </li>
-
+          {% endif %}
+          {% if perms.main.access_analytic_page %}
           <li>
             <a href="{% url 'statistics' %}">
               <i class="fa fa-chart-simple fa-2x"></i>
@@ -53,12 +55,15 @@
               <span class="nav-text"> Lista de Processos </span>
             </a>
           </li>
+          {% endif %}
+          {% if perms.main.access_operational_page %}
           <li>
             <a href="{% url 'businessExceptions' %}">
               <i class="fa fa-wrench fa-2x"></i>
               <span class="nav-text"> Plataforma Operativa </span>
             </a>
           </li>
+          {% endif %}
         </ul>
     </nav>
     <div class="shadow"></div>

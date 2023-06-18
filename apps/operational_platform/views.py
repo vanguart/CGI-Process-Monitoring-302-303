@@ -7,8 +7,11 @@ from apps.operational_platform.services import *
 from main.models import QueueTask, UserProfile, QueueProcess, Team
 from django.db.models import Q as Query
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
 
-
+@login_required
+@permission_required("main.access_operational_page")
 def businessExceptions_page_view(request):
     # User logado
     username = request.user.username
@@ -81,7 +84,8 @@ def businessExceptions_page_view(request):
 
     return render(request, 'operational_platform/businessExceptions.html', context)
 
-
+@login_required
+@permission_required("main.access_operational_page")
 def correcaoDocumentos_page_view(request, taskId, taskPosition):
     countTaskData = TaskData.objects.filter(Query(idTask=taskId) & Query(outputData="")).count()
     taskData = TaskData.objects.filter(Query(idTask=taskId) & Query(outputData=""))[taskPosition]
@@ -133,7 +137,8 @@ def correcaoDocumentos_page_view(request, taskId, taskPosition):
         'file': "../../static/files/excel.pdf"}
     return render(request, 'operational_platform/correcaoDocumentos.html', context)
 
-
+@login_required
+@permission_required("main.access_operational_page")
 def reportarErrosNoSistema_page_view(request):
 
     criar_reportarErros_Form = ReportingErrosForm(request.POST or None, request.FILES)
@@ -153,7 +158,8 @@ def reportarErrosNoSistema_page_view(request):
     }
     return render(request, 'operational_platform/reportarErrosNoSistema.html', context)
 
-
+@login_required
+@permission_required("main.access_operational_page")
 def changeSkills_page_view(request, userId):
     skillsObject = UserProfile.objects.get(id=userId)
 
@@ -170,5 +176,7 @@ def changeSkills_page_view(request, userId):
 
     return render(request, 'operational_platform/changeSkills.html', context)
 
+@login_required
+@permission_required("main.access_operational_page")
 def contact_page_view(request):
     return render(request, 'operational_platform/contact.html')

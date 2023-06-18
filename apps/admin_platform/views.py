@@ -4,10 +4,13 @@ from django.urls import reverse
 from apps.admin_platform.services import *
 from main.models import *
 from . forms import *
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
 
 
 # Create your views here.
-
+@login_required
+@permission_required("main.access_admin_page")
 def adminPage_view(request):
     allUsersDataBase = UserProfile.objects.all()
     countTask = countTasks(allUsersDataBase)
@@ -19,7 +22,8 @@ def adminPage_view(request):
 
     return render(request, 'admin_platform/adminPage.html', context)
 
-
+@login_required
+@permission_required("main.access_admin_page")
 def adminGerirCargosUsers_view(request):
     allUsersDataBase = UserProfile.objects.all()
     allTeamsDataBase = Team.objects.all()
@@ -42,7 +46,8 @@ def adminGerirCargosUsers_view(request):
 
     return render(request, 'admin_platform/gerirCargosUsers.html', context)
 
-
+@login_required
+@permission_required("main.access_admin_page")
 def adminGerirEquipaProcesso_view(request):
     allTeamsDataBase = Team.objects.all()
     allProcessConfigurationDataBase = ProcessConfiguration.objects.all()
@@ -59,7 +64,8 @@ def adminGerirEquipaProcesso_view(request):
 
     return render(request, 'admin_platform/gerirEquipaProcesso.html', context)
 
-
+@login_required
+@permission_required("main.access_admin_page")
 def adminCriarTeams_view(request):
     criar_Team_Form = criarTeamForm(request.POST or None)
     allUsersDataBase = UserProfile.objects.all()
@@ -81,6 +87,8 @@ def adminCriarTeams_view(request):
 
     return render(request, 'admin_platform/criarTeams.html', context)
 
+@login_required
+@permission_required("main.access_admin_page")
 def adminTeams_delete_view(request, team_id):
 
     team = Team.objects.get(id=team_id)
@@ -123,7 +131,8 @@ def adminTeams_delete_view(request, team_id):
     return HttpResponseRedirect(reverse('criarTeams'))
 
 
-
+@login_required
+@permission_required("main.access_admin_page")
 def adminCriarSkills_view(request):
     
     criar_Skill_Form = criarSkillForm(request.POST or None)
@@ -140,7 +149,8 @@ def adminCriarSkills_view(request):
 
     return render(request, 'admin_platform/criarSkills.html', context)
 
-
+@login_required
+@permission_required("main.access_admin_page")
 def adminSkills_delete_view(request, skill_id):
 
     utilizadores = UserProfile.objects.all()
