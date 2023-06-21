@@ -90,8 +90,6 @@ def adminCriarTeams_view(request):
 @login_required
 @permission_required("main.access_admin_page")
 def adminTeams_delete_view(request, team_id):
-
-def adminTeams_delete_view(request, team_id):
     team = Team.objects.get(id=team_id)
 
     utilizadores = UserProfile.objects.all()
