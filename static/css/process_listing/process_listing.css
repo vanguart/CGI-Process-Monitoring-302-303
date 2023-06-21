@@ -201,7 +201,7 @@ dialog {
     cursor: pointer;
 }
 
-iframe {
+td iframe {
     border: none; 
     height: 25vw; 
     width: 32vw; 

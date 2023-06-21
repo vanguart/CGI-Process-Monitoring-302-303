@@ -76,18 +76,21 @@
 {% if teamName == None %}
     <h2 class="title">Não está atribuído a nenhuma equipa (Contacte um administrador)</h2>
 {% else %}
-    <h2 class="title">Lista de tarefas da {{teamName}}</h2>
+    <h2 class="title">Plataforma Operativa</h2>
 
     <div class="user-stats">
         <div class="stat-card">
+            <p class="card-title">{{teamName}}</p>
             <p class="counter">{{TeamProcessCount}}</p>
             <p>Processos a corrigir</p>
         </div>
         <div class="stat-card">
+            <p class="card-title">{{username}}</p>
             <p class="counter">{{UserProcessCount}}</p>
             <p>Processos selecionados</p>
         </div>
         <div class="stat-card">
+            <p class="card-title">{{username}}</p>
             <p class="counter">{{UserTaskCount}}</p>
             <p>Tarefas por corrigir</p>
         </div>
@@ -96,6 +99,7 @@
 
 <div class="tables">
     <div class="process_table">  
+        <h2 class="title">Lista de tarefas da {{teamName}}</h2>
         <table class="outer_table">
             <thead>
                 <tr class="outer_table_head">
@@ -123,6 +127,7 @@
     </div>
 
     <div class="process_table">  
+        <h2 class="title">Lista de tarefas do {{username}}</h2>
         <table class="outer_table">
             <thead>
                 <tr class="outer_table_head">

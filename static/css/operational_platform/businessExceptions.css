@@ -1,5 +1,5 @@
 .title {
-    margin: 2rem 0 0 2rem;
+    margin: 2rem 0 1rem 2rem;
     font-weight: 500;
 }
 
@@ -28,6 +28,17 @@ dialog {
     box-shadow:  rgba(0, 0, 0, 0.08) 0px 0.9px 4px, rgba(0, 0, 0, 0.06) 0px 2.6px 8px, rgba(0, 0, 0, 0.05) 0px 5.7px 12px, rgba(0, 0, 0, 0.04) 0px 15px 15px;
     align-items: center;
     border-radius: 5px;
+}
+
+.card-title {
+    background-color: var(--black);
+    font-size: var(--font_size_secondary);
+    font-weight: 500;
+    color:white;
+    padding: 0.5rem;
+    margin:-1rem;
+    margin-bottom: 0;
+    border-radius: 5px 5px 0px 0px;
 }
 
 .counter {
