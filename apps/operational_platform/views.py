@@ -83,6 +83,7 @@ def businessExceptions_page_view(request):
     return render(request, 'operational_platform/businessExceptions.html', context)
 
 
+
 def correcaoDocumentos_page_view(request, taskId, taskPosition):
     countTaskData = TaskData.objects.filter(Query(idTask=taskId) & Query(outputData="")).count()
     taskData = TaskData.objects.filter(Query(idTask=taskId) & Query(outputData=""))[taskPosition]
