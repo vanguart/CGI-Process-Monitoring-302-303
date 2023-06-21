@@ -61,6 +61,7 @@ def businessExceptions_page_view(request):
             if task.state == "Running":
                 verificaStateTasksInProcess.update({proc.id: False})
                 entrei = True
+
         if not entrei:
             verificaStateTasksInProcess.update({proc.id: True})
 
@@ -89,7 +90,7 @@ def correcaoDocumentos_page_view(request, taskId, taskPosition):
     # Obtém o diretório base do projeto
     BASE_DIR = os.path.dirname(os.path.abspath('CGI-Process-Monitoring-302-303'))
     # Caminhos relativos aos arquivos
-    input_file = os.path.join(BASE_DIR, 'static/files/MOCK_DATA_SMALL.xlsx')
+    input_file = os.path.join(BASE_DIR, 'static/files/Excel_Com_Warning.xlsx')
     output_file = os.path.join(BASE_DIR, 'static/files/excel.pdf')
     # Chama a função para converter o arquivo
     excel_to_pdf_with_data_check(input_file, output_file)
@@ -135,11 +136,9 @@ def correcaoDocumentos_page_view(request, taskId, taskPosition):
 
 
 def reportarErrosNoSistema_page_view(request):
-
     criar_reportarErros_Form = ReportingErrosForm(request.POST or None, request.FILES)
 
     if criar_reportarErros_Form.is_valid():
-
         username = request.user.username
         userProfile = UserProfile.objects.get(idUser__username=username)
         criar_reportarErros_Form.instance.idUser = userProfile
@@ -147,7 +146,7 @@ def reportarErrosNoSistema_page_view(request):
         criar_reportarErros_Form.save()
 
         return HttpResponseRedirect(reverse('businessExceptions'))
- 
+
     context = {
         'form': criar_reportarErros_Form,
     }
@@ -169,6 +168,7 @@ def changeSkills_page_view(request, userId):
     }
 
     return render(request, 'operational_platform/changeSkills.html', context)
+
 
 def contact_page_view(request):
     return render(request, 'operational_platform/contact.html')
