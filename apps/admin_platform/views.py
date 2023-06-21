@@ -69,7 +69,7 @@ def adminGerirEquipaProcesso_view(request):
 def adminCriarTeams_view(request):
     criar_Team_Form = criarTeamForm(request.POST or None)
     allUsersDataBase = UserProfile.objects.all()
-    
+
     if request.method == 'POST':
         # FORMULARIO DE ALTERACAO DE EQUIPA
         if request.POST.get('teamLider'):
@@ -91,18 +91,19 @@ def adminCriarTeams_view(request):
 @permission_required("main.access_admin_page")
 def adminTeams_delete_view(request, team_id):
 
+def adminTeams_delete_view(request, team_id):
     team = Team.objects.get(id=team_id)
 
     utilizadores = UserProfile.objects.all()
     allQueueTasks = QueueTask.objects.all()
     allProcesses = QueueProcess.objects.all()
-    
-    teamSize = 0 
+
+    teamSize = 0
     teamDoneProcess = False
 
     # VERIFY IF THE TEAM HAS ONLY THE TEAMLEADER AS A MEMBER
     for membros in utilizadores:
-        if(membros.idTeam != None and membros.idTeam.id == team.id):
+        if membros.idTeam is not None and membros.idTeam.id == team.id:
             teamSize += 1
 
     # VERIFY IF A TASK IN PROCESS WAS STARTED OR NOT, IF YES IT WONT LET ADMIN DELETE TEAM
@@ -112,35 +113,32 @@ def adminTeams_delete_view(request, team_id):
 
                 if not (process.idUser and membro.idTeam and task.idProcess.id == process.id and task.startWorkingDate):
                     continue
-                
+
                 if process.idUser.id == membro.idUser.id and membro.idTeam.id == team.id:
                     teamDoneProcess = True
                     break
-            
+
             if teamDoneProcess:
                 break
 
         if teamDoneProcess:
             break
 
-
-    if(teamSize == 1 and (not teamDoneProcess)):
+    if teamSize == 1 and (not teamDoneProcess):
         get_Team_Form = Team.objects.get(id=team_id)
         get_Team_Form.delete()
-        
+
     return HttpResponseRedirect(reverse('criarTeams'))
 
 
 @login_required
 @permission_required("main.access_admin_page")
 def adminCriarSkills_view(request):
-    
     criar_Skill_Form = criarSkillForm(request.POST or None)
 
     if criar_Skill_Form.is_valid():
         criar_Skill_Form.save()
         return HttpResponseRedirect(reverse('criarSkills'))
-    
 
     context = {
         'form': criar_Skill_Form,
@@ -152,7 +150,6 @@ def adminCriarSkills_view(request):
 @login_required
 @permission_required("main.access_admin_page")
 def adminSkills_delete_view(request, skill_id):
-
     utilizadores = UserProfile.objects.all()
     equipas = Team.objects.all()
 
@@ -170,8 +167,7 @@ def adminSkills_delete_view(request, skill_id):
             skillInUse = True
             break
 
-
-    if(not skillInUse):
+    if not skillInUse:
         get_Skill_Form = Skill.objects.get(id=skill_id)
         get_Skill_Form.delete()
 
