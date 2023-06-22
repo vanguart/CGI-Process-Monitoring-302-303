@@ -7,7 +7,8 @@ from django.contrib.auth.models import Group, User
 class criarTeamForm(ModelForm):
     class Meta:
         model = Team
-        fields = '__all__'
+        fields = ['name','description','idPermissions','idTeamLider','idSkils']
+        
 
     #name = forms.CharField(max_length=256)
     #description = forms.CharField(max_length=100)

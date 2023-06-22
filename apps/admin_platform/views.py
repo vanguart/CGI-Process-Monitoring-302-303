@@ -121,10 +121,11 @@ def adminTeams_delete_view(request, team_id):
 
         if teamDoneProcess:
             break
-
-    if teamSize == 1 and (not teamDoneProcess):
+        
+    if teamSize <= 1 and (not teamDoneProcess):
         get_Team_Form = Team.objects.get(id=team_id)
         get_Team_Form.delete()
+
 
     return HttpResponseRedirect(reverse('criarTeams'))
 
