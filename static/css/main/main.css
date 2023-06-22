@@ -73,6 +73,7 @@ header {
     background-color: #AF4660 !important;
     border-radius: 15px !important;
     margin-right: 0.5rem !important;
+    margin-top: -0.7rem;
 }
 
 .btnLogout div {
