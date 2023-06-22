@@ -152,7 +152,7 @@ def timerCode(emailRecoverInput):
     userProfile = UserProfile.objects.filter(idUser__email=emailRecoverInput).first()
     if userProfile.lastCodeSentTime is not None:
         elapsedTime = timezone.now() - userProfile.lastCodeSentTime
-        if elapsedTime > timedelta(minutes=1):
+        if elapsedTime > timedelta(minutes=15):
             userProfile.recoveryCode = ""
             userProfile.lastCodeSentTime = None
             userProfile.save()

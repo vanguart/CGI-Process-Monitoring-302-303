@@ -23,6 +23,13 @@ def run_sync():
     print("Started extractation")
     asyncio.run(asyncFunctionGetLogsApi())
     print("Ended extractation")
+    
+    print("Send email start")
+    asyncio.run(asyncFunctionSendEmails())
+    print("Send email end")
+    
+    
+
 
 
 def run_schedule():
@@ -34,3 +41,9 @@ def run_schedule():
 async def asyncFunctionGetLogsApi():
     arquivo = importlib.import_module('apps.logs.services')
     await arquivo.connectionToApi()
+
+
+async def asyncFunctionSendEmails():
+    arquivo = importlib.import_module('apps.alarmistic.services')
+    await arquivo.enviarEmailErro()
+    await arquivo.enviarEmailTarefasRealizarToday()

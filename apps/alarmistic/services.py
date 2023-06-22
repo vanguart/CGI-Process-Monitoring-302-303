@@ -2,13 +2,12 @@ import io
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
+from datetime import date,timedelta
 import msoffcrypto
 import pandas as pd
-
-from main.models import Log, QueueTask, UserProfile, Team, QueueProcess
-import schedule
-import time
+from asgiref.sync import sync_to_async
+from django.db.models import Q as Query
+from main.models import Log, QueueTask, Team, QueueProcess
 
 
 def enviamail(email, subject, body):
@@ -50,53 +49,78 @@ def enviamail(email, subject, body):
     # encerrando a conexão
     server.quit()
 
-
+@sync_to_async
 def enviarEmailErro():
     subject = "Processes with error "
     userEmail = ""
     processosUtilizadorComErros = {}
-    countWarnings = 0
-    countErrors = 0
+
     infoMail = [0,0,0]
     for log in Log.objects.all():
         for process in QueueProcess.objects.all():
-                if log.idProcess.id == process.id and process.idUser != None:
-                    userEmail = process.idUser.idUser.email
+            countWarnings = 0
+            countErrors = 0
+            if log.idProcess.id == process.id and process.idConfiguration.idTeam != None:
+                userEmail = process.idConfiguration.idTeam.idTeamLider.idUser.email
+                infoMail[2]=process.id
+                arquivo = open(str(log.ficheiro), 'r')
+                linhas = arquivo.readlines()
 
-                    infoMail[2]=process.id
+                for linha in linhas:
+                    if linha == 1:
+                        continue
 
-                    arquivo = open(str(log.ficheiro), 'r')
-                    linhas = arquivo.readlines()
+                    dados = linha.split("\t")
+                    
+                    if dados[2] == "Warn":
+                        countWarnings+=1
 
-                    for linha in linhas:
-                        if linha == 1:
-                            continue
-
-                        dados = linha.split("\t")
-                        if dados[2] == "Warn":
-                            countWarnings+=1
-
-                        if dados[2] == "Error":
-                            countErrors+=1
-
-                        infoMail[0], infoMail[1] = countWarnings, countErrors
-                        processosUtilizadorComErros.update({userEmail : infoMail})
+                    if dados[2] == "Error":
+                        countErrors+=1
+ 
+                    infoMail[0], infoMail[1] = countWarnings, countErrors
+                    processosUtilizadorComErros.update({userEmail : infoMail})
 
                     arquivo.close()
+                for key,values  in processosUtilizadorComErros.items():
+                    email = key
+                    nomeProc = QueueProcess.objects.get(id=values[2])
+                    body = f"Instance {process.id} of {nomeProc.idConfiguration.name} has {values[1]} fatal errors and {values[0]} warnings"
+                    if countErrors > 0 or countWarnings > 0:
+                        if not nomeProc.EmailWasSent:
+                            enviamail(email, subject, body)
+                            nomeProc.EmailWasSent=True
+                            nomeProc.save()
 
-    for key,values  in processosUtilizadorComErros.items():
-        email = key
-        nomeProc = QueueProcess.objects.get(id=values[2])
-        body = f"In the process {nomeProc.idConfiguration.name} - has {values[1]} fatal errors; has {values[0]} warnings"
-        enviamail(email, subject, body)
-
-
+@sync_to_async
 def enviarEmailTarefasRealizarToday():
     subject = "Tasks to-do Today"
+    today = date.today().day
+    yesterday = date.today() - timedelta(days=1)
+    
 
     for team in Team.objects.all():
-        email = team.idTeamLider.idUser.email
-        tarefas = QueueTask.objects.filter(idProcess__idUser__idTeam=team).count()
-        body = "Number of tasks the team has to do today:" + str(tarefas) + " tasks!"
-        enviamail(email, subject, body)
+        sendEmail=True
+        if not team.EmailWasSent == None:
+            if yesterday == team.EmailWasSent.date():
+                team.EmailWasSent = None
+                team.save()
+            
+            if team.EmailWasSent.date().day == today:
+                sendEmail=False
+              
+                
+        if sendEmail:
+            email = team.idTeamLider.idUser.email
+            dateToday = date.today()
+            dateYesterday = dateToday - timedelta(days=1)
+            tasksTodayCount = QueueTask.objects.filter(Query(idProcess__idUser__idTeam=team)& Query(startDate__date=dateToday)).count()
+            tasksTodayYesterday = QueueTask.objects.filter(Query(idProcess__idUser__idTeam=team)& Query(endDate__date=dateYesterday)).count()
+                
+
+            body = "Number of tasks the team has to do today:" + str(tasksTodayCount) + " tasks!\nNumber of tasks done by the team yesterday:" + str(tasksTodayYesterday) + " tasks!"
+            enviamail(email, subject, body)
+            team.EmailWasSent=date.today()
+            team.save()
+        
 

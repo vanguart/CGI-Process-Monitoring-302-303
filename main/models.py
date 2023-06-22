@@ -72,6 +72,7 @@ class QueueProcess(models.Model):
     registerDate = models.DateTimeField(null=True, blank=True)
     state = models.CharField(max_length=256, default="Completed")
     idUser = models.ForeignKey(UserProfile, on_delete=models.DO_NOTHING, related_name='userProfile', blank=True, null=True)
+    EmailWasSent = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.idConfiguration)
@@ -110,6 +111,8 @@ class Team(models.Model):
     idPermissions = models.ManyToManyField(Group, related_name='teamPermissions')
     idTeamLider = models.OneToOneField(UserProfile, on_delete=models.DO_NOTHING, related_name="teamLider", null=True)
     idSkils = models.ManyToManyField(Skill, related_name="skills")
+    EmailWasSent = models.DateTimeField(null=True, blank=True)
+
 
     def __str__(self):
         return self.name
