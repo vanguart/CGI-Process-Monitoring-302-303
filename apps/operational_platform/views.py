@@ -135,6 +135,7 @@ def correcaoDocumentos_page_view(request, taskId, taskPosition):
         'currentPosition': taskPosition,
         'teamtasks': task,
         'form': form,
+        'taskData': taskData,
         'file': "../../static/files/excel.pdf"}
     return render(request, 'operational_platform/correcaoDocumentos.html', context)
 
