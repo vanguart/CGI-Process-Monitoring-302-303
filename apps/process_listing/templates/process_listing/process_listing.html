@@ -1,5 +1,6 @@
-{% extends 'main/main.html' %}
 
+{% extends 'main/main.html' %}
+{% load process_listing_tags %}
 {% block style %}
 
 {% load static %}
@@ -39,19 +40,19 @@
 <h2 class="title">Processos de Negócio</h2><br>
 
 <!-- Formulário de filtragem por LABEL -->
-<div class="filter_menu"> 
+<div class="filter_menu">
     <button onclick="clickFilter();" class="filter_button"><i id="filter_icon" class="fa fa-filter fa-2x"></i><span id="filter_title">Filtros</span></button>
     <div id="filters" class="filters_content">
         <div>
             <i onclick="clickFilter();" class="fa-solid fa-xmark fa-xl remove_bt"></i>
             <form action="{% url 'process_listing' %}" method="get">
                 <label for="filtros">Labels:</label>
-                <select name="filtros" onchange="this.form.submit();">           
-                    <option value="" selected disabled>Choose filter</option>           
-                    <option value="noFilter">-- None --</option>           
+                <select name="filtros" onchange="this.form.submit();">
+                    <option value="" selected disabled>Choose filter</option>
+                    <option value="noFilter">-- None --</option>
                     {% for filterOption in filtros %}
                         <option value="{{ filterOption }}">{{ filterOption }}</option>
-                    {% endfor %}           
+                    {% endfor %}
                 </select>
             </form>
         </div>
@@ -59,7 +60,7 @@
 </div>
 
 <!-- Tabela de processos -->
-<div class="process_table">  
+<div class="process_table">
     <table class="outer_table">
         <thead>
             <tr class="outer_table_head">
@@ -70,7 +71,7 @@
             </tr>
         </thead>
         {% for process in processesConfiguration %}
-            <tr class="row" onclick="showHideRow('{{process.id}}')">            
+            <tr class="row" onclick="showHideRow('{{process.id}}')">
                 <td class="outer_column1">{{process.name}}</td>
                 <td class="outer_column2">{{process.description}}</td>
                 <td class="outer_column3">
@@ -98,6 +99,7 @@
                                 <th class="inner_column4">Estado</th>
                             </tr>
                         </thead>
+
                         {% for instance in processes %}
                             {% if instance.idConfiguration == process %}
                             <tr class="row">
@@ -105,10 +107,17 @@
                                 <td class="inner_column1" onclick="dialog_{{instance.id}}.showModal()">{{instance.startDate}}</td>
                                 <td class="inner_column2" onclick="dialog_{{instance.id}}.showModal()">{{instance.endDate}}</td>
                                 <td class="inner_column3" onclick="dialog_{{instance.id}}.showModal()">Instância {{instance.id}} de {{instance.idConfiguration.name}}</td>
-                                <td class="inner_column4" onclick="dialog_{{instance.id}}.showModal()">{{instance.state}}</td>            
+                                <td class="inner_column4" onclick="dialog_{{instance.id}}.showModal()">{{instance.state}}</td>
                             </tr>
                             <dialog id="dialog_{{instance.id}}">
                                 <i onclick="dialog_{{instance.id}}.close()" class="fa-solid fa-xmark fa-xl hide_dialog"></i>
+
+                                {% for log in logs %}
+                                    {% if log.idProcess.id == instance.id %}
+                                        {% read_log_file log.ficheiro.path as log_content %}
+                                        <pre>{{ log_content }}</pre>
+                                    {% endif %}
+                                {% endfor %}
                             </dialog>
                             {% endif %}
                         {% endfor %}

@@ -55,7 +55,6 @@ def connectionToApi():
 
     header['X-UIPATH-OrganizationUnitId'] = '4494657'
 
-
     getLogs(creds, header)
 
 
@@ -66,7 +65,6 @@ def connectionToApi():
 
 
 def getLogs(creds, header):
-    
     jobs = requests.get(creds['url'] + "/odata/Jobs", headers=header)
     jobscount = jobs.json()['@odata.count']
     keys = []
@@ -398,16 +396,19 @@ def createLogFiles(creds, key, header, newQueueProcess):
         timeStampNeedsFixing = str(allLogs.json()['value'][log]['TimeStamp'])
         timeStampDate = timeStampNeedsFixing.split("T")[0]
         timeStampTime = timeStampNeedsFixing.split("T")[1]
-        miliseconds = timeStampTime.split(".")[1]
-        
-        if len(miliseconds)!= 4:
-            miliseconds = miliseconds.replace("Z","")
-            while len(miliseconds)!=3:
-                miliseconds +="0"
-            miliseconds+="Z"
 
-        timeStampTime = timeStampTime.split(".")[0] + "." + miliseconds
-        newLogTxt.write(timeStampDate + " " + timeStampTime + "\t" + "Uipath Orchestrator" + "\t" + logType + "\t" + message + "\t" + str(newQueueProcess.id) +"\t" + newQueueProcess.idConfiguration.name +"\n")
+        miliseconds = timeStampTime  # .split(".")[1]
+
+        # if len(miliseconds)!= 4:
+        #     miliseconds = miliseconds.replace("Z","")
+        #     print(miliseconds)
+        #     while len(miliseconds)!=3:
+        #         miliseconds +="0"
+        #     miliseconds+="Z"
+
+        newLogTxt.write(
+            timeStampDate + " " + timeStampTime + "\t" + "Uipath Orchestrator" + "\t" + logType + "\t" + message + "\t" + str(
+                newQueueProcess.id) + "\t" + newQueueProcess.idConfiguration.name + "\n")
 
     newLogTxt.close()
     sort_file_by_time(file_path)

@@ -1,4 +1,11 @@
 from main.models import Process, Task
+import os
+import tempfile
+from django import template
+
+
+def decode_utf8(value):
+    return value.decode('utf-8')
 
 
 # function that returns all processes in the data base acording to input parameters
@@ -29,3 +36,17 @@ def getAllProcessesInDB(InicialDate, EndDate, label, state, ):
 def getAllTasksInAProcesses(processId):
     process = Process.objects.get(idProcessConfiguration=processId)
     return process.objects.all()
+
+
+def convert_log_to_txt(log_file):
+    txt_file = tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.txt')
+
+    with open(log_file.path, 'r') as log:
+        # Lê o conteúdo do arquivo de log
+        log_content = log.read()
+
+        # Escreve o conteúdo no arquivo temporário .txt
+        txt_file.write(log_content)
+
+    txt_file.close()
+    return txt_file.name

@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from main.models import QueueProcess, Label, QueueTask, ProcessConfiguration
+from main.models import QueueProcess, Label, QueueTask, ProcessConfiguration,Log
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 
@@ -23,6 +23,7 @@ def process_listing_page_view(request):
         'processes': QueueProcess.objects.all(),
         'filtros': Label.objects.all(),
         'tasks': QueueTask.objects.all(),
+        'logs': Log.objects.all()
     }
 
     return render(request, 'process_listing/process_listing.html', context)
