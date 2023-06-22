@@ -67,6 +67,7 @@ form {
     padding: 2rem;
     margin-left: 2rem;
     width: 30vw;
+    height: 23vh;
     box-shadow:  rgba(0, 0, 0, 0.08) 0px 0.9px 4px, rgba(0, 0, 0, 0.06) 0px 2.6px 8px, rgba(0, 0, 0, 0.05) 0px 5.7px 12px, rgba(0, 0, 0, 0.04) 0px 15px 15px;
 }
 
