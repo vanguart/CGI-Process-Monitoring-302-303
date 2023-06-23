@@ -140,7 +140,6 @@ def correcaoDocumentos_page_view(request, taskId, taskPosition):
     return render(request, 'operational_platform/correcaoDocumentos.html', context)
 
 @login_required
-@permission_required("main.access_operational_page")
 def reportarErrosNoSistema_page_view(request):
     criar_reportarErros_Form = ReportingErrosForm(request.POST or None, request.FILES)
 
@@ -177,6 +176,5 @@ def changeSkills_page_view(request, userId):
     return render(request, 'operational_platform/changeSkills.html', context)
 
 @login_required
-@permission_required("main.access_operational_page")
 def contact_page_view(request):
     return render(request, 'operational_platform/contact.html')
