@@ -105,8 +105,8 @@ def enviarEmailTarefasRealizarToday():
             if yesterday == team.EmailWasSent.date():
                 team.EmailWasSent = None
                 team.save()
-            
-            if team.EmailWasSent.date().day == today:
+                
+            elif team.EmailWasSent.date().day == today:
                 sendEmail=False
               
                 
