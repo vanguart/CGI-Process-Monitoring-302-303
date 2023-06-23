@@ -65,6 +65,7 @@ def enviarEmailErro():
                 infoMail[2]=process.id
                 arquivo = open(str(log.ficheiro), 'r')
                 linhas = arquivo.readlines()
+                mensagemErro = ""
 
                 for linha in linhas:
                     if linha == 1:
@@ -76,6 +77,7 @@ def enviarEmailErro():
                         countWarnings+=1
 
                     if dados[2] == "Error":
+                        mensagemErro= dados[3]
                         countErrors+=1
  
                     infoMail[0], infoMail[1] = countWarnings, countErrors
@@ -87,6 +89,8 @@ def enviarEmailErro():
                     nomeProc = QueueProcess.objects.get(id=values[2])
                     body = f"Instance {process.id} of {nomeProc.idConfiguration.name} has {values[1]} fatal errors and {values[0]} warnings"
                     if countErrors > 0 or countWarnings > 0:
+                        if countErrors > 0:
+                            body+=f"\n Error message: {mensagemErro}"
                         if not nomeProc.EmailWasSent:
                             enviamail(email, subject, body)
                             nomeProc.EmailWasSent=True
