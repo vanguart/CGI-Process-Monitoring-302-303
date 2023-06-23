@@ -13,7 +13,7 @@ class MainConfig(AppConfig):
 
     def ready(self):
         if os.environ.get('RUN_MAIN'):
-            schedule.every(10).seconds.do(run_sync)
+            schedule.every(60).seconds.do(run_sync)
             t = threading.Thread(target=run_schedule)
             t.setDaemon(True)
             t.start()
