@@ -77,7 +77,7 @@ def enviarEmailErro():
                         countWarnings+=1
 
                     if dados[2] == "Error":
-                        mensagemErro= dados[3]
+                        mensagemErro+= dados[3] + "\n"
                         countErrors+=1
  
                     infoMail[0], infoMail[1] = countWarnings, countErrors
