@@ -6,6 +6,8 @@ João Eleutério a22007237<br>
 José Sobral a22005813<br>
 Ricardo Cleto a22006526<br>
 
+## Manual de Instalação e Utilização presente na pasta docs <br>
+
 ## Passwords da Solução Funcional:<br>
 
 ```
