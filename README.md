@@ -6,56 +6,41 @@ João Eleutério a22007237<br>
 José Sobral a22005813<br>
 Ricardo Cleto a22006526<br>
 
-## Guião de instalação:<br>
+## Passwords da Solução Funcional:<br>
 
-1. Instalar Django:
 ```
-Guião de instalação do Django: https://docs.djangoproject.com/en/4.2/topics/install/
-```
+Equipa 1 - admin
+admin -> admin -> admin -> chefe de equipa -> cgiprocessmonitor@gmail.com
+Joao_Eleuterio -> joao1234 -> admin -> jpcseleuterio@gmail.com
+Ricardo_Cleto -> ricardo1234 -> admin -> rccleto@sapo.pt
+Jose_Sobral -> joses1234 -> admin -> pedro.sobral2002@outlook.com
+Alexandre_Costa -> alexandre1234 -> admin -> 88alexcosta88@gmail.com
 
-2. Clonagem do projeto através do seguinte comando:
-```
-git clone https://github.com/josesobral22005813/CGI-Process-Monitoring-302-303
-```
+Equipa 2 - Formularios
+Moises_Castro -> moises1234 -> operacional -> chefe de equipa -> a22007237@alunos.ulht.pt
+Valeria_Serafim -> valeria1234 -> operacional -> sememail@gmail.com
+Noemia_Ramires -> noemia1234 -> operacional -> sememail@gmail.com
+Jaco_Feliciano -> jaco1234 -> operacional -> sememail@gmail.com
+Candido_Belo -> candido1234 -> operacional -> sememail@gmail.com
 
-3. Abrir o projeto com o IDE preferencial.
+Equipa 3 - Formularios
+Matilde_Bravo -> matilde1234 -> operacional -> chefe de equipa -> jpcse1992@gmail.com
+Quintino_Belo -> quintino1234 -> operacional -> sememail@gmail.com
+Barbara_Castelo -> barbara1234 ->operacional -> sememail@gmail.com
+Albano_Ventura -> albano1234 -> operacional -> sememail@gmail.com
+Maria_Daniel -> maria1234 -> operacional -> sememail@gmail.com
 
-3. Instalar dependencias no terminal do IDE atravéz dos seguintes comandos:
-```
-pip install requests
-pip install msoffcrypto-tool
-pip install pandas
-pip install openpyxl
-pip install schedule
-pip install pywin32
-```
+Equipa 4 - Emails
+Avelino_Camacho -> avelino1234 -> operacional -> chefe de equipa -> cgiprocessmonitor@outlook.com
+Andrea_Cruz -> andrea1234 -> operacional -> sememail@gmail.com 
+Domingos_Magro -> domingos1234 -> operacional -> sememail@gmail.com
+Daniela_Duarte -> daniela1234 -> operacional -> sememail@gmail.com
+Isabel_Castro -> isabel1234 -> operacional -> sememail@gmail.com
 
-4. Configurar o manage.py do projeto atravéz dos seguintes comandos:
+Equipa 5 - Analistas
+Leonardo_Ramires -> leonardo1234 -> analista -> chefe de equipa -> jpcseleuterio@gmail.com
+Olavo_Pinheiro -> olavo1234 -> analista -> sememail@gmail.com
+Alda_Moreira -> alda1234 -> analista -> sememail@gmail.com
+Francisca_Cruz -> francisca1234    -> analista -> sememail@gmail.com
+Geraldo_Gaspar -> geraldo1234 -> analista -> sememail@gmail.com
 ```
-python manage.py makemigrations
-python manage.py migrate
-```
-
-5. Criar utilizador admin para o projeto:
-```
-python manage.py createsuperuser #Após este comando colocar as credências de preferencia.
-```
-
-6. Correr o servidor na máquina local através do seguinte comando:
-```
-python manage.py runserver
-```
-
-7. Aceder á página de admin através do browser com o seguinte url: 
-```
-http://127.0.0.1:8000/admin
-```
-
-8. Realizar o login na página de admin com as credencias especificadas no passo 5.
-
-9. Entrar no objeto "Groups" e adicionar 3 grupos com os nomes “Admin”, “Analyst” e “Operational”.
-
-10. Opcional: Para ter acesso a estatisticas instalar kibana, elasticsearch e filebeat a partir do seguinte link:
-https://www.dropbox.com/s/xu6ibr1f1ksefyr/process-monitoring-stats.rar?dl=0
-
-Após os passos acima descritos, o projeto deverá encontrar-se instalado e pronto para desenvolvimento/testagem/análise.
