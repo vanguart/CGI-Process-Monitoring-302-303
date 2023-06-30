@@ -1,0 +1,7 @@
+Acerca do projeto: Este projeto entende a monitorização e orquestração de processos de negócio transversais às organizações. 
+Estes processos são compostos por tarefas que podem ser realizadas por robots, ou por humanos caso a tarefa seja demasiado especializada.
+Importância RPA para negócio: Esta tecnologia é um bem maior para as organizações, substituindo a mão-de-obra por RPAs, 
+poupando assim horas de trabalho humano, que se traduz em poupança de dinheiro pelas organizações.
+Administração: Plataforma de administração de funcionários, cargos e equipas de funcionários.
+Estatisticas: Plataforma de estatistica, para análise, deteção de erros e ajuda na recuperação de processos.
+Processos: Plataforma de integração de humanos em processos, via verificação de processos com erros.
