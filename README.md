@@ -28,7 +28,7 @@ Candido_Belo -> candido1234 -> operacional -> sememail@gmail.com
 Equipa 3 - Formularios
 Matilde_Bravo -> matilde1234 -> operacional -> chefe de equipa -> jpcse1992@gmail.com
 Quintino_Belo -> quintino1234 -> operacional -> sememail@gmail.com
-Barbara_Castelo -> barbara1234 ->operacional -> sememail@gmail.com
+Barbara_Castelo -> barbara1234 -> operacional -> sememail@gmail.com
 Albano_Ventura -> albano1234 -> operacional -> sememail@gmail.com
 Maria_Daniel -> maria1234 -> operacional -> sememail@gmail.com
 
@@ -43,6 +43,6 @@ Equipa 5 - Analistas
 Leonardo_Ramires -> leonardo1234 -> analista -> chefe de equipa -> jpcseleuterio@gmail.com
 Olavo_Pinheiro -> olavo1234 -> analista -> sememail@gmail.com
 Alda_Moreira -> alda1234 -> analista -> sememail@gmail.com
-Francisca_Cruz -> francisca1234-> analista -> sememail@gmail.com
+Francisca_Cruz -> francisca1234 -> analista -> sememail@gmail.com
 Geraldo_Gaspar -> geraldo1234 -> analista -> sememail@gmail.com
 ```
