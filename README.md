@@ -9,7 +9,7 @@ Ricardo Cleto a22006526<br>
 ## Manual de Instalação e Utilização presente na pasta docs <br>
 
 ## Passwords da Solução Funcional:<br>
-
+   ### ➜Nome_Utilizador | Password | Cargo do Utilizador | E-mail do Utilizador
 ```
 Equipa 1 - admin
 admin -> admin -> admin -> chefe de equipa -> cgiprocessmonitor@gmail.com
@@ -43,6 +43,6 @@ Equipa 5 - Analistas
 Leonardo_Ramires -> leonardo1234 -> analista -> chefe de equipa -> jpcseleuterio@gmail.com
 Olavo_Pinheiro -> olavo1234 -> analista -> sememail@gmail.com
 Alda_Moreira -> alda1234 -> analista -> sememail@gmail.com
-Francisca_Cruz -> francisca1234    -> analista -> sememail@gmail.com
+Francisca_Cruz -> francisca1234-> analista -> sememail@gmail.com
 Geraldo_Gaspar -> geraldo1234 -> analista -> sememail@gmail.com
 ```
