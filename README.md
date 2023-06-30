@@ -11,28 +11,28 @@ Ricardo Cleto a22006526<br>
 ## Passwords da Solução Funcional:<br>
    ### ➜Nome_Utilizador | Password | Cargo do Utilizador | E-mail do Utilizador
 ```
-Equipa 1 - admin
+Equipa 1 - Admin
 admin -> admin -> admin -> chefe de equipa -> cgiprocessmonitor@gmail.com
 Joao_Eleuterio -> joao1234 -> admin -> jpcseleuterio@gmail.com
 Ricardo_Cleto -> ricardo1234 -> admin -> rccleto@sapo.pt
 Jose_Sobral -> joses1234 -> admin -> pedro.sobral2002@outlook.com
 Alexandre_Costa -> alexandre1234 -> admin -> 88alexcosta88@gmail.com
 
-Equipa 2 - Formularios
+Equipa 2 - Operational (Formularios)
 Moises_Castro -> moises1234 -> operacional -> chefe de equipa -> a22007237@alunos.ulht.pt
 Valeria_Serafim -> valeria1234 -> operacional -> sememail@gmail.com
 Noemia_Ramires -> noemia1234 -> operacional -> sememail@gmail.com
 Jaco_Feliciano -> jaco1234 -> operacional -> sememail@gmail.com
 Candido_Belo -> candido1234 -> operacional -> sememail@gmail.com
 
-Equipa 3 - Formularios
+Equipa 3 - Operational (Formularios)
 Matilde_Bravo -> matilde1234 -> operacional -> chefe de equipa -> jpcse1992@gmail.com
 Quintino_Belo -> quintino1234 -> operacional -> sememail@gmail.com
 Barbara_Castelo -> barbara1234 -> operacional -> sememail@gmail.com
 Albano_Ventura -> albano1234 -> operacional -> sememail@gmail.com
 Maria_Daniel -> maria1234 -> operacional -> sememail@gmail.com
 
-Equipa 4 - Emails
+Equipa 4 - Operational (Emails)
 Avelino_Camacho -> avelino1234 -> operacional -> chefe de equipa -> cgiprocessmonitor@outlook.com
 Andrea_Cruz -> andrea1234 -> operacional -> sememail@gmail.com 
 Domingos_Magro -> domingos1234 -> operacional -> sememail@gmail.com
