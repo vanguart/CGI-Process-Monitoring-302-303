@@ -45,8 +45,9 @@ def businessExceptions_page_view(request):
         # ADDS SPECIFIED PROCESS AND IT'S TASKS TO AN USER (THAT PICKED THE PROCESS)
         userTaskCount, userProcessList, processTaskDictionary = addProcessToUser(userProfile)
 
-    # GET ALL USER FROM DATABASE
-    allUsersDataBase = UserProfile.objects.all()
+    # GET ALL USER FROM TEAM
+    allUsersDataBase = UserProfile.objects.all().filter(idTeam =teamOfUser1.id)
+    
 
     # GET THE NUMBER OF TEAM PROCESSES
     teamProcessCount = len(teamProcessList)
