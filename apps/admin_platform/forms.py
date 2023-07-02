@@ -8,6 +8,14 @@ class criarTeamForm(ModelForm):
     class Meta:
         model = Team
         fields = ['name','description','idPermissions','idTeamLider','idSkils']
+
+        labels = {
+            'name': 'Nome da equipa',
+            'description': 'Descrição',
+            'idPermissions': 'Permissões',
+            'idTeamLider': 'Lider de equipa',
+            'idSkils': 'Skills',
+        }
         
 
     #name = forms.CharField(max_length=256)
