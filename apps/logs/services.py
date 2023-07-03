@@ -404,9 +404,11 @@ def createLogFiles(creds, key, header, newQueueProcess):
             while len(miliseconds)!=3:
                 miliseconds +="0"
             miliseconds+="Z"
-        print(miliseconds)
+
+        time =timeStampTime.split(".")[0] + "."+miliseconds
+        
         newLogTxt.write(
-            timeStampDate + " " + timeStampTime + "\t" + "Uipath Orchestrator" + "\t" + logType + "\t" + message + "\t" + str(
+            timeStampDate + " " + time + "\t" + "Uipath Orchestrator" + "\t" + logType + "\t" + message + "\t" + str(
                 newQueueProcess.id) + "\t" + newQueueProcess.idConfiguration.name + "\n")
 
     newLogTxt.close()
