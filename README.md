@@ -6,7 +6,6 @@ João Eleutério a22007237<br>
 José Sobral a22005813<br>
 Ricardo Cleto a22006526<br>
 
-## Manual de Instalação e Utilização presente na pasta docs <br>
 
 ## Passwords da Solução Funcional:<br>
    ### ➜Nome_Utilizador | Password | Cargo do Utilizador | E-mail do Utilizador
@@ -46,6 +45,10 @@ Alda_Moreira -> alda1234 -> analista -> sememail@gmail.com
 Francisca_Cruz -> francisca1234 -> analista -> sememail@gmail.com
 Geraldo_Gaspar -> geraldo1234 -> analista -> sememail@gmail.com
 ```
+
+## ➜Manual de Instalação e Utilização presente na pasta docs 
+
+
 # Projeto Dividido em 2 módulos (Front-End & Back-End)
 
 ## Front-End
