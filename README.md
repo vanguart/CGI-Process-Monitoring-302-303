@@ -46,7 +46,7 @@ Alda_Moreira -> alda1234 -> analista -> sememail@gmail.com
 Francisca_Cruz -> francisca1234 -> analista -> sememail@gmail.com
 Geraldo_Gaspar -> geraldo1234 -> analista -> sememail@gmail.com
 ```
-# Projeto Divido em 2 módulos (Front-End & Back-End)
+# Projeto Dividido em 2 módulos (Front-End & Back-End)
 
 ## Front-End
 
