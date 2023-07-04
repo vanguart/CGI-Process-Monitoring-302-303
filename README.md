@@ -54,7 +54,7 @@ Geraldo_Gaspar -> geraldo1234 -> analista -> sememail@gmail.com
 ## Front-End
 
  - Ficheiros HTML (Pasta ➜ Apps/*/Templates)
- - Ficheiros CSS (Pasta ➜ static/css)
+ - Ficheiros CSS [CSS Organizado por cada App e Página] (Pasta ➜ static/css)
  - Imagens (Pasta ➜ static/images)
  - Formulários (Pasta ➜ apps/*/forms.py)
 
