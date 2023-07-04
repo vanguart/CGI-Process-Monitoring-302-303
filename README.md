@@ -46,3 +46,32 @@ Alda_Moreira -> alda1234 -> analista -> sememail@gmail.com
 Francisca_Cruz -> francisca1234 -> analista -> sememail@gmail.com
 Geraldo_Gaspar -> geraldo1234 -> analista -> sememail@gmail.com
 ```
+# Projeto Divido em 2 módulos (Front-End & Back-End)
+
+## Front-End
+
+ - Ficheiros HTML (Pasta ➜ Apps/*/Templates)
+ - Ficheiros CSS (Pasta ➜ static/css)
+ - Imagens (Pasta ➜ static/images)
+ - Formulários (Pasta ➜ apps/*/forms.py)
+
+
+## Back-End
+
+ - Ficheiros Python com lógica (Pastas ➜ Apps/*/services.py) 
+ - Modelo de Base de Dados (Pasta ➜ main/models.py)
+ - Files (Pasta ➜ static/files)
+
+
+## Ficheiros Comuns Front-End <-> Back-End
+
+ - Ficheiros com Módulos das Aplicações (Pasta ➜ apps/*)
+ - Ficheiro Admin.py [Plataforma admin django] (Pasta ➜ main/admin.py)
+ - Urls Páginas (Pasta ➜ apps/*/urls.py)
+ - Migrations Base de Dados (Pasta ➜ main/migrations/*)
+ - Ficheiros de Configuração do Django (Pasta ➜ config/*)
+ - Manuais de Configuração (Pasta ➜ docs/*)
+ - Divulgação [Ficheiro necessário para TFC] (Pasta ➜ divulgação/*)
+ - Readme.md (Pasta ➜ README.md)
+ - Ficheiro Base de Dados (Pasta ➜ db.sqlite3)
+ - GitIgnore (Pasta ➜ .gitignore)
